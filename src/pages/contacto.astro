@@ -1,0 +1,720 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contacto — 3dev"
+  description="Cuéntanos qué quieres construir. Respondemos en menos de 24 horas hábiles. Si tu proyecto encaja, agendamos llamada. Si no, te decimos honestamente."
+>
+
+  <!-- Grid background sutil -->
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <!-- ================================================================
+       PAGE HERO
+       ================================================================ -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container">
+      <div class="page-hero-content">
+        <div class="page-eyebrow">contacto</div>
+        <h1 class="page-title">
+          Cuéntanos qué quieres <span class="accent">construir.</span>
+        </h1>
+        <p class="page-sub">
+          Respondemos en menos de 24 horas hábiles. Si tu proyecto encaja con lo que hacemos,
+          agendamos una llamada de 30 minutos. Si no, te lo decimos honestamente — y te orientamos
+          hacia quién sí puede ayudarte.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FORM SECTION
+       ================================================================ -->
+  <section class="form-section">
+    <div class="container">
+      <div class="form-grid">
+
+        <!-- ===== MAIN FORM ===== -->
+        <form
+          class="form-main reveal"
+          action="https://formspree.io/f/PLACEHOLDER_ID"
+          method="POST"
+          id="contact-form"
+        >
+
+          <!-- Step 01 — Quién eres -->
+          <div class="form-step">
+            <div class="form-step-header">
+              <span class="form-step-num">01</span>
+              <span class="form-step-label">¿Quién eres?<span class="req">*</span></span>
+            </div>
+            <div class="form-row">
+              <input type="text" class="form-input" name="nombre" placeholder="Nombre completo" required />
+              <input type="text" class="form-input" name="empresa" placeholder="Empresa" required />
+            </div>
+          </div>
+
+          <!-- Step 02 — Dónde encontramos -->
+          <div class="form-step">
+            <div class="form-step-header">
+              <span class="form-step-num">02</span>
+              <span class="form-step-label">¿Dónde te encontramos?<span class="req">*</span></span>
+            </div>
+            <div class="form-row">
+              <input type="email" class="form-input" name="email" placeholder="email@empresa.com" required />
+              <input type="text" class="form-input" name="linkedin" placeholder="LinkedIn URL (opcional)" />
+            </div>
+          </div>
+
+          <!-- Step 03 — Tipo de proyecto (chips) -->
+          <div class="form-step">
+            <div class="form-step-header">
+              <span class="form-step-num">03</span>
+              <span class="form-step-label">¿Qué tipo de proyecto?<span class="req">*</span></span>
+            </div>
+            <input type="hidden" name="tipo_proyecto" id="tipo-proyecto-input" required />
+            <div class="chips" data-target="tipo-proyecto-input">
+              <button type="button" class="chip active" data-value="Brand + Product + AI (integrado)">Brand + Product + AI (integrado)</button>
+              <button type="button" class="chip" data-value="Solo brand/">Solo brand/</button>
+              <button type="button" class="chip" data-value="Solo product/">Solo product/</button>
+              <button type="button" class="chip" data-value="Solo ai/">Solo ai/</button>
+              <button type="button" class="chip" data-value="Aún no estoy seguro">Aún no estoy seguro</button>
+            </div>
+          </div>
+
+          <!-- Step 04 — Presupuesto (chips) -->
+          <div class="form-step">
+            <div class="form-step-header">
+              <span class="form-step-num">04</span>
+              <span class="form-step-label">Presupuesto estimado<span class="req">*</span></span>
+            </div>
+            <input type="hidden" name="presupuesto" id="presupuesto-input" required />
+            <div class="chips" data-target="presupuesto-input">
+              <button type="button" class="chip" data-value="USD 30K – 50K">USD 30K – 50K</button>
+              <button type="button" class="chip" data-value="USD 50K – 100K">USD 50K – 100K</button>
+              <button type="button" class="chip" data-value="USD 100K – 200K">USD 100K – 200K</button>
+              <button type="button" class="chip" data-value="USD 200K+">USD 200K+</button>
+              <button type="button" class="chip" data-value="No sé aún">No sé aún</button>
+            </div>
+          </div>
+
+          <!-- Step 05 — Timing (chips) -->
+          <div class="form-step">
+            <div class="form-step-header">
+              <span class="form-step-num">05</span>
+              <span class="form-step-label">¿Cuándo necesitas arrancar?<span class="req">*</span></span>
+            </div>
+            <input type="hidden" name="timing" id="timing-input" required />
+            <div class="chips" data-target="timing-input">
+              <button type="button" class="chip" data-value="Inmediato (esta semana)">Inmediato (esta semana)</button>
+              <button type="button" class="chip" data-value="1 a 2 meses">1 a 2 meses</button>
+              <button type="button" class="chip" data-value="3 a 6 meses">3 a 6 meses</button>
+              <button type="button" class="chip" data-value="Explorando">Explorando</button>
+            </div>
+          </div>
+
+          <!-- Step 06 — Descripción -->
+          <div class="form-step">
+            <div class="form-step-header">
+              <span class="form-step-num">06</span>
+              <span class="form-step-label">Cuéntanos lo que estás pensando<span class="req">*</span></span>
+            </div>
+            <div class="form-row cols-1">
+              <textarea
+                class="form-textarea"
+                name="descripcion"
+                placeholder="En 2-3 párrafos: qué quieres construir, qué problema resuelve, y por qué ahora. Entre más contexto, mejor respuesta — no hay que ser perfecto, solo claro."
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="form-submit-row">
+            <button type="submit" class="btn-submit">
+              <span>Enviar mensaje</span>
+              <span>→</span>
+            </button>
+            <span class="submit-note">
+              <span class="submit-note-dot"></span>
+              respuesta en ~24 horas hábiles
+            </span>
+          </div>
+
+        </form>
+
+        <!-- ===== SIDEBAR — Canales directos ===== -->
+        <aside class="form-sidebar">
+
+          <a href="https://cal.com/3dev" target="_blank" rel="noopener" class="sidebar-card featured">
+            <div class="sidebar-eyebrow">
+              <span class="sidebar-eyebrow-dot"></span>
+              CALENDARIO DIRECTO
+            </div>
+            <div class="sidebar-title">Agendar 30 min</div>
+            <div class="sidebar-meta">Cal.com · sin formularios</div>
+            <span class="sidebar-link">Reservar slot <span>→</span></span>
+          </a>
+
+          <a href="mailto:contacto@3dev.mx" class="sidebar-card">
+            <div class="sidebar-eyebrow">EMAIL DIRECTO</div>
+            <div class="sidebar-title">contacto@3dev.mx</div>
+            <div class="sidebar-meta">también funciona</div>
+          </a>
+
+          <a href="https://linkedin.com/company/3dev-studio" target="_blank" rel="noopener" class="sidebar-card">
+            <div class="sidebar-eyebrow">LINKEDIN</div>
+            <div class="sidebar-title">Conectar con el equipo</div>
+            <div class="sidebar-meta">@3dev-studio</div>
+          </a>
+
+          <div class="sidebar-card no-link">
+            <div class="sidebar-eyebrow">UBICACIÓN</div>
+            <div class="sidebar-location">
+              <span class="sidebar-location-city">Puebla, México</span>
+              <span class="sidebar-location-tz">GMT-6 · clientes en LATAM y US</span>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       PROCESS BAND — Cómo funciona
+       ================================================================ -->
+  <section class="process-band reveal">
+    <div class="container">
+      <div class="process-eyebrow">cómo funciona</div>
+      <h2 class="process-title">Qué pasa después<br>de <span class="accent">enviar el formulario.</span></h2>
+      <p class="process-sub">
+        Transparencia total sobre nuestro proceso de venta. Cuatro pasos, sin sorpresas.
+        Si en cualquier momento la conversación no encaja para ti o para nosotros, cerramos la puerta con respeto.
+      </p>
+
+      <div class="steps-timeline">
+        <div class="steps-line" aria-hidden="true"></div>
+        <div class="steps-grid reveal-stagger">
+          <div class="step">
+            <div class="step-node"></div>
+            <div class="step-num">01 / respuesta</div>
+            <h3 class="step-title">Recibes respuesta</h3>
+            <p class="step-desc">En menos de 24 horas hábiles. Te decimos si tu proyecto encaja con lo que hacemos — sin rodeos.</p>
+          </div>
+          <div class="step">
+            <div class="step-node"></div>
+            <div class="step-num">02 / llamada</div>
+            <h3 class="step-title">Conversación 30 min</h3>
+            <p class="step-desc">Si encaja, agendamos una llamada para entender tu proyecto a profundidad. Sin pitch comercial.</p>
+          </div>
+          <div class="step">
+            <div class="step-node"></div>
+            <div class="step-num">03 / propuesta</div>
+            <h3 class="step-title">Propuesta detallada</h3>
+            <p class="step-desc">Si la llamada va bien, te enviamos propuesta con alcance, equipo, timeline y costo en 5 días hábiles.</p>
+          </div>
+          <div class="step">
+            <div class="step-node"></div>
+            <div class="step-num">04 / kick-off</div>
+            <h3 class="step-title">Arrancamos</h3>
+            <p class="step-desc">Si firmas, arrancamos en 1-2 semanas con discovery. Equipo dedicado desde el día uno.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<!-- ================================================================
+     CHIP SELECTION SCRIPT — client-side interactivity
+     ================================================================ -->
+<script>
+  // Chips: selección única por grupo, actualiza hidden input
+  document.querySelectorAll<HTMLElement>('.chips').forEach((group) => {
+    const targetId = group.getAttribute('data-target');
+    const input = targetId ? document.getElementById(targetId) as HTMLInputElement | null : null;
+
+    // Inicializar valor del input con el chip activo por defecto
+    const defaultChip = group.querySelector<HTMLButtonElement>('.chip.active');
+    if (input && defaultChip) {
+      input.value = defaultChip.getAttribute('data-value') ?? defaultChip.textContent?.trim() ?? '';
+    }
+
+    group.querySelectorAll<HTMLButtonElement>('.chip').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        group.querySelectorAll('.chip').forEach((c) => c.classList.remove('active'));
+        chip.classList.add('active');
+        if (input) {
+          input.value = chip.getAttribute('data-value') ?? chip.textContent?.trim() ?? '';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  /* ---- GRID BG ---- */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(93,196,164,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(93,196,164,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  /* ---- PAGE HERO ---- */
+  .page-hero {
+    padding: 180px 0 60px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .page-hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse 900px 500px at 50% 60%, rgba(93,196,164,0.08) 0%, transparent 60%);
+  }
+  .page-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+  }
+  .page-hero-content > * {
+    opacity: 0;
+    animation: fadeUp 800ms var(--ease-out) forwards;
+  }
+  .page-hero-content > *:nth-child(1) { animation-delay: 100ms; }
+  .page-hero-content > *:nth-child(2) { animation-delay: 200ms; }
+  .page-hero-content > *:nth-child(3) { animation-delay: 320ms; }
+
+  .page-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    color: var(--accent-default);
+    text-transform: lowercase;
+    margin-bottom: 24px;
+    padding: 6px 14px;
+    background: rgba(93,196,164,0.08);
+    border: 1px solid var(--glass-border-accent);
+    border-radius: var(--r-full);
+  }
+  .page-title {
+    font-size: clamp(44px, 6vw, 76px);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -2.8px;
+    margin-bottom: 28px;
+    color: var(--text-primary);
+  }
+  .page-title .accent { color: var(--accent-default); }
+  .page-sub {
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 620px;
+  }
+
+  /* ---- FORM SECTION ---- */
+  .form-section {
+    padding: 60px 0 100px;
+    position: relative;
+    z-index: 1;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* Main form glass card */
+  .form-main {
+    background: var(--glass-bg-subtle);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 48px 44px;
+  }
+
+  .form-step { margin-bottom: 36px; }
+  .form-step:last-of-type { margin-bottom: 0; }
+
+  .form-step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .form-step-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent-default);
+    background: rgba(93,196,164,0.1);
+    border: 1px solid rgba(93,196,164,0.2);
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+  .form-step-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.4px;
+  }
+  .form-step-label .req { color: var(--accent-default); margin-left: 4px; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .form-row.cols-1 { grid-template-columns: 1fr; }
+
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    background: rgba(5,11,9,0.4);
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: var(--font-sans);
+    transition:
+      border-color var(--m-fast),
+      background var(--m-fast),
+      box-shadow var(--m-fast);
+    outline: none;
+  }
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: var(--text-tertiary);
+    font-family: var(--font-sans);
+  }
+  .form-input:hover,
+  .form-textarea:hover {
+    background: rgba(5,11,9,0.55);
+  }
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: var(--accent-default);
+    background: rgba(5,11,9,0.6);
+    box-shadow: 0 0 0 3px rgba(93,196,164,0.12);
+  }
+  .form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  /* ---- CHIPS ---- */
+  .chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: rgba(5,11,9,0.4);
+    border: 1px solid var(--border-default);
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--m-fast);
+    letter-spacing: 0.3px;
+    user-select: none;
+  }
+  .chip:hover {
+    border-color: var(--glass-border-accent);
+    color: var(--text-primary);
+    background: rgba(5,11,9,0.6);
+  }
+  .chip.active {
+    background: var(--grad-accent);
+    color: var(--text-on-accent);
+    border-color: transparent;
+    font-weight: 500;
+    box-shadow: 0 2px 12px rgba(93,196,164,0.25);
+  }
+
+  /* ---- SUBMIT ---- */
+  .form-submit-row {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border-sub);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-submit {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--grad-accent);
+    color: var(--text-on-accent);
+    padding: 16px 32px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--m-fast), box-shadow var(--m-base);
+    box-shadow: 0 4px 20px rgba(93,196,164,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-submit::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 700ms var(--ease-out);
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(93,196,164,0.45); }
+  .btn-submit:hover::before { left: 100%; }
+
+  .submit-note {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .submit-note-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-default);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-default);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ---- SIDEBAR ---- */
+  .form-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: sticky;
+    top: 120px;
+  }
+  .sidebar-card {
+    display: block;
+    background: var(--glass-bg-subtle);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 26px 28px;
+    transition: border-color var(--m-base), transform var(--m-base);
+    color: inherit;
+  }
+  .sidebar-card:not(.no-link):hover {
+    border-color: var(--glass-border-accent);
+    transform: translateY(-2px);
+  }
+  .sidebar-card.featured {
+    background: var(--glass-bg);
+    border-color: var(--glass-border-accent);
+    position: relative;
+    overflow: hidden;
+  }
+  .sidebar-card.featured::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(93,196,164,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .sidebar-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+  }
+  .sidebar-card.featured .sidebar-eyebrow { color: var(--accent-default); }
+  .sidebar-eyebrow-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent-default);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--accent-default);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .sidebar-title {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 2;
+  }
+  .sidebar-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: 0.3px;
+    position: relative;
+    z-index: 2;
+  }
+  .sidebar-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-default);
+    margin-top: 10px;
+    transition: gap var(--m-base);
+    position: relative;
+    z-index: 2;
+  }
+  .sidebar-card:hover .sidebar-link { gap: 12px; }
+  .sidebar-location {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.3px;
+  }
+  .sidebar-location-city {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+  }
+  .sidebar-location-tz { color: var(--text-tertiary); }
+
+  /* ---- PROCESS BAND ---- */
+  .process-band {
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+  }
+  .process-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 800px 400px at 50% 50%, rgba(93,196,164,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .process-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.8px;
+    color: var(--accent-default);
+    text-transform: lowercase;
+    margin-bottom: 20px;
+    padding: 5px 12px;
+    background: rgba(93,196,164,0.08);
+    border: 1px solid var(--glass-border-accent);
+    border-radius: var(--r-full);
+  }
+  .process-title {
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -1.4px;
+    margin-bottom: 18px;
+    max-width: 640px;
+    color: var(--text-primary);
+  }
+  .process-title .accent { color: var(--accent-default); }
+  .process-sub {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin-bottom: 56px;
+  }
+  .steps-timeline { position: relative; margin-top: 32px; }
+  .steps-line {
+    position: absolute;
+    top: 18px;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(93,196,164,0.3) 5%, rgba(93,196,164,0.3) 95%, transparent 100%);
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    position: relative;
+  }
+  .step { position: relative; }
+  .step-node {
+    width: 12px; height: 12px;
+    background: var(--accent-default);
+    border-radius: 50%;
+    margin-bottom: 28px;
+    position: relative;
+    box-shadow: 0 0 0 4px var(--surface-bg), 0 0 20px var(--accent-default);
+  }
+  .step-node::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid var(--accent-default);
+    opacity: 0.3;
+    animation: nodePulse 3s ease-out infinite;
+  }
+  .step:nth-child(2) .step-node::after { animation-delay: 0.5s; }
+  .step:nth-child(3) .step-node::after { animation-delay: 1s; }
+  .step:nth-child(4) .step-node::after { animation-delay: 1.5s; }
+  .step-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent-default); letter-spacing: 1px; margin-bottom: 12px; }
+  .step-title { font-size: 19px; font-weight: 600; letter-spacing: -0.5px; margin-bottom: 10px; color: var(--text-primary); }
+  .step-desc { font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 1024px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
+    .form-sidebar > * { flex: 1; min-width: 200px; }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 48px; }
+    .steps-line { display: none; }
+  }
+  @media (max-width: 720px) {
+    .page-hero { padding: 130px 0 40px; }
+    .form-main { padding: 32px 24px; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-sidebar { flex-direction: column; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .form-submit-row { flex-direction: column; align-items: stretch; }
+    .btn-submit { justify-content: center; }
+  }
+</style>
