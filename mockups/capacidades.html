@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Capacidades — 3/dev</title>
+<meta name="description" content="Brand, Product y AI como un solo sistema. Las tres capas que pensamos juntas porque no se pueden separar bien." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink-900: #050b09; --ink-800: #0c1f1a; --ink-700: #1a3329; --ink-600: #2a4a3e;
+  --ink-500: #4a665e; --ink-400: #6b8580; --ink-300: #95a8a0;
+  --jade-900: #04342c; --jade-700: #1d9e75; --jade-600: #5dc4a4; --jade-400: #9fe1cb; --jade-100: #e1f5ee;
+  --cream-300: #f0ebe1; --cream-100: #fdfbf7;
+
+  --color-bg: var(--ink-800);
+  --color-bg-elevated: var(--ink-700);
+  --color-bg-sunken: #081411;
+  --color-text-primary: var(--cream-300);
+  --color-text-secondary: var(--ink-300);
+  --color-text-tertiary: var(--ink-500);
+  --color-border-subtle: rgba(255,255,255,0.06);
+  --color-border-default: rgba(255,255,255,0.1);
+  --color-accent: var(--jade-600);
+  --color-text-on-accent: var(--ink-900);
+  --color-danger: #c4322a;
+
+  --glass-bg: rgba(26,51,41,0.45);
+  --glass-bg-strong: rgba(26,51,41,0.65);
+  --glass-bg-subtle: rgba(26,51,41,0.25);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-border-strong: rgba(93,196,164,0.2);
+  --glass-blur: blur(20px) saturate(180%);
+
+  --grad-accent: linear-gradient(135deg,#5dc4a4 0%,#1d9e75 100%);
+  --grad-text-shine: linear-gradient(135deg,#f0ebe1 0%,#9fe1cb 50%,#5dc4a4 100%);
+  --grad-mesh: radial-gradient(ellipse 80% 60% at 50% 0%,rgba(93,196,164,0.12) 0%,transparent 50%),
+               radial-gradient(ellipse 60% 50% at 80% 80%,rgba(29,158,117,0.08) 0%,transparent 50%);
+  --grad-card-border: linear-gradient(135deg,rgba(93,196,164,0.35) 0%,rgba(93,196,164,0.05) 50%,rgba(93,196,164,0.2) 100%);
+
+  --font-display: 'Space Grotesk',system-ui,sans-serif;
+  --font-mono: 'JetBrains Mono',ui-monospace,monospace;
+
+  --m-fast: 200ms; --m-base: 360ms; --m-slow: 600ms;
+  --ease-out: cubic-bezier(0.22,1,0.36,1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+::selection { background: var(--color-accent); color: var(--color-text-on-accent); }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 32px; position: relative; }
+
+/* ===== AMBIENT GRID OVERLAY ===== */
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 60% at center, black 30%, transparent 80%);
+}
+main { position: relative; z-index: 2; }
+
+/* ===== NAV ===== */
+.nav {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 100; width: calc(100% - 64px); max-width: 1216px;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px; padding: 14px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+  animation: navIn 700ms var(--ease-out) 200ms both;
+}
+@keyframes navIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.logo {
+  font-family: var(--font-mono); font-size: 18px; font-weight: 500;
+  letter-spacing: -0.3px; display: inline-flex; align-items: baseline;
+  transition: opacity var(--m-fast);
+}
+.logo .slash { color: var(--color-accent); font-weight: 400; }
+.logo:hover { opacity: 0.85; }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-link {
+  font-size: 13px; color: var(--color-text-secondary);
+  transition: color var(--m-fast); position: relative; padding: 6px 0;
+}
+.nav-link.active { color: var(--color-text-primary); }
+.nav-link.active::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 1px; background: var(--color-accent);
+}
+.nav-link::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 100%; height: 1px; background: var(--color-accent);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform var(--m-base) var(--ease-out);
+}
+.nav-link:not(.active):hover { color: var(--color-text-primary); }
+.nav-link:not(.active):hover::after { transform: scaleX(1); transform-origin: left; }
+.btn-nav {
+  font-family: var(--font-mono); font-size: 12px;
+  background: var(--grad-accent); color: var(--color-text-on-accent);
+  padding: 9px 18px; border-radius: 6px; font-weight: 500;
+  position: relative; overflow: hidden;
+  transition: transform var(--m-fast), box-shadow var(--m-fast);
+  box-shadow: 0 2px 10px rgba(93,196,164,0.2);
+}
+.btn-nav:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(93,196,164,0.35); }
+
+/* ===== PAGE HERO ===== */
+.page-hero {
+  padding: 200px 0 100px;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 900px 500px at 30% 50%, rgba(93,196,164,0.08) 0%, transparent 60%);
+}
+.page-hero-content { position: relative; z-index: 2; max-width: 820px; }
+.page-hero-content > * {
+  opacity: 0;
+  animation: fadeUp 800ms var(--ease-out) forwards;
+}
+.page-hero-content > *:nth-child(1) { animation-delay: 100ms; }
+.page-hero-content > *:nth-child(2) { animation-delay: 200ms; }
+.page-hero-content > *:nth-child(3) { animation-delay: 320ms; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 1.8px; color: var(--color-accent);
+  text-transform: lowercase; margin-bottom: 24px;
+  padding: 6px 14px;
+  background: rgba(93,196,164,0.08);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: 100px;
+}
+.page-title {
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 600; line-height: 1.05;
+  letter-spacing: -2.5px; margin-bottom: 28px;
+}
+.page-title .accent { color: var(--color-accent); }
+.page-sub {
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.55; color: var(--color-text-secondary);
+  max-width: 580px;
+}
+
+/* ===== SECTION GENERICS ===== */
+section { padding: 100px 0; position: relative; }
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 1.8px; color: var(--color-accent);
+  text-transform: lowercase; margin-bottom: 20px;
+  padding: 5px 12px;
+  background: rgba(93,196,164,0.08);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: 100px;
+}
+.section-title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600; line-height: 1.05;
+  letter-spacing: -1.6px; margin-bottom: 22px;
+  max-width: 720px;
+}
+.section-title .accent { color: var(--color-accent); }
+.section-sub {
+  font-size: 17px; line-height: 1.55;
+  color: var(--color-text-secondary);
+  max-width: 580px; margin-bottom: 56px;
+}
+
+/* ===== CAPABILITY BLOCKS ===== */
+.cap-block {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+  padding: 80px 0;
+  border-top: 1px solid var(--color-border-subtle);
+  position: relative;
+}
+.cap-block:first-of-type { border-top: none; padding-top: 40px; }
+.cap-block::before {
+  content: '';
+  position: absolute;
+  top: 80px;
+  left: 0;
+  width: 40px;
+  height: 1px;
+  background: var(--color-accent);
+}
+.cap-block:first-of-type::before { top: 40px; }
+
+.cap-left { position: sticky; top: 120px; }
+.cap-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-accent);
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+}
+.cap-tag {
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--color-accent); letter-spacing: 0.5px;
+  margin-bottom: 20px; display: inline-block;
+  padding: 5px 12px;
+  background: rgba(93,196,164,0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(93,196,164,0.2);
+}
+.cap-title {
+  font-size: clamp(32px, 3.6vw, 44px);
+  font-weight: 600; line-height: 1.05;
+  letter-spacing: -1.5px; margin-bottom: 18px;
+}
+.cap-summary {
+  font-size: 15px; line-height: 1.65;
+  color: var(--color-text-secondary);
+  max-width: 360px;
+}
+
+.cap-right { display: flex; flex-direction: column; gap: 32px; }
+.cap-statement {
+  font-size: 18px; line-height: 1.55;
+  color: var(--color-text-primary);
+  padding-left: 24px; border-left: 2px solid var(--color-accent);
+  letter-spacing: -0.2px;
+}
+.cap-bullets-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.cap-bullet {
+  padding: 20px;
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  transition: border-color var(--m-base), transform var(--m-base);
+}
+.cap-bullet:hover {
+  border-color: var(--glass-border-strong);
+  transform: translateY(-2px);
+}
+.cap-bullet-icon {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, rgba(93,196,164,0.15), rgba(29,158,117,0.05));
+  border: 1px solid rgba(93,196,164,0.2);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+.cap-bullet-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+.cap-bullet-desc {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+/* ===== INTEGRATION VISUAL (the stack diagram) ===== */
+.integration {
+  padding: 140px 0;
+  position: relative;
+  overflow: hidden;
+}
+.integration::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad-mesh);
+  opacity: 0.6;
+  pointer-events: none;
+}
+.integration-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
+  align-items: center;
+  margin-top: 32px;
+  position: relative;
+}
+
+.stack-diagram {
+  position: relative;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stack-layer {
+  position: absolute;
+  width: 80%;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: 12px;
+  padding: 22px 28px;
+  transition: transform var(--m-slow) var(--ease-out);
+}
+.stack-layer-1 { top: 40px; left: 0; }
+.stack-layer-2 { top: 170px; left: 10%; }
+.stack-layer-3 { top: 300px; left: 20%; }
+
+.stack-diagram:hover .stack-layer-1 { transform: translate(-8px, -8px); }
+.stack-diagram:hover .stack-layer-2 { transform: translate(0, 0); }
+.stack-diagram:hover .stack-layer-3 { transform: translate(8px, 8px); }
+
+.stack-layer-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-accent);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.stack-layer-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+}
+.stack-layer-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.3px;
+}
+
+/* connecting lines */
+.stack-connector {
+  position: absolute;
+  width: 60%;
+  left: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  opacity: 0.4;
+}
+.stack-connector-1 { top: 140px; }
+.stack-connector-2 { top: 270px; }
+
+.product-point {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.product-point-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 30px var(--color-accent);
+  position: relative;
+}
+.product-point-dot::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid var(--color-accent);
+  opacity: 0.5;
+  animation: productPulse 2.5s ease-out infinite;
+}
+@keyframes productPulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+.product-point-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-accent);
+  letter-spacing: 1.5px;
+}
+
+.integration-copy {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 480px;
+}
+.integration-copy p { margin-bottom: 18px; }
+.integration-copy p:last-child { margin-bottom: 0; }
+.integration-copy strong { color: var(--color-text-primary); font-weight: 500; }
+
+/* ===== WHAT WE DON'T DO ===== */
+.exclusions { padding: 120px 0; }
+.exclusions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+.exclusion {
+  padding: 24px 26px;
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  border-left: 2px solid var(--color-danger);
+  border-radius: 0 10px 10px 0;
+  transition: background var(--m-base);
+}
+.exclusion:hover { background: var(--glass-bg); }
+.exclusion-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  letter-spacing: -0.2px;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.exclusion-why {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.3px;
+}
+.exclusion-footer {
+  margin-top: 28px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+/* ===== FINAL CTA ===== */
+.final-cta {
+  padding: 140px 0;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 800px 400px at 50% 100%, rgba(93,196,164,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-cta-content { position: relative; max-width: 760px; }
+.cta-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600; line-height: 1.05;
+  letter-spacing: -2.5px; margin-bottom: 24px;
+}
+.cta-title .accent {
+  background: var(--grad-text-shine);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cta-sub {
+  font-size: 17px; color: var(--color-text-secondary);
+  margin-bottom: 40px; max-width: 480px; line-height: 1.5;
+}
+.cta-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.btn-primary {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+  background: var(--grad-accent); color: var(--color-text-on-accent);
+  padding: 15px 26px; border-radius: 7px;
+  position: relative; overflow: hidden;
+  transition: transform var(--m-fast), box-shadow var(--m-base);
+  box-shadow: 0 4px 20px rgba(93,196,164,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-primary::before {
+  content: ''; position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 700ms var(--ease-out);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(93,196,164,0.45); }
+.btn-primary:hover::before { left: 100%; }
+.btn-secondary {
+  font-family: var(--font-mono); font-size: 13px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-primary);
+  padding: 15px 22px; border-radius: 7px;
+  display: inline-flex; align-items: center; gap: 10px;
+  transition: border-color var(--m-base), transform var(--m-fast);
+}
+.btn-secondary:hover { border-color: var(--glass-border-strong); transform: translateY(-2px); }
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 80px 0 32px;
+  border-top: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-sunken);
+  position: relative; z-index: 2;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; padding-bottom: 56px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  margin-bottom: 32px;
+}
+.footer-brand-tag {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 12px; letter-spacing: 0.4px;
+}
+.footer-brand-copy {
+  margin-top: 24px; font-size: 13px;
+  color: var(--color-text-secondary);
+  max-width: 320px; line-height: 1.55;
+}
+.footer-col-label {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 1.2px; margin-bottom: 18px;
+  text-transform: uppercase;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-col li {
+  font-size: 13px; color: var(--color-text-secondary);
+  cursor: pointer; transition: color var(--m-fast);
+}
+.footer-col li:hover { color: var(--color-text-primary); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--color-text-tertiary); letter-spacing: 0.3px;
+}
+.footer-status { display: inline-flex; align-items: center; gap: 8px; }
+.status-dot {
+  width: 6px; height: 6px;
+  background: var(--color-accent); border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--color-accent);
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.75); }
+}
+
+/* ===== SCROLL REVEALS ===== */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--m-slow) var(--ease-out), transform var(--m-slow) var(--ease-out); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-stagger > * { opacity: 0; transform: translateY(20px); transition: opacity var(--m-slow) var(--ease-out), transform var(--m-slow) var(--ease-out); }
+.reveal-stagger.in > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: 400ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(7) { transition-delay: 480ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(8) { transition-delay: 560ms; opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal-stagger > * { opacity: 1; transform: none; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .cap-block { grid-template-columns: 1fr; gap: 36px; }
+  .cap-left { position: static; }
+  .cap-bullets-grid { grid-template-columns: 1fr 1fr; }
+  .integration-grid { grid-template-columns: 1fr; gap: 56px; }
+  .stack-diagram { height: 380px; }
+  .exclusions-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+@media (max-width: 720px) {
+  .nav { padding: 12px 16px; width: calc(100% - 24px); top: 12px; }
+  .nav-links .hide-mobile { display: none; }
+  .container { padding: 0 20px; }
+  .page-hero { padding: 130px 0 60px; }
+  section { padding: 60px 0; }
+  .cap-bullets-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .btn-primary, .btn-secondary { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a href="#" class="logo">3<span class="slash">/</span>dev</a>
+  <div class="nav-links">
+    <a class="nav-link active hide-mobile" href="#">Capacidades</a>
+    <a class="nav-link hide-mobile" href="#">Proyectos</a>
+    <a class="nav-link hide-mobile" href="#">Proceso</a>
+    <a class="nav-link hide-mobile" href="#">Insights</a>
+    <a class="btn-nav" href="#contacto">Hablar con nosotros</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ===== PAGE HERO ===== -->
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container">
+      <div class="page-hero-content">
+        <div class="page-eyebrow">capacidades</div>
+        <h1 class="page-title">Tres capas que <span class="accent">no se venden<br>por separado.</span></h1>
+        <p class="page-sub">La mayoría de las agencias separan branding, desarrollo e IA en tres cotizaciones, tres equipos y tres timelines. Nosotros las pensamos juntas porque, en un producto digital, no se pueden separar bien.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CAPABILITY 1 — BRAND ===== -->
+  <section class="reveal">
+    <div class="container">
+      <div class="cap-block">
+        <div class="cap-left">
+          <div class="cap-number">01 / capa de marca</div>
+          <span class="cap-tag">brand/</span>
+          <h2 class="cap-title">Brand</h2>
+          <p class="cap-summary">Estrategia, identidad y sistema de marca que aguantan crecimiento. Un sistema, no un PDF.</p>
+        </div>
+        <div class="cap-right">
+          <p class="cap-statement">No diseñamos logos. Construimos sistemas de marca que escalan con la empresa <strong>y se traducen directamente a producto</strong>.</p>
+          <div class="cap-bullets-grid reveal-stagger">
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">01</div>
+              <div class="cap-bullet-title">Posicionamiento</div>
+              <div class="cap-bullet-desc">Estrategia, propuesta de valor, audiencias, arquetipos y tono de voz.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">02</div>
+              <div class="cap-bullet-title">Identidad visual</div>
+              <div class="cap-bullet-desc">Logo, paleta, tipografía, iconografía y tratamientos gráficos.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">03</div>
+              <div class="cap-bullet-title">Sistema de diseño</div>
+              <div class="cap-bullet-desc">Design tokens, componentes y guía de uso para producto y comunicación.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">04</div>
+              <div class="cap-bullet-title">Manual operativo</div>
+              <div class="cap-bullet-desc">Mensajes clave, casos de uso, plantillas y reglas para el equipo interno.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CAPABILITY 2 — PRODUCT ===== -->
+  <section class="reveal">
+    <div class="container">
+      <div class="cap-block">
+        <div class="cap-left">
+          <div class="cap-number">02 / capa de producto</div>
+          <span class="cap-tag">product/</span>
+          <h2 class="cap-title">Product</h2>
+          <p class="cap-summary">Diseño UI/UX y desarrollo. Construimos productos digitales con stack moderno y entrega disciplinada.</p>
+        </div>
+        <div class="cap-right">
+          <p class="cap-statement">Construimos el producto digital <strong>sobre el sistema de marca</strong> — no como dos proyectos. Un equipo, una cadencia, una entrega.</p>
+          <div class="cap-bullets-grid reveal-stagger">
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">01</div>
+              <div class="cap-bullet-title">Diseño UI/UX</div>
+              <div class="cap-bullet-desc">De wireframe a alta fidelidad. Prototipos navegables y validación con usuario real.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">02</div>
+              <div class="cap-bullet-title">Desarrollo web</div>
+              <div class="cap-bullet-desc">Astro, Next.js, Sanity. Stack del 2026, no plantillas baratas.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">03</div>
+              <div class="cap-bullet-title">Apps móviles</div>
+              <div class="cap-bullet-desc">React Native cuando el caso lo justifica. Web-first por defecto.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">04</div>
+              <div class="cap-bullet-title">Sistema implementado</div>
+              <div class="cap-bullet-desc">Componentes y tokens del sistema de marca traducidos directo al código del producto.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CAPABILITY 3 — AI ===== -->
+  <section class="reveal">
+    <div class="container">
+      <div class="cap-block">
+        <div class="cap-left">
+          <div class="cap-number">03 / capa de inteligencia</div>
+          <span class="cap-tag">ai/</span>
+          <h2 class="cap-title">AI</h2>
+          <p class="cap-summary">Copilots, automatización e integración de modelos al producto. Donde sirve, no donde es moda.</p>
+        </div>
+        <div class="cap-right">
+          <p class="cap-statement">No vendemos "consultoría de IA". Integramos IA al producto <strong>desde el primer pixel</strong> — donde sirve, no donde es moda.</p>
+          <div class="cap-bullets-grid reveal-stagger">
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">01</div>
+              <div class="cap-bullet-title">Copilots embebidos</div>
+              <div class="cap-bullet-desc">Agentes conversacionales integrados al producto, no como widget pegado.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">02</div>
+              <div class="cap-bullet-title">Automatización</div>
+              <div class="cap-bullet-desc">Flujos operativos que la IA atiende mientras tu equipo duerme.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">03</div>
+              <div class="cap-bullet-title">Integración de modelos</div>
+              <div class="cap-bullet-desc">OpenAI, Anthropic, modelos abiertos. APIs robustas, no demos frágiles.</div>
+            </div>
+            <div class="cap-bullet">
+              <div class="cap-bullet-icon">04</div>
+              <div class="cap-bullet-title">Evaluación honesta</div>
+              <div class="cap-bullet-desc">A veces la respuesta es "aquí IA no aporta". Te lo decimos.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INTEGRATION ===== -->
+  <section class="integration reveal">
+    <div class="container">
+      <div class="section-eyebrow">integración</div>
+      <h2 class="section-title">Por qué pensarlo como <span class="accent">un sistema.</span></h2>
+      <p class="section-sub">Las tres capas se cruzan en el punto donde vive tu producto. Cuando las contratas por separado, las fricciones entre proveedores te cuestan más que el ahorro.</p>
+
+      <div class="integration-grid">
+        <div class="stack-diagram">
+          <div class="stack-connector stack-connector-1"></div>
+          <div class="stack-connector stack-connector-2"></div>
+
+          <div class="stack-layer stack-layer-1">
+            <div class="stack-layer-tag">brand/</div>
+            <div class="stack-layer-title">Capa de marca</div>
+            <div class="stack-layer-meta">posicionamiento · identidad · sistema</div>
+          </div>
+
+          <div class="stack-layer stack-layer-2">
+            <div class="stack-layer-tag">product/</div>
+            <div class="stack-layer-title">Capa de producto</div>
+            <div class="stack-layer-meta">UI/UX · desarrollo · stack</div>
+          </div>
+
+          <div class="stack-layer stack-layer-3">
+            <div class="stack-layer-tag">ai/</div>
+            <div class="stack-layer-title">Capa de inteligencia</div>
+            <div class="stack-layer-meta">copilots · automatización · modelos</div>
+          </div>
+
+          <div class="product-point">
+            <div class="product-point-dot"></div>
+            <div class="product-point-label">tu producto vive aquí</div>
+          </div>
+        </div>
+
+        <div class="integration-copy">
+          <p>Un producto digital exitoso necesita <strong>marca clara, ejecución técnica sólida e inteligencia donde importa</strong>. Las tres cosas, al mismo tiempo, en la misma dirección.</p>
+          <p>Si contratas las tres capas con tres proveedores distintos, las fricciones entre ellos te costarán más que el ahorro de "irte por separado". El branding terminará desconectado del producto; el producto, peleado con la IA; la IA, pegada al final como decoración.</p>
+          <p>Por eso pensamos las tres juntas <strong>desde el día uno</strong>, con un solo equipo y una sola cadencia. Es el único modo en que un producto digital se siente coherente, no ensamblado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHAT WE DON'T DO ===== -->
+  <section class="exclusions reveal">
+    <div class="container">
+      <div class="section-eyebrow">filtro</div>
+      <h2 class="section-title">Qué <span class="accent">no hacemos.</span></h2>
+      <p class="section-sub">Decir "no" es lo que nos permite decir "sí" bien. Estos son los proyectos que sistemáticamente declinamos, incluso si pagan.</p>
+
+      <div class="exclusions-grid reveal-stagger">
+        <div class="exclusion">
+          <div class="exclusion-text">Sitios brochure de 3 a 5 páginas</div>
+          <div class="exclusion-why">no es producto digital · subcontrata un freelancer bueno</div>
+        </div>
+        <div class="exclusion">
+          <div class="exclusion-text">Community management o marketing</div>
+          <div class="exclusion-why">no es nuestro oficio · te recomendamos a alguien</div>
+        </div>
+        <div class="exclusion">
+          <div class="exclusion-text">Implementación de plantillas WordPress</div>
+          <div class="exclusion-why">contradice todo lo que pensamos de stack y calidad</div>
+        </div>
+        <div class="exclusion">
+          <div class="exclusion-text">Proyectos sin presupuesto definido</div>
+          <div class="exclusion-why">no hacemos cotizaciones "para ver qué tal sale"</div>
+        </div>
+        <div class="exclusion">
+          <div class="exclusion-text">"Solo el logo, sin estrategia"</div>
+          <div class="exclusion-why">el logo sin estrategia es decoración cara</div>
+        </div>
+        <div class="exclusion">
+          <div class="exclusion-text">"Pegar IA porque está de moda"</div>
+          <div class="exclusion-why">si la IA no aporta valor real, no la integramos</div>
+        </div>
+      </div>
+
+      <div class="exclusion-footer">"No" es la palabra que protege el "sí" bien dicho.</div>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section class="final-cta" id="contacto">
+    <div class="final-cta-bg"></div>
+    <div class="container">
+      <div class="final-cta-content reveal">
+        <h2 class="cta-title">¿Tienes un proyecto<br>que <span class="accent">vale la pena?</span></h2>
+        <p class="cta-sub">Cuéntanos qué quieres construir. Te decimos honestamente si encaja en lo que hacemos — y si no, te decimos hacia quién ir.</p>
+        <div class="cta-actions">
+          <a href="#" class="btn-primary">
+            <span>Agendar conversación</span>
+            <span>→</span>
+          </a>
+          <a href="#" class="btn-secondary">
+            <span>Ver proyectos</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="font-size: 24px;">3<span class="slash">/</span>dev</div>
+        <div class="footer-brand-tag">brand · product · ai</div>
+        <div class="footer-brand-copy">Estudio mexicano de producto digital con IA integrada. Construimos para empresas que ya decidieron no esperar el futuro.</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Sitio</div>
+        <ul>
+          <li>Capacidades</li>
+          <li>Proyectos</li>
+          <li>Proceso</li>
+          <li>Insights</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Estudio</div>
+        <ul>
+          <li>Manifiesto</li>
+          <li>Sobre nosotros</li>
+          <li>Privacidad</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Contacto</div>
+        <ul>
+          <li>LinkedIn</li>
+          <li>X / Twitter</li>
+          <li>contacto@3dev.mx</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 · 3dev studio · made in Puebla, México</span>
+      <span class="footer-status">
+        <span class="status-dot"></span>
+        v2.0 · status: building
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const targets = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  targets.forEach(t => io.observe(t));
+})();
+</script>
+
+</body>
+</html>

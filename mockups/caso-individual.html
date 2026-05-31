@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Las Cholulas — caso 3/dev</title>
+<meta name="description" content="Sistema de producto digital con IA integrada para Las Cholulas. 12 semanas, +184% conversión, 81% reservas automatizadas." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink-900: #050b09; --ink-800: #0c1f1a; --ink-700: #1a3329; --ink-600: #2a4a3e;
+  --ink-500: #4a665e; --ink-400: #6b8580; --ink-300: #95a8a0;
+  --jade-900: #04342c; --jade-700: #1d9e75; --jade-600: #5dc4a4; --jade-400: #9fe1cb; --jade-100: #e1f5ee;
+  --cream-300: #f0ebe1; --cream-100: #fdfbf7;
+
+  --color-bg: var(--ink-800);
+  --color-bg-elevated: var(--ink-700);
+  --color-bg-sunken: #081411;
+  --color-text-primary: var(--cream-300);
+  --color-text-secondary: var(--ink-300);
+  --color-text-tertiary: var(--ink-500);
+  --color-border-subtle: rgba(255,255,255,0.06);
+  --color-border-default: rgba(255,255,255,0.1);
+  --color-accent: var(--jade-600);
+  --color-text-on-accent: var(--ink-900);
+
+  --glass-bg: rgba(26,51,41,0.45);
+  --glass-bg-strong: rgba(26,51,41,0.65);
+  --glass-bg-subtle: rgba(26,51,41,0.25);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-border-strong: rgba(93,196,164,0.2);
+  --glass-blur: blur(20px) saturate(180%);
+
+  --grad-accent: linear-gradient(135deg,#5dc4a4 0%,#1d9e75 100%);
+  --grad-text-shine: linear-gradient(135deg,#f0ebe1 0%,#9fe1cb 50%,#5dc4a4 100%);
+  --grad-card-border: linear-gradient(135deg,rgba(93,196,164,0.35) 0%,rgba(93,196,164,0.05) 50%,rgba(93,196,164,0.2) 100%);
+  --grad-mesh: radial-gradient(ellipse 80% 60% at 50% 0%,rgba(93,196,164,0.12) 0%,transparent 50%),
+               radial-gradient(ellipse 60% 50% at 80% 80%,rgba(29,158,117,0.08) 0%,transparent 50%);
+
+  --font-display: 'Space Grotesk',system-ui,sans-serif;
+  --font-mono: 'JetBrains Mono',ui-monospace,monospace;
+
+  --m-fast: 200ms; --m-base: 360ms; --m-slow: 600ms;
+  --ease-out: cubic-bezier(0.22,1,0.36,1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-display);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
+}
+::selection { background: var(--color-accent); color: var(--color-text-on-accent); }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 32px; position: relative; }
+.container-narrow { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+
+.grid-bg {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 80% 60% at center, black 30%, transparent 80%);
+}
+main { position: relative; z-index: 2; }
+
+/* NAV */
+.nav {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 100; width: calc(100% - 64px); max-width: 1216px;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px; padding: 14px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+  animation: navIn 700ms var(--ease-out) 200ms both;
+}
+@keyframes navIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.logo {
+  font-family: var(--font-mono); font-size: 18px; font-weight: 500;
+  letter-spacing: -0.3px; display: inline-flex; align-items: baseline;
+  transition: opacity var(--m-fast);
+}
+.logo .slash { color: var(--color-accent); font-weight: 400; }
+.logo:hover { opacity: 0.85; }
+.nav-back {
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--color-text-secondary);
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: color var(--m-fast), gap var(--m-base);
+}
+.nav-back:hover { color: var(--color-accent); gap: 10px; }
+
+/* HERO */
+.case-hero {
+  padding: 180px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+.case-hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 1000px 500px at 50% 0%, rgba(93,196,164,0.08) 0%, transparent 60%);
+}
+.case-hero-content { position: relative; z-index: 2; max-width: 960px; }
+.case-hero-content > * {
+  opacity: 0;
+  animation: fadeUp 800ms var(--ease-out) forwards;
+}
+.case-hero-content > *:nth-child(1) { animation-delay: 100ms; }
+.case-hero-content > *:nth-child(2) { animation-delay: 200ms; }
+.case-hero-content > *:nth-child(3) { animation-delay: 320ms; }
+.case-hero-content > *:nth-child(4) { animation-delay: 440ms; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.case-tags {
+  display: flex; gap: 6px; margin-bottom: 28px;
+}
+.tag {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--color-accent);
+  background: rgba(93,196,164,0.08);
+  padding: 5px 11px; border-radius: 4px;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(93,196,164,0.2);
+}
+
+.case-title {
+  font-size: clamp(48px, 7vw, 92px);
+  font-weight: 600; line-height: 1;
+  letter-spacing: -3.5px; margin-bottom: 28px;
+}
+.case-subtitle {
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.4px;
+  color: var(--color-text-secondary);
+  max-width: 720px;
+}
+
+/* TECHNICAL META BAR */
+.meta-bar {
+  padding: 0 0 80px;
+}
+.meta-card {
+  background: var(--glass-bg-subtle);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 28px 36px;
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+.meta-grid + .meta-grid {
+  padding-top: 24px;
+  margin-top: 24px;
+  border-top: 1px solid var(--color-border-subtle);
+}
+.meta-item {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.meta-label {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 1px; color: var(--color-text-tertiary);
+  text-transform: uppercase;
+}
+.meta-value {
+  font-size: 15px; font-weight: 500;
+  letter-spacing: -0.2px;
+}
+.meta-value.live a {
+  color: var(--color-accent);
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: gap var(--m-base);
+}
+.meta-value.live a:hover { gap: 10px; }
+.meta-value-dot {
+  width: 5px; height: 5px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--color-accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.75); }
+}
+
+/* HERO IMAGE */
+.case-hero-visual {
+  padding: 0 0 100px;
+}
+.hero-visual-frame {
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-visual-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad-mesh);
+  opacity: 0.6;
+}
+/* Full product showcase */
+.hero-product {
+  position: relative;
+  width: 75%;
+  z-index: 2;
+}
+.hero-product .laptop {
+  width: 100%;
+  background: #050b09;
+  border-radius: 14px 14px 4px 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 10px;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.5),
+    0 0 80px rgba(93,196,164,0.12),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+.hero-product .laptop::before {
+  content: '';
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 80px; height: 5px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 0 0 4px 4px;
+}
+.hero-product .laptop-screen {
+  background: var(--color-bg);
+  border-radius: 8px;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+}
+.hero-product-nav {
+  height: 36px;
+  background: rgba(5,11,9,0.6);
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 8px;
+}
+.hp-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-600); }
+.hp-url {
+  flex: 1; text-align: center;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--color-text-tertiary); letter-spacing: 0.3px;
+}
+.hero-product-content {
+  padding: 32px 44px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+}
+.hp-left { display: flex; flex-direction: column; justify-content: space-between; }
+.hp-eyebrow {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--color-accent); letter-spacing: 1.5px;
+  margin-bottom: 14px;
+}
+.hp-greeting {
+  font-size: 28px; font-weight: 600;
+  letter-spacing: -0.8px; line-height: 1.05;
+  margin-bottom: 18px;
+}
+.hp-subtitle {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 200px;
+}
+.hp-tabs {
+  display: flex; gap: 6px;
+  margin-top: 20px;
+}
+.hp-tab {
+  font-family: var(--font-mono); font-size: 9px;
+  padding: 5px 10px; border-radius: 4px;
+  letter-spacing: 0.4px;
+  border: 1px solid var(--color-border-subtle);
+}
+.hp-tab.active {
+  background: rgba(93,196,164,0.1);
+  color: var(--color-accent);
+  border-color: rgba(93,196,164,0.3);
+}
+.hp-right { display: flex; flex-direction: column; gap: 10px; }
+.hp-stat {
+  background: rgba(26,51,41,0.45);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.hp-stat-label {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--color-text-tertiary); letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+.hp-stat-row {
+  display: flex; align-items: baseline; gap: 12px;
+}
+.hp-stat-val {
+  font-size: 28px; font-weight: 600;
+  letter-spacing: -0.8px;
+}
+.hp-stat-val.green { color: var(--color-accent); }
+.hp-stat-trend {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--color-accent);
+}
+.hp-chat {
+  background: rgba(26,51,41,0.45);
+  border: 1px solid rgba(93,196,164,0.15);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+.hp-chat-label {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--color-accent); letter-spacing: 0.8px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.hp-chat-label-dot {
+  width: 5px; height: 5px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--color-accent);
+}
+.hp-chat-msg {
+  font-size: 11px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* SECTION ACT (problem / solution / result) */
+.act {
+  padding: 120px 0;
+  position: relative;
+}
+.act-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.act-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 1.8px; color: var(--color-accent);
+  margin-bottom: 24px;
+  padding: 6px 14px;
+  background: rgba(93,196,164,0.08);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: 100px;
+}
+.act-eyebrow-num {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--color-text-tertiary);
+  padding-right: 12px;
+  border-right: 1px solid var(--color-border-default);
+}
+.act-title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600; line-height: 1.1;
+  letter-spacing: -1.8px; margin-bottom: 32px;
+}
+.act-title .accent { color: var(--color-accent); }
+.act-lead {
+  font-size: 19px; line-height: 1.55;
+  color: var(--color-text-primary);
+  margin-bottom: 24px;
+  font-weight: 400;
+  letter-spacing: -0.2px;
+}
+.act-body {
+  font-size: 16px; line-height: 1.7;
+  color: var(--color-text-secondary);
+  margin-bottom: 20px;
+}
+.act-body p { margin-bottom: 20px; }
+.act-body p:last-child { margin-bottom: 0; }
+.act-body strong { color: var(--color-text-primary); font-weight: 500; }
+
+/* SOLUTION BLOCKS */
+.solution-blocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 40px;
+}
+.solution-block {
+  background: var(--glass-bg-subtle);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 28px 26px;
+  transition: border-color var(--m-base);
+}
+.solution-block:hover { border-color: var(--glass-border-strong); }
+.solution-tag {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--color-accent); letter-spacing: 0.5px;
+  margin-bottom: 14px;
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(93,196,164,0.1);
+  border-radius: 4px;
+}
+.solution-block-title {
+  font-size: 18px; font-weight: 600;
+  letter-spacing: -0.5px; line-height: 1.25;
+  margin-bottom: 8px;
+}
+.solution-block-desc {
+  font-size: 13px; line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* RESULTS — big numbers */
+.results-section {
+  padding: 120px 0;
+  position: relative;
+  overflow: hidden;
+}
+.results-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--grad-mesh);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 56px;
+  position: relative;
+}
+.result-card {
+  background: var(--glass-bg-subtle);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 60px; height: 1px;
+  background: var(--color-accent);
+}
+.result-label {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 1px; color: var(--color-text-tertiary);
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+.result-value {
+  font-size: clamp(56px, 7vw, 96px);
+  font-weight: 600;
+  letter-spacing: -3.5px;
+  line-height: 0.95;
+  margin-bottom: 16px;
+  font-feature-settings: 'tnum';
+  background: var(--grad-text-shine);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.result-desc {
+  font-size: 13px; line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.results-context {
+  margin-top: 56px;
+  font-size: 16px; line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 720px;
+  position: relative;
+}
+.results-context strong { color: var(--color-text-primary); font-weight: 500; }
+
+/* TESTIMONIAL */
+.testimonial-section {
+  padding: 140px 0;
+  position: relative;
+}
+.testimonial-card {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: 24px;
+  padding: 64px 56px;
+  max-width: 920px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.testimonial-card::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(93,196,164,0.15), transparent 60%);
+  pointer-events: none;
+}
+.quote-mark {
+  font-family: var(--font-display);
+  font-size: 96px; font-weight: 600;
+  color: var(--color-accent);
+  line-height: 0.5;
+  margin-bottom: 24px;
+  opacity: 0.4;
+}
+.testimonial-quote {
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: -0.6px;
+  margin-bottom: 36px;
+  color: var(--color-text-primary);
+  position: relative;
+  z-index: 2;
+}
+.testimonial-author {
+  display: flex; align-items: center;
+  gap: 16px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-border-default);
+  position: relative;
+  z-index: 2;
+}
+.author-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--jade-600), var(--jade-900));
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-weight: 600;
+  color: var(--ink-900); font-size: 16px;
+  border: 1px solid var(--glass-border-strong);
+}
+.author-info { display: flex; flex-direction: column; gap: 2px; }
+.author-name { font-size: 14px; font-weight: 600; }
+.author-role { font-family: var(--font-mono); font-size: 11px; color: var(--color-text-tertiary); }
+
+/* GALLERY */
+.gallery-section { padding: 120px 0; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 56px;
+}
+.gallery-item {
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--m-base), transform var(--m-base);
+}
+.gallery-item:hover {
+  border-color: var(--glass-border-strong);
+  transform: translateY(-2px);
+}
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad-mesh);
+  opacity: 0.4;
+}
+.gallery-item.wide {
+  grid-column: span 2;
+  aspect-ratio: 21/9;
+}
+.gallery-label {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 1.5px;
+  position: relative; z-index: 2;
+}
+
+/* STACK TABLE */
+.stack-section {
+  padding: 120px 0;
+}
+.stack-card {
+  background: var(--glass-bg-subtle);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+.stack-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 32px;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  align-items: center;
+}
+.stack-row:last-child { border-bottom: none; }
+.stack-label {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--color-accent); letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.stack-value {
+  font-size: 14px;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+.stack-value-items {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.stack-chip {
+  font-family: var(--font-mono); font-size: 11px;
+  padding: 5px 11px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 5px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.3px;
+}
+
+/* NEXT CASE */
+.next-case {
+  padding: 100px 0;
+  position: relative;
+}
+.next-case-link {
+  display: block;
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 40px 44px;
+  transition: border-color var(--m-base), transform var(--m-base);
+  cursor: pointer;
+}
+.next-case-link:hover {
+  border-color: var(--glass-border-strong);
+  transform: translateY(-2px);
+}
+.next-case-eyebrow {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.next-case-tags {
+  display: flex; gap: 6px; margin-bottom: 12px;
+}
+.next-case-title {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 600;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.next-case-title .arrow {
+  color: var(--color-accent);
+  transition: transform var(--m-base);
+}
+.next-case-link:hover .arrow { transform: translateX(8px); }
+
+/* FINAL CTA */
+.final-cta {
+  padding: 140px 0;
+  position: relative;
+  overflow: hidden;
+}
+.final-cta-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 800px 400px at 50% 100%, rgba(93,196,164,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-cta-content { position: relative; max-width: 760px; }
+.cta-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 600; line-height: 1.05;
+  letter-spacing: -2.5px; margin-bottom: 24px;
+}
+.cta-title .accent {
+  background: var(--grad-text-shine);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cta-sub {
+  font-size: 17px; color: var(--color-text-secondary);
+  margin-bottom: 40px; max-width: 480px; line-height: 1.5;
+}
+.cta-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.btn-primary {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+  background: var(--grad-accent); color: var(--color-text-on-accent);
+  padding: 15px 26px; border-radius: 7px;
+  position: relative; overflow: hidden;
+  transition: transform var(--m-fast), box-shadow var(--m-base);
+  box-shadow: 0 4px 20px rgba(93,196,164,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-primary::before {
+  content: ''; position: absolute; top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 700ms var(--ease-out);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(93,196,164,0.45); }
+.btn-primary:hover::before { left: 100%; }
+.btn-secondary {
+  font-family: var(--font-mono); font-size: 13px;
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-primary);
+  padding: 15px 22px; border-radius: 7px;
+  display: inline-flex; align-items: center; gap: 10px;
+  transition: border-color var(--m-base), transform var(--m-fast);
+}
+.btn-secondary:hover { border-color: var(--glass-border-strong); transform: translateY(-2px); }
+
+/* FOOTER */
+footer {
+  padding: 80px 0 32px;
+  border-top: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-sunken);
+  position: relative; z-index: 2;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px; padding-bottom: 56px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  margin-bottom: 32px;
+}
+.footer-brand-tag {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--color-text-tertiary);
+  margin-top: 12px; letter-spacing: 0.4px;
+}
+.footer-brand-copy {
+  margin-top: 24px; font-size: 13px;
+  color: var(--color-text-secondary);
+  max-width: 320px; line-height: 1.55;
+}
+.footer-col-label {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 1.2px; margin-bottom: 18px;
+  text-transform: uppercase;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-col li {
+  font-size: 13px; color: var(--color-text-secondary);
+  cursor: pointer; transition: color var(--m-fast);
+}
+.footer-col li:hover { color: var(--color-text-primary); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--color-text-tertiary); letter-spacing: 0.3px;
+}
+.footer-status { display: inline-flex; align-items: center; gap: 8px; }
+.status-dot {
+  width: 6px; height: 6px;
+  background: var(--color-accent); border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--color-accent);
+}
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity var(--m-slow) var(--ease-out), transform var(--m-slow) var(--ease-out); }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-stagger > * { opacity: 0; transform: translateY(20px); transition: opacity var(--m-slow) var(--ease-out), transform var(--m-slow) var(--ease-out); }
+.reveal-stagger.in > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: 100ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: 200ms; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: 300ms; opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal-stagger > * { opacity: 1; transform: none; }
+}
+
+@media (max-width: 1024px) {
+  .meta-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .solution-blocks { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item.wide { grid-column: span 1; aspect-ratio: 16/9; }
+  .hero-product-content { grid-template-columns: 1fr; padding: 24px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .stack-row { grid-template-columns: 1fr; gap: 8px; padding: 18px 24px; }
+  .testimonial-card { padding: 48px 36px; }
+}
+@media (max-width: 720px) {
+  .nav { padding: 12px 16px; width: calc(100% - 24px); top: 12px; }
+  .container, .container-narrow { padding: 0 20px; }
+  .case-hero { padding: 130px 0 60px; }
+  .act-content { padding: 0 20px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .btn-primary, .btn-secondary { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<nav class="nav">
+  <a href="#" class="logo">3<span class="slash">/</span>dev</a>
+  <a href="#" class="nav-back">← Volver a casos</a>
+</nav>
+
+<main>
+
+  <!-- ===== CASE HERO ===== -->
+  <section class="case-hero">
+    <div class="case-hero-bg"></div>
+    <div class="container">
+      <div class="case-hero-content">
+        <div class="case-tags">
+          <span class="tag">brand/</span>
+          <span class="tag">product/</span>
+          <span class="tag">ai/</span>
+        </div>
+        <h1 class="case-title">Las Cholulas</h1>
+        <p class="case-subtitle">Sistema de producto digital con IA integrada para una marca con tradición local que necesitaba operar con la velocidad del 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECHNICAL META BAR ===== -->
+  <section class="meta-bar">
+    <div class="container">
+      <div class="meta-card">
+        <div class="meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Cliente</span>
+            <span class="meta-value">Las Cholulas Group</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Industria</span>
+            <span class="meta-value">Hospitalidad</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Año</span>
+            <span class="meta-value">2026</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Duración</span>
+            <span class="meta-value">12 semanas</span>
+          </div>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-item">
+            <span class="meta-label">Stack</span>
+            <span class="meta-value">Astro · Next.js</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">IA</span>
+            <span class="meta-value">Claude · OpenAI</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Equipo</span>
+            <span class="meta-value">5 personas</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Sitio</span>
+            <span class="meta-value live">
+              <a href="#"><span class="meta-value-dot"></span>lascholulas.com →</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HERO VISUAL ===== -->
+  <section class="case-hero-visual">
+    <div class="container">
+      <div class="hero-visual-frame">
+        <div class="hero-product">
+          <div class="laptop">
+            <div class="laptop-screen">
+              <div class="hero-product-nav">
+                <div class="hp-dot"></div>
+                <div class="hp-dot"></div>
+                <div class="hp-dot"></div>
+                <div class="hp-url">lascholulas.com/admin</div>
+              </div>
+              <div class="hero-product-content">
+                <div class="hp-left">
+                  <div>
+                    <div class="hp-eyebrow">PANEL DE CONTROL · HOY</div>
+                    <div class="hp-greeting">Buenas tardes,<br>Carlos.</div>
+                    <p class="hp-subtitle">Tu IA atendió 38 de 47 reservaciones hoy. Aquí los detalles.</p>
+                  </div>
+                  <div class="hp-tabs">
+                    <span class="hp-tab active">resumen</span>
+                    <span class="hp-tab">reservas</span>
+                    <span class="hp-tab">marketing</span>
+                  </div>
+                </div>
+                <div class="hp-right">
+                  <div class="hp-stat">
+                    <div class="hp-stat-label">RESERVAS · HOY</div>
+                    <div class="hp-stat-row">
+                      <span class="hp-stat-val">47</span>
+                      <span class="hp-stat-trend">↑ 12% vs ayer</span>
+                    </div>
+                  </div>
+                  <div class="hp-stat">
+                    <div class="hp-stat-label">IA ATENDIÓ</div>
+                    <div class="hp-stat-row">
+                      <span class="hp-stat-val green">38</span>
+                      <span class="hp-stat-trend">81% automático</span>
+                    </div>
+                  </div>
+                  <div class="hp-chat">
+                    <div class="hp-chat-label">
+                      <span class="hp-chat-label-dot"></span>
+                      CLAUDE · ÚLTIMO MENSAJE
+                    </div>
+                    <div class="hp-chat-msg">"Reservé mesa de 4 para María González, viernes 8pm. Confirmado por WhatsApp."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACT 1 — THE CHALLENGE ===== -->
+  <section class="act reveal">
+    <div class="act-content">
+      <div class="act-eyebrow">
+        <span class="act-eyebrow-num">01</span>
+        <span>el reto</span>
+      </div>
+      <h2 class="act-title">Una marca con tradición local, pero <span class="accent">operación digital fragmentada.</span></h2>
+      <p class="act-lead">Las Cholulas tenía menú impreso, redes manuales, reservaciones por WhatsApp y cero datos consolidados. La marca funcionaba en piso, pero no escalaba digitalmente.</p>
+      <div class="act-body">
+        <p>El cliente llegó con un problema claro: <strong>la operación crecía más rápido que la capacidad de gestionarla</strong>. Cada reserva pasaba por una persona contestando WhatsApp. Cada publicación en redes era un community manager freelance. Cada métrica vivía en una hoja de Excel que nadie actualizaba.</p>
+        <p>El reto no era construirles un sitio bonito. Era <strong>convertir una operación artesanal en un sistema digital sin perder el alma de la marca</strong>. Sin que se sintiera "automatizado" para el cliente que reserva. Sin que el equipo perdiera control.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACT 2 — THE SOLUTION ===== -->
+  <section class="act reveal">
+    <div class="act-content">
+      <div class="act-eyebrow">
+        <span class="act-eyebrow-num">02</span>
+        <span>la solución</span>
+      </div>
+      <h2 class="act-title">Marca, producto e IA <span class="accent">pensados como un solo sistema</span> desde el primer día.</h2>
+      <p class="act-lead">Renovamos la identidad visual conservando el equity local. Construimos un sitio con CMS para que el equipo publique sin código. Integramos un panel donde la IA procesa reservaciones, genera contenido y reporta métricas en lenguaje natural.</p>
+    </div>
+    <div class="act-content">
+      <div class="solution-blocks">
+        <div class="solution-block">
+          <span class="solution-tag">brand/</span>
+          <h3 class="solution-block-title">Identidad reposicionada</h3>
+          <p class="solution-block-desc">Sistema de marca renovado: logo, paleta, tipografía y guía de voz. Conservamos lo que el cliente ya reconocía y modernizamos el resto.</p>
+        </div>
+        <div class="solution-block">
+          <span class="solution-tag">product/</span>
+          <h3 class="solution-block-title">Sitio Astro + CMS</h3>
+          <p class="solution-block-desc">Frontend en Astro con Content Collections para el menú. El equipo publica nuevos platillos en Markdown sin tocar código.</p>
+        </div>
+        <div class="solution-block">
+          <span class="solution-tag">ai/</span>
+          <h3 class="solution-block-title">Reservaciones autónomas</h3>
+          <p class="solution-block-desc">Claude integrado al WhatsApp Business API. Procesa reservaciones, sugiere horarios, confirma con el cliente y registra en el panel.</p>
+        </div>
+        <div class="solution-block">
+          <span class="solution-tag">ai/</span>
+          <h3 class="solution-block-title">Marketing automatizado</h3>
+          <p class="solution-block-desc">Calendario de publicaciones que la IA genera en tono de marca, con preview humano. Reduce 4 horas semanales a 20 minutos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACT 3 — RESULTS ===== -->
+  <section class="results-section reveal">
+    <div class="container">
+      <div class="act-eyebrow">
+        <span class="act-eyebrow-num">03</span>
+        <span>resultados</span>
+      </div>
+      <h2 class="act-title">Tres meses después<br>del lanzamiento.</h2>
+
+      <div class="results-grid reveal-stagger">
+        <div class="result-card">
+          <div class="result-label">Conversión</div>
+          <div class="result-value">+184%</div>
+          <div class="result-desc">Aumento en reservaciones convertidas desde digital vs el trimestre previo al lanzamiento.</div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">Tiempo en gestión</div>
+          <div class="result-value">−72%</div>
+          <div class="result-desc">Reducción del tiempo del equipo dedicado a contestar mensajes y publicar en redes.</div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">ROI · primer año</div>
+          <div class="result-value">8x</div>
+          <div class="result-desc">Retorno proyectado del primer año basado en horas ahorradas + reservaciones adicionales.</div>
+        </div>
+      </div>
+
+      <p class="results-context">Más que las métricas, lo que cambió es <strong>cómo opera el negocio</strong>. Carlos consulta el panel desde su celular cada mañana. La IA contesta WhatsApp mientras él duerme. El equipo dejó de pelearse con Excel y empezó a tomar decisiones con datos. El restaurante sigue siendo el mismo — la operación atrás no.</p>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIAL ===== -->
+  <section class="testimonial-section reveal">
+    <div class="container">
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-quote">Pensábamos contratar una agencia para el sitio y otra para automatizar la operación. 3dev nos resolvió ambas con un solo equipo, en menos tiempo y con resultados que no esperábamos. La diferencia se nota desde el primer entregable.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">CR</div>
+          <div class="author-info">
+            <span class="author-name">Carlos Ramírez</span>
+            <span class="author-role">Director · Las Cholulas Group</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section class="gallery-section reveal">
+    <div class="container">
+      <div class="act-eyebrow" style="margin-bottom: 0;">
+        <span>galería del proyecto</span>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item wide">
+          <span class="gallery-label">SITIO PÚBLICO · HERO</span>
+        </div>
+        <div class="gallery-item">
+          <span class="gallery-label">PANEL · MÉTRICAS</span>
+        </div>
+        <div class="gallery-item">
+          <span class="gallery-label">CHAT IA · WHATSAPP</span>
+        </div>
+        <div class="gallery-item">
+          <span class="gallery-label">MARCA · SISTEMA</span>
+        </div>
+        <div class="gallery-item">
+          <span class="gallery-label">CMS · MENÚ EDITABLE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STACK ===== -->
+  <section class="stack-section reveal">
+    <div class="container">
+      <div class="act-eyebrow" style="margin-bottom: 32px;">
+        <span>stack técnico</span>
+      </div>
+      <div class="stack-card">
+        <div class="stack-row">
+          <span class="stack-label">Frontend</span>
+          <div class="stack-value-items">
+            <span class="stack-chip">Astro 5</span>
+            <span class="stack-chip">Tailwind 4</span>
+            <span class="stack-chip">TypeScript</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="stack-label">Backend / API</span>
+          <div class="stack-value-items">
+            <span class="stack-chip">Next.js (panel)</span>
+            <span class="stack-chip">PostgreSQL</span>
+            <span class="stack-chip">Prisma</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="stack-label">IA · modelos</span>
+          <div class="stack-value-items">
+            <span class="stack-chip">Claude Sonnet (conversación)</span>
+            <span class="stack-chip">OpenAI GPT-4 (contenido)</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="stack-label">Integraciones</span>
+          <div class="stack-value-items">
+            <span class="stack-chip">WhatsApp Business API</span>
+            <span class="stack-chip">Resend</span>
+            <span class="stack-chip">Stripe</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="stack-label">CMS · contenido</span>
+          <div class="stack-value-items">
+            <span class="stack-chip">Markdown + Git</span>
+            <span class="stack-chip">Cloudinary (imágenes)</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="stack-label">Hosting · deploy</span>
+          <div class="stack-value-items">
+            <span class="stack-chip">Vercel</span>
+            <span class="stack-chip">Cloudflare DNS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEXT CASE ===== -->
+  <section class="next-case reveal">
+    <div class="container">
+      <a href="#" class="next-case-link">
+        <div class="next-case-eyebrow">SIGUIENTE CASO →</div>
+        <div class="next-case-tags">
+          <span class="tag">product/</span>
+          <span class="tag">ai/</span>
+        </div>
+        <h3 class="next-case-title">
+          <span>[Próximo caso · Q3 2026]</span>
+          <span class="arrow">→</span>
+        </h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section class="final-cta">
+    <div class="final-cta-bg"></div>
+    <div class="container">
+      <div class="final-cta-content reveal">
+        <h2 class="cta-title">¿Quieres que tu proyecto<br>se vea aquí <span class="accent">en seis meses?</span></h2>
+        <p class="cta-sub">Si encaja con lo que hacemos, podemos arrancar en 1-2 meses. Si no, te lo decimos honestamente en 24 horas.</p>
+        <div class="cta-actions">
+          <a href="#" class="btn-primary">
+            <span>Agendar conversación</span>
+            <span>→</span>
+          </a>
+          <a href="#" class="btn-secondary">
+            <span>Ver todos los casos</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="logo" style="font-size: 24px;">3<span class="slash">/</span>dev</div>
+        <div class="footer-brand-tag">brand · product · ai</div>
+        <div class="footer-brand-copy">Estudio mexicano de producto digital con IA integrada. Construimos para empresas que ya decidieron no esperar el futuro.</div>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Sitio</div>
+        <ul>
+          <li>Capacidades</li>
+          <li>Proyectos</li>
+          <li>Proceso</li>
+          <li>Insights</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Estudio</div>
+        <ul>
+          <li>Manifiesto</li>
+          <li>Sobre nosotros</li>
+          <li>Privacidad</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Contacto</div>
+        <ul>
+          <li>LinkedIn</li>
+          <li>X / Twitter</li>
+          <li>contacto@3dev.mx</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 · 3dev studio · made in Puebla, México</span>
+      <span class="footer-status">
+        <span class="status-dot"></span>
+        v2.0 · status: building
+      </span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const targets = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  targets.forEach(t => io.observe(t));
+})();
+</script>
+
+</body>
+</html>

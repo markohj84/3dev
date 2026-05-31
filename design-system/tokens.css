@@ -1,0 +1,520 @@
+/**
+ * 3dev Design System — Tokens v2.1
+ * Brand · Product · AI
+ *
+ * Changelog v2.1 vs v1.0:
+ *   + Glass tokens (4 bg levels, 2 border levels, 2 blur levels)
+ *   + Gradient tokens (accent, soft, text-shine, mesh, ambient, card-border)
+ *   + Glow tokens (sm, md, lg)
+ *   + Motion expanded (new durations + 2 easings: ease-out overshoot + spring)
+ *   + Named keyframe animations (pulse, blink, nodePulse, fadeUp, fadeIn)
+ *   + Border-subtle now rgba-based for glass compatibility
+ *
+ * Architecture (3 layers, unchanged):
+ *   Layer 1 — Primitives    raw values, never consume directly in components
+ *   Layer 2 — Semantic      what your components reference, theme-aware
+ *   Layer 3 — Measures      type, spacing, radius, motion — theme-independent
+ *
+ * Dark mode is the default. Toggle light with [data-theme="light"].
+ *
+ * Usage:
+ *   Import once in your entry point (globals.css or layout root).
+ *   Reference all tokens via var(--token-name). Never hardcode hex.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* ================================================================
+ * 1. PRIMITIVES — raw color values
+ *    Never reference these directly from components.
+ *    Always go through the semantic layer below.
+ * ================================================================ */
+
+:root {
+
+  /* ink — deep green (marca base) */
+  --ink-900: #050b09;
+  --ink-800: #0c1f1a;
+  --ink-700: #1a3329;
+  --ink-600: #2a4a3e;
+  --ink-500: #4a665e;
+  --ink-400: #6b8580;
+  --ink-300: #95a8a0;
+
+  /* jade — accent */
+  --jade-900: #04342c;
+  --jade-800: #085041;
+  --jade-700: #1d9e75;
+  --jade-600: #5dc4a4;
+  --jade-500: #7dd5b8;
+  --jade-400: #9fe1cb;
+  --jade-100: #e1f5ee;
+
+  /* cream — text on dark, surfaces in light */
+  --cream-700: #b5a995;
+  --cream-500: #d8d1c2;
+  --cream-300: #f0ebe1;
+  --cream-200: #f6f3eb;
+  --cream-100: #fdfbf7;
+  --cream-50:  #ffffff;
+
+  /* status */
+  --status-success: #1d9e75;
+  --status-danger:  #e24b4a;
+  --status-warning: #ef9f27;
+  --status-info:    #5dc4a4;
+
+
+  /* ================================================================
+   * 2. SEMANTIC TOKENS — DARK MODE (default)
+   *    These are what your components consume.
+   * ================================================================ */
+
+  /* surfaces */
+  --surface-bg:        var(--ink-800);
+  --surface-elev:      var(--ink-700);
+  --surface-overlay:   var(--ink-900);
+  --surface-sunken:    #081411;
+
+  /* text */
+  --text-primary:      var(--cream-300);
+  --text-secondary:    var(--ink-300);
+  --text-tertiary:     var(--ink-500);
+  --text-inverse:      var(--ink-900);
+  --text-on-accent:    var(--jade-900);
+
+  /* accent */
+  --accent-default:    var(--jade-600);
+  --accent-strong:     var(--jade-700);
+  --accent-subtle:     var(--ink-700);
+
+  /* borders — rgba for glass compatibility */
+  --border-sub:        rgba(255, 255, 255, 0.06);
+  --border-default:    rgba(255, 255, 255, 0.10);
+  --border-strong:     rgba(255, 255, 255, 0.15);
+  --border-accent:     rgba(93, 196, 164, 0.35);
+
+
+  /* ================================================================
+   * 2b. GLASS TOKENS  (NEW in v2.1)
+   *     For navbar, badges, featured cards, testimonial cards.
+   *     Rule: max 1 glass element per visible viewport.
+   *     Never use on dense information cards.
+   * ================================================================ */
+
+  /* backgrounds */
+  --glass-bg-subtle:   rgba(26, 51, 41, 0.25);   /* bento secondary cards */
+  --glass-bg:          rgba(26, 51, 41, 0.45);   /* badges, ghost buttons */
+  --glass-bg-strong:   rgba(26, 51, 41, 0.65);   /* navbar, testimonial */
+
+  /* borders */
+  --glass-border:      rgba(255, 255, 255, 0.08);
+  --glass-border-accent: rgba(93, 196, 164, 0.20);
+
+  /* blur — always pair with background */
+  --glass-blur:        blur(20px) saturate(180%);
+  --glass-blur-strong: blur(28px) saturate(180%);
+
+  /* highlight — inner top border illusion */
+  --glass-highlight:   inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  /*
+   * Glass recipe (copy-paste):
+   *   background: var(--glass-bg);
+   *   backdrop-filter: var(--glass-blur);
+   *   -webkit-backdrop-filter: var(--glass-blur);
+   *   border: 1px solid var(--glass-border);
+   *   border-radius: 14px;
+   *   box-shadow: var(--glass-highlight);
+   */
+
+
+  /* ================================================================
+   * 2c. GRADIENT TOKENS  (NEW in v2.1)
+   *     Rule: max 3 instances of text-shine per page.
+   *     card-border only on hover — never permanent.
+   *     ambient/mesh only as background layers at low opacity.
+   * ================================================================ */
+
+  /* CTAs, primary buttons */
+  --grad-accent:      linear-gradient(135deg, #5dc4a4 0%, #1d9e75 100%);
+  --grad-accent-soft: linear-gradient(135deg, rgba(93,196,164,0.15) 0%, rgba(29,158,117,0.05) 100%);
+
+  /* Hero headline and CTA accents — max 3 uses per page */
+  --grad-text-shine:  linear-gradient(135deg, #f0ebe1 0%, #9fe1cb 50%, #5dc4a4 100%);
+
+  /* Section ambience — use as absolute positioned bg layer */
+  --grad-mesh:
+    radial-gradient(ellipse 80% 60% at 50%  0%,  rgba(93,196,164,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 80%  80%, rgba(29,158,117,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 20%  70%, rgba(159,225,203,0.05) 0%, transparent 50%);
+
+  --grad-ambient:
+    radial-gradient(ellipse 1200px 600px at 50% -100px, rgba(93,196,164,0.18) 0%, rgba(93,196,164,0.06) 30%, transparent 60%);
+
+  /* Dividers */
+  --grad-divider: linear-gradient(90deg, transparent 0%, rgba(93,196,164,0.30) 50%, transparent 100%);
+
+  /* Animated border on hover — use with mask-composite */
+  --grad-card-border: linear-gradient(135deg, rgba(93,196,164,0.35) 0%, rgba(93,196,164,0.05) 50%, rgba(93,196,164,0.20) 100%);
+
+
+  /* ================================================================
+   * 2d. GLOW TOKENS  (NEW in v2.1)
+   *     Use sparingly — hero elements, CTA buttons, active dots.
+   * ================================================================ */
+
+  --glow-accent-sm: 0 0 20px rgba(93, 196, 164, 0.15);
+  --glow-accent-md: 0 0 40px rgba(93, 196, 164, 0.25);
+  --glow-accent-lg: 0 0 80px rgba(93, 196, 164, 0.35);
+
+
+  /* ================================================================
+   * 3. TYPOGRAPHY
+   * ================================================================ */
+
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* display — headlines and hero */
+  --text-display-xl-size:   clamp(46px, 7vw, 92px);
+  --text-display-xl-line:   1;
+  --text-display-xl-track: -3.5px;
+  --text-display-xl-weight: 600;
+
+  --text-display-lg-size:   clamp(32px, 4.5vw, 52px);
+  --text-display-lg-line:   1.05;
+  --text-display-lg-track: -1.8px;
+  --text-display-lg-weight: 600;
+
+  --text-display-md-size:   clamp(24px, 2.6vw, 32px);
+  --text-display-md-line:   1.1;
+  --text-display-md-track: -1px;
+  --text-display-md-weight: 600;
+
+  /* body */
+  --text-body-lg-size: 17px;
+  --text-body-lg-line: 1.55;
+
+  --text-body-size:    15px;
+  --text-body-line:    1.6;
+
+  --text-body-sm-size: 13px;
+  --text-body-sm-line: 1.55;
+
+  /* mono — eyebrows, labels, tags, code */
+  --text-mono-md-size:  13px;
+  --text-mono-md-line:  1.55;
+  --text-mono-md-track: 0.3px;
+
+  --text-mono-sm-size:   11px;
+  --text-mono-sm-line:   1.45;
+  --text-mono-sm-track:  1.2px;
+  --text-mono-sm-weight: 500;
+
+
+  /* ================================================================
+   * 4. SPACING (base 4)
+   * ================================================================ */
+
+  --s-1:   4px;
+  --s-2:   8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-20: 80px;
+  --s-24: 96px;
+  --s-32: 128px;
+  --s-40: 160px;
+
+
+  /* ================================================================
+   * 5. RADIUS — máximo 8px excepto pills.
+   *    La restricción es la identidad. Nunca subir de --r-lg.
+   * ================================================================ */
+
+  --r-xs:   2px;
+  --r-sm:   4px;
+  --r-md:   6px;
+  --r-lg:   8px;
+  --r-xl:   14px;   /* excepción: glass cards, nav pill */
+  --r-2xl:  20px;   /* excepción: hero cards */
+  --r-full: 9999px;
+
+
+  /* ================================================================
+   * 6. BORDER WIDTHS
+   * ================================================================ */
+
+  --border-hairline: 0.5px;
+  --border-thin:     1px;
+  --border-thick:    2px;
+
+
+  /* ================================================================
+   * 7. MOTION  (expanded in v2.1)
+   * ================================================================ */
+
+  /* durations */
+  --m-fast:   200ms;   /* hover states, micro interactions */
+  --m-base:   360ms;   /* cards, panels, nav transitions */
+  --m-slow:   600ms;   /* reveals, page elements */
+  --m-hero:   900ms;   /* hero entrances, major transitions */
+
+  /* easings */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);       /* natural feel, most transitions */
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);        /* exits */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);       /* bidirectional */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);    /* NEW — buttons, badges, entries with overshoot */
+
+
+  /* ================================================================
+   * 8. LAYOUT
+   * ================================================================ */
+
+  --max-w-prose:   640px;
+  --max-w-content: 800px;
+  --max-w-page:    1280px;
+  --max-w-screen:  1440px;
+  --container-px:  32px;
+
+}
+
+
+/* ================================================================
+ * SEMANTIC TOKENS — LIGHT MODE
+ *    Override by setting [data-theme="light"] on <html>.
+ * ================================================================ */
+
+[data-theme="light"] {
+  --surface-bg:        var(--cream-200);
+  --surface-elev:      var(--cream-50);
+  --surface-overlay:   var(--cream-100);
+
+  --text-primary:      var(--ink-800);
+  --text-secondary:    var(--ink-600);
+  --text-tertiary:     var(--ink-500);
+  --text-inverse:      var(--cream-300);
+  --text-on-accent:    var(--jade-900);
+
+  --accent-default:    var(--jade-700);
+  --accent-strong:     var(--jade-800);
+  --accent-subtle:     var(--jade-100);
+
+  --border-sub:        rgba(0, 0, 0, 0.06);
+  --border-default:    rgba(0, 0, 0, 0.10);
+  --border-strong:     rgba(0, 0, 0, 0.18);
+  --border-accent:     var(--jade-700);
+
+  --glass-bg-subtle:   rgba(240, 235, 225, 0.50);
+  --glass-bg:          rgba(240, 235, 225, 0.70);
+  --glass-bg-strong:   rgba(240, 235, 225, 0.85);
+}
+
+
+/* ================================================================
+ * KEYFRAME ANIMATIONS  (NEW in v2.1)
+ *    Reference by name in animation property.
+ *    All respect prefers-reduced-motion via the override below.
+ * ================================================================ */
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.75); }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(24px); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+
+@keyframes nodePulse {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
+}
+
+@keyframes gridScroll {
+  from { background-position: 0 0; }
+  to   { background-position: 0 60px; }
+}
+
+@keyframes horizonBreathe {
+  0%, 100% { opacity: 0.7; box-shadow: 0 0 50px rgba(93,196,164,0.40); }
+  50%       { opacity: 1;   box-shadow: 0 0 70px rgba(93,196,164,0.55); }
+}
+
+@keyframes ringScale {
+  0%   { transform: scale(0.4); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0,  0); }
+  50%       { transform: translate(-10px, -15px); }
+}
+
+@keyframes counterUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ================================================================
+ * REDUCED MOTION OVERRIDE
+ * ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1     !important;
+    transition-duration:      0.01ms !important;
+  }
+}
+
+
+/* ================================================================
+ * BASE STYLES — opinionated defaults, remove if needed
+ * ================================================================ */
+
+html {
+  font-family:               var(--font-sans);
+  background:                var(--surface-bg);
+  color:                     var(--text-primary);
+  -webkit-font-smoothing:    antialiased;
+  -moz-osx-font-smoothing:   grayscale;
+  scroll-behavior:           smooth;
+}
+
+body {
+  margin:      0;
+  font-size:   var(--text-body-size);
+  line-height: var(--text-body-line);
+  overflow-x:  hidden;
+}
+
+::selection {
+  background: var(--accent-default);
+  color:      var(--text-on-accent);
+}
+
+
+/* ================================================================
+ * UTILITY CLASSES — opt-in shortcuts
+ * ================================================================ */
+
+/* typography */
+.text-display-xl {
+  font-size:      var(--text-display-xl-size);
+  line-height:    var(--text-display-xl-line);
+  letter-spacing: var(--text-display-xl-track);
+  font-weight:    var(--text-display-xl-weight);
+}
+.text-display-lg {
+  font-size:      var(--text-display-lg-size);
+  line-height:    var(--text-display-lg-line);
+  letter-spacing: var(--text-display-lg-track);
+  font-weight:    var(--text-display-lg-weight);
+}
+.text-display-md {
+  font-size:      var(--text-display-md-size);
+  line-height:    var(--text-display-md-line);
+  letter-spacing: var(--text-display-md-track);
+  font-weight:    var(--text-display-md-weight);
+}
+.text-body-lg { font-size: var(--text-body-lg-size); line-height: var(--text-body-lg-line); }
+.text-body    { font-size: var(--text-body-size);    line-height: var(--text-body-line); }
+.text-body-sm { font-size: var(--text-body-sm-size); line-height: var(--text-body-sm-line); }
+
+.text-mono-md {
+  font-family:    var(--font-mono);
+  font-size:      var(--text-mono-md-size);
+  line-height:    var(--text-mono-md-line);
+  letter-spacing: var(--text-mono-md-track);
+}
+.text-mono-sm {
+  font-family:    var(--font-mono);
+  font-size:      var(--text-mono-sm-size);
+  line-height:    var(--text-mono-sm-line);
+  letter-spacing: var(--text-mono-sm-track);
+  font-weight:    var(--text-mono-sm-weight);
+  text-transform: uppercase;
+}
+
+.font-sans { font-family: var(--font-sans); }
+.font-mono { font-family: var(--font-mono); }
+
+/* gradient text */
+.text-gradient {
+  background:                var(--grad-text-shine);
+  -webkit-background-clip:   text;
+  background-clip:           text;
+  -webkit-text-fill-color:   transparent;
+}
+
+/* glass surface */
+.glass {
+  background:              var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter:         var(--glass-blur);
+  border:                  1px solid var(--glass-border);
+  box-shadow:              var(--glass-highlight);
+}
+.glass-strong {
+  background:              var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter:         var(--glass-blur-strong);
+  border:                  1px solid var(--glass-border);
+  box-shadow:              var(--glass-highlight);
+}
+
+/* container */
+.container {
+  max-width: var(--max-w-page);
+  margin:    0 auto;
+  padding:   0 var(--container-px);
+}
+.container-narrow {
+  max-width: var(--max-w-content);
+  margin:    0 auto;
+  padding:   0 var(--container-px);
+}
+
+/* reveal animation (pair with IntersectionObserver) */
+.reveal {
+  opacity:    0;
+  transform:  translateY(24px);
+  transition: opacity var(--m-slow) var(--ease-out),
+              transform var(--m-slow) var(--ease-out);
+}
+.reveal.in {
+  opacity:   1;
+  transform: translateY(0);
+}

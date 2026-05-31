@@ -1,0 +1,147 @@
+---
+// Footer.astro — Placeholder para Fase B
+// Implementación completa: grid 4 cols, status dot pulsante
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">3<span class="logo-slash">/</span>dev</a>
+        <p class="footer-tagline">Brand · Product · AI</p>
+        <p class="footer-location text-mono-sm">Puebla, México</p>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-label text-mono-sm">Estudio</p>
+        <nav class="footer-links">
+          <a href="/capacidades">Capacidades</a>
+          <a href="/casos">Casos</a>
+          <a href="/insights">Insights</a>
+        </nav>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-label text-mono-sm">Contacto</p>
+        <nav class="footer-links">
+          <a href="/contacto">Hablemos</a>
+          <a href="mailto:hola@3dev.mx">hola@3dev.mx</a>
+        </nav>
+      </div>
+
+      <div class="footer-col footer-status-col">
+        <div class="status-badge">
+          <span class="status-dot">
+            <span class="status-ring"></span>
+          </span>
+          <span class="text-mono-sm">Disponible para proyectos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="text-mono-sm">&copy; {year} 3dev Studio</span>
+      <span class="text-mono-sm" style="color: var(--text-tertiary)">Hecho en México</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border-sub);
+    padding: var(--s-16) 0 var(--s-8);
+    margin-top: var(--s-32);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--s-8);
+    padding-bottom: var(--s-10);
+    border-bottom: 1px solid var(--border-sub);
+  }
+
+  .footer-logo {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .logo-slash { color: var(--accent-default); }
+
+  .footer-tagline {
+    font-size: var(--text-body-sm-size);
+    color: var(--text-secondary);
+    margin-top: var(--s-2);
+  }
+
+  .footer-location {
+    color: var(--text-tertiary);
+    margin-top: var(--s-3);
+  }
+
+  .footer-label {
+    color: var(--text-tertiary);
+    margin-bottom: var(--s-4);
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+  }
+
+  .footer-links a {
+    font-size: var(--text-body-sm-size);
+    color: var(--text-secondary);
+    transition: color var(--m-fast) var(--ease-out);
+  }
+  .footer-links a:hover { color: var(--accent-default); }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    color: var(--text-secondary);
+  }
+
+  .status-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+  }
+  .status-dot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--accent-default);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .status-ring {
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid var(--accent-default);
+    opacity: 0.4;
+    animation: ringScale 2s ease-out infinite;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--s-6);
+    color: var(--text-tertiary);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s-8);
+    }
+    .footer-brand { grid-column: 1 / -1; }
+  }
+</style>

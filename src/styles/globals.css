@@ -1,0 +1,39 @@
+/* 3dev — Global Styles */
+
+/* Design System Tokens (fuente de verdad para todos los tokens) */
+@import './tokens.css';
+
+/* Tailwind 4 */
+@import "tailwindcss";
+
+/* Reset / base */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+a { color: inherit; text-decoration: none; }
+button { background: none; border: none; cursor: pointer; color: inherit; font: inherit; }
+input, textarea { font-family: inherit; }
+img, video { display: block; max-width: 100%; }
+
+/* Reveal animation — activado por IntersectionObserver en BaseLayout */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--m-slow) var(--ease-out),
+    transform var(--m-slow) var(--ease-out);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--m-slow) var(--ease-out),
+    transform var(--m-slow) var(--ease-out);
+}
+.reveal-stagger.in {
+  opacity: 1;
+  transform: translateY(0);
+}
