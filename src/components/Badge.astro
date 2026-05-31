@@ -1,0 +1,60 @@
+---
+// src/components/Badge.astro
+// Pill glass con dot pulsante — usado en Hero y otras secciones
+interface Props {
+  left?: string;   // texto izquierdo (default slot)
+  right?: string;  // texto derecho con color accent (opcional)
+  class?: string;
+}
+
+const { left, right, class: className = '' } = Astro.props;
+---
+
+<div class:list={['badge', className]}>
+  <span class="badge-dot"></span>
+  {left && <span class="badge-left"><slot>{left}</slot></span>}
+  {right && <>
+    <span class="badge-divider"></span>
+    <span class="badge-right">{right}</span>
+  </>}
+</div>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px 7px 10px;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border-accent);
+    border-radius: var(--r-full);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    color: var(--text-primary);
+    width: fit-content;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-default);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-default);
+    animation: pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .badge-divider {
+    width: 1px;
+    height: 12px;
+    background: var(--border-default);
+    flex-shrink: 0;
+  }
+
+  .badge-right {
+    color: var(--accent-default);
+  }
+</style>

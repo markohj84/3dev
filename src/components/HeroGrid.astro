@@ -1,0 +1,85 @@
+---
+// src/components/HeroGrid.astro
+// Grid Infinito 3D en perspectiva + horizon line + parallax scroll
+// CSS puro — sin librerías externas
+---
+
+<div class="hero-bg">
+  <div class="grid-perspective" id="hero-grid"></div>
+  <div class="horizon-line"></div>
+  <div class="ambient-glow"></div>
+</div>
+
+<script>
+  // Parallax suave — solo mientras el hero está en viewport
+  (function () {
+    const grid = document.getElementById('hero-grid') as HTMLElement | null;
+    if (!grid) return;
+
+    let raf: number | null = null;
+
+    function update() {
+      const scrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
+      if (scrollY > heroHeight) return;
+      grid!.style.setProperty('--scroll-y', scrollY * 0.4 + 'px');
+      raf = null;
+    }
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (raf) return;
+        raf = requestAnimationFrame(update);
+      },
+      { passive: true }
+    );
+  })();
+</script>
+
+<style>
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* Ambient glow detrás del grid */
+  .ambient-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 1100px 600px at 50% 60%, rgba(93,196,164,0.07) 0%, transparent 70%);
+  }
+
+  /* Grid en perspectiva 3D */
+  .grid-perspective {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%) translateY(var(--scroll-y, 0px)) perspective(900px) rotateX(60deg);
+    transform-origin: center top;
+    width: 220%;
+    height: 75%;
+    background-image:
+      linear-gradient(rgba(93, 196, 164, 0.20) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(93, 196, 164, 0.20) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to top, black 0%, black 30%, transparent 85%);
+    -webkit-mask-image: linear-gradient(to top, black 0%, black 30%, transparent 85%);
+    animation: gridScroll 14s linear infinite;
+    will-change: transform, background-position;
+  }
+
+  /* Línea del horizonte */
+  .horizon-line {
+    position: absolute;
+    bottom: 32%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(93,196,164,0.5) 50%, transparent 100%);
+    box-shadow: 0 0 50px rgba(93, 196, 164, 0.4);
+    animation: horizonBreathe 6s ease-in-out infinite;
+  }
+</style>
