@@ -66,12 +66,16 @@ import HeroGrid from '../components/HeroGrid.astro';
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
         <img class="proof-logo" src="/images/logos/1_tv-azteca-04.svg" alt="TV Azteca" />
-        <img class="proof-logo proof-logo--tall" src="/images/logos/3_Audi.svg" alt="Audi" />
-        <img class="proof-logo proof-logo--wide" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
+        <img class="proof-logo" src="/images/logos/3_Audi.svg" alt="Audi" />
+        <img class="proof-logo" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
+        <img class="proof-logo" src="/images/logos/4_seat.svg" alt="SEAT" />
+        <img class="proof-logo" src="/images/logos/5_vw_logo.svg" alt="Volkswagen" />
         <!-- Duplicar para loop continuo -->
         <img class="proof-logo" src="/images/logos/1_tv-azteca-04.svg" alt="TV Azteca" />
-        <img class="proof-logo proof-logo--tall" src="/images/logos/3_Audi.svg" alt="Audi" />
-        <img class="proof-logo proof-logo--wide" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
+        <img class="proof-logo" src="/images/logos/3_Audi.svg" alt="Audi" />
+        <img class="proof-logo" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
+        <img class="proof-logo" src="/images/logos/4_seat.svg" alt="SEAT" />
+        <img class="proof-logo" src="/images/logos/5_vw_logo.svg" alt="Volkswagen" />
       </div>
     </div>
   </div>
@@ -649,15 +653,13 @@ import HeroGrid from '../components/HeroGrid.astro';
     padding-right: 80px;
   }
   .proof-logo {
-    height: 28px;
+    height: 36px;
     width: auto;
     flex-shrink: 0;
     opacity: 0.45;
     transition: opacity var(--m-base);
     display: block;
   }
-  .proof-logo--tall { height: 36px; }
-  .proof-logo--wide { height: 22px; }
   .proof-logo:hover { opacity: 0.85; }
 
   /* ---- BENTO ---- */
