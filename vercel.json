@@ -1,0 +1,12 @@
+{
+  "redirects": [
+    { "source": "/index.html",     "destination": "/",            "permanent": true },
+    { "source": "/portfolio",      "destination": "/casos",       "permanent": true },
+    { "source": "/portfolio.html", "destination": "/casos",       "permanent": true },
+    { "source": "/servicios",      "destination": "/capacidades", "permanent": true },
+    { "source": "/servicios.html", "destination": "/capacidades", "permanent": true },
+    { "source": "/contacto.html",  "destination": "/contacto",    "permanent": true },
+    { "source": "/contact",        "destination": "/contacto",    "permanent": true },
+    { "source": "/contact.html",   "destination": "/contacto",    "permanent": true }
+  ]
+}
