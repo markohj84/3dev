@@ -79,7 +79,7 @@
   /* text */
   --text-primary:      var(--cream-300);
   --text-secondary:    var(--ink-300);
-  --text-tertiary:     var(--ink-500);
+  --text-tertiary:     var(--ink-400);
   --text-inverse:      var(--ink-900);
   --text-on-accent:    var(--jade-900);
 
