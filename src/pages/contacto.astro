@@ -40,9 +40,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <!-- ===== MAIN FORM ===== -->
         <form
           class="form-main reveal"
-          action="https://formspree.io/f/PLACEHOLDER_ID"
-          method="POST"
           id="contact-form"
+          novalidate
         >
 
           <!-- Step 01 — Quién eres -->
@@ -85,20 +84,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
           </div>
 
-          <!-- Step 04 — Presupuesto (chips) -->
+          <!-- Step 04 — Presupuesto (input libre) -->
           <div class="form-step">
             <div class="form-step-header">
               <span class="form-step-num">04</span>
-              <span class="form-step-label">Presupuesto estimado<span class="req">*</span></span>
+              <span class="form-step-label">Presupuesto estimado <span class="opt">(opcional)</span></span>
             </div>
-            <input type="hidden" name="presupuesto" id="presupuesto-input" required />
-            <div class="chips" data-target="presupuesto-input">
-              <button type="button" class="chip" data-value="USD 30K – 50K">USD 30K – 50K</button>
-              <button type="button" class="chip" data-value="USD 50K – 100K">USD 50K – 100K</button>
-              <button type="button" class="chip" data-value="USD 100K – 200K">USD 100K – 200K</button>
-              <button type="button" class="chip" data-value="USD 200K+">USD 200K+</button>
-              <button type="button" class="chip" data-value="No sé aún">No sé aún</button>
-            </div>
+            <input
+              type="text"
+              class="form-input"
+              name="presupuesto"
+              placeholder="Ej. 50K, 3 meses de trabajo, abierto a propuesta…"
+            />
           </div>
 
           <!-- Step 05 — Timing (chips) -->
@@ -134,15 +131,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
           <!-- Submit -->
           <div class="form-submit-row">
-            <button type="submit" class="btn-submit">
-              <span>Enviar mensaje</span>
-              <span>→</span>
+            <button type="submit" class="btn-submit" id="btn-submit">
+              <span class="btn-label">Enviar mensaje</span>
+              <span class="btn-arrow">→</span>
+              <span class="btn-loading" aria-hidden="true">
+                <span class="spinner"></span>
+                Enviando…
+              </span>
             </button>
             <span class="submit-note">
               <span class="submit-note-dot"></span>
               respuesta en ~24 horas hábiles
             </span>
           </div>
+
+          <!-- Estado de envío -->
+          <div class="form-status" id="form-status" aria-live="polite"></div>
 
         </form>
 
@@ -239,7 +243,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const targetId = group.getAttribute('data-target');
     const input = targetId ? document.getElementById(targetId) as HTMLInputElement | null : null;
 
-    // Inicializar valor del input con el chip activo por defecto
     const defaultChip = group.querySelector<HTMLButtonElement>('.chip.active');
     if (input && defaultChip) {
       input.value = defaultChip.getAttribute('data-value') ?? defaultChip.textContent?.trim() ?? '';
@@ -255,6 +258,72 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       });
     });
   });
+
+  // Form submit — fetch a /api/contact
+  const form    = document.getElementById('contact-form') as HTMLFormElement | null;
+  const btn     = document.getElementById('btn-submit') as HTMLButtonElement | null;
+  const status  = document.getElementById('form-status') as HTMLElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Validación mínima cliente
+    const required = ['nombre', 'empresa', 'email', 'tipo_proyecto', 'descripcion'];
+    const missing = required.filter(name => {
+      const el = form.elements.namedItem(name) as HTMLInputElement | null;
+      return !el?.value?.trim();
+    });
+    if (missing.length) {
+      showStatus('error', 'Completa los campos obligatorios antes de enviar.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const json = await res.json();
+
+      if (!res.ok || json.error) {
+        showStatus('error', json.error ?? 'Error al enviar. Escríbenos directamente a contacto@3dev.mx');
+      } else {
+        showStatus('success', '¡Mensaje enviado! Te respondemos en menos de 24 horas hábiles.');
+        form.reset();
+        // Resetear chips al estado por defecto
+        document.querySelectorAll<HTMLElement>('.chips').forEach(group => {
+          group.querySelectorAll('.chip').forEach((c, i) => {
+            c.classList.toggle('active', i === 0);
+          });
+          const targetId = group.getAttribute('data-target');
+          const input = targetId ? document.getElementById(targetId) as HTMLInputElement | null : null;
+          const firstChip = group.querySelector<HTMLButtonElement>('.chip');
+          if (input && firstChip) {
+            input.value = firstChip.getAttribute('data-value') ?? firstChip.textContent?.trim() ?? '';
+          }
+        });
+      }
+    } catch {
+      showStatus('error', 'Sin conexión. Escríbenos directamente a contacto@3dev.mx');
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  function setLoading(loading: boolean) {
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.classList.toggle('is-loading', loading);
+  }
+
+  function showStatus(type: 'success' | 'error', msg: string) {
+    if (!status) return;
+    status.className = `form-status form-status--${type}`;
+    status.textContent = msg;
+    status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 </script>
 
 <style>
@@ -377,6 +446,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     letter-spacing: 0.4px;
   }
   .form-step-label .req { color: var(--accent-default); margin-left: 4px; }
+  .form-step-label .opt { color: var(--text-tertiary); font-size: 10px; margin-left: 6px; letter-spacing: 0.3px; }
 
   .form-row {
     display: grid;
@@ -509,6 +579,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-radius: 50%;
     box-shadow: 0 0 8px var(--accent-default);
     animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* Loading state */
+  .btn-loading { display: none; align-items: center; gap: 8px; }
+  .btn-submit.is-loading .btn-label,
+  .btn-submit.is-loading .btn-arrow  { display: none; }
+  .btn-submit.is-loading .btn-loading { display: inline-flex; }
+  .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none !important; }
+
+  .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(4,52,44,0.3);
+    border-top-color: var(--jade-900);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Status messages */
+  .form-status {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.5;
+    display: none;
+  }
+  .form-status:not(:empty) { display: block; }
+  .form-status--success {
+    background: rgba(29,158,117,0.12);
+    border: 1px solid rgba(29,158,117,0.3);
+    color: var(--jade-400);
+  }
+  .form-status--error {
+    background: rgba(226,75,74,0.1);
+    border: 1px solid rgba(226,75,74,0.25);
+    color: #f87171;
   }
 
   /* ---- SIDEBAR ---- */
