@@ -65,17 +65,13 @@ import HeroGrid from '../components/HeroGrid.astro';
     </div>
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
-        <span class="proof-logo">Las Cholulas</span>
-        <span class="proof-logo">SIA Neumática</span>
-        <span class="proof-logo">Propiedades MX</span>
-        <span class="proof-logo">Diquiba</span>
-        <span class="proof-logo">Tierras Mexicanas</span>
+        <img class="proof-logo" src="/images/logos/1_tv-azteca-04.svg" alt="TV Azteca" />
+        <img class="proof-logo proof-logo--tall" src="/images/logos/3_Audi.svg" alt="Audi" />
+        <img class="proof-logo proof-logo--wide" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
         <!-- Duplicar para loop continuo -->
-        <span class="proof-logo">Las Cholulas</span>
-        <span class="proof-logo">SIA Neumática</span>
-        <span class="proof-logo">Propiedades MX</span>
-        <span class="proof-logo">Diquiba</span>
-        <span class="proof-logo">Tierras Mexicanas</span>
+        <img class="proof-logo" src="/images/logos/1_tv-azteca-04.svg" alt="TV Azteca" />
+        <img class="proof-logo proof-logo--tall" src="/images/logos/3_Audi.svg" alt="Audi" />
+        <img class="proof-logo proof-logo--wide" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
       </div>
     </div>
   </div>
@@ -653,16 +649,16 @@ import HeroGrid from '../components/HeroGrid.astro';
     padding-right: 80px;
   }
   .proof-logo {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    font-size: 20px;
-    color: var(--text-tertiary);
-    white-space: nowrap;
-    letter-spacing: -0.3px;
-    transition: color var(--m-base);
+    height: 28px;
+    width: auto;
     flex-shrink: 0;
+    opacity: 0.45;
+    transition: opacity var(--m-base);
+    display: block;
   }
-  .proof-logo:hover { color: var(--text-primary); }
+  .proof-logo--tall { height: 36px; }
+  .proof-logo--wide { height: 22px; }
+  .proof-logo:hover { opacity: 0.85; }
 
   /* ---- BENTO ---- */
   .bento {
