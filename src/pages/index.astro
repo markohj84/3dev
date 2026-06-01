@@ -435,7 +435,7 @@ import HeroGrid from '../components/HeroGrid.astro';
   /* Stagger de entrada en hero */
   .hero-content > * {
     opacity: 0;
-    animation: heroFadeIn 1000ms var(--ease-out) forwards;
+    animation: heroFadeIn 1000ms cubic-bezier(.22,1,.36,1) forwards;
   }
   .hero-content > *:nth-child(1) { animation-delay: 200ms; }
   .hero-content > *:nth-child(2) { animation-delay: 320ms; }
@@ -569,7 +569,7 @@ import HeroGrid from '../components/HeroGrid.astro';
     color: var(--text-tertiary);
     letter-spacing: 1.5px;
     z-index: 3;
-    animation: fadeIn 1s var(--ease-out) 1.8s both;
+    animation: fadeIn 1s cubic-bezier(.22,1,.36,1) 1.8s both;
   }
   .scroll-hint-line {
     width: 1px;

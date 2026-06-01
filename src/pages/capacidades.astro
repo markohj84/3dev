@@ -301,7 +301,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .page-hero-content > * {
     opacity: 0;
-    animation: fadeUp 800ms var(--ease-out) forwards;
+    animation: fadeUp 800ms cubic-bezier(.22,1,.36,1) forwards;
   }
   .page-hero-content > *:nth-child(1) { animation-delay: 100ms; }
   .page-hero-content > *:nth-child(2) { animation-delay: 200ms; }
