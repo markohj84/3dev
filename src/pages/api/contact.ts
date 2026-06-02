@@ -59,7 +59,7 @@ export const POST: APIRoute = async ({ request }) => {
   `;
 
   const { error } = await resend.emails.send({
-    from: 'Formulario 3dev <noreply@3dev.mx>',
+    from: 'Formulario 3dev <onboarding@resend.dev>',
     to:   ['contacto@3dev.mx'],
     replyTo: email,
     subject: `Nuevo lead — ${nombre} · ${empresa}`,
@@ -67,7 +67,7 @@ export const POST: APIRoute = async ({ request }) => {
   });
 
   if (error) {
-    console.error('Resend error:', error);
+    console.error('Resend error:', JSON.stringify(error));
     return new Response(JSON.stringify({ error: 'No se pudo enviar el correo.' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
