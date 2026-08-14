@@ -15,7 +15,7 @@ export const POST: APIRoute = async ({ request }) => {
   const timing      = data.get('timing')?.toString().trim() ?? '';
   const descripcion = data.get('descripcion')?.toString().trim() ?? '';
 
-  if (!nombre || !empresa || !email || !tipo || !descripcion) {
+  if (!nombre || !empresa || !email || !tipo || !timing || !descripcion) {
     return new Response(JSON.stringify({ error: 'Campos requeridos faltantes.' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },

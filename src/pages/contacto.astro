@@ -106,7 +106,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
             <input type="hidden" name="timing" id="timing-input" required />
             <div class="chips" data-target="timing-input">
-              <button type="button" class="chip" data-value="Inmediato (esta semana)">Inmediato (esta semana)</button>
+              <button type="button" class="chip active" data-value="Inmediato (esta semana)">Inmediato (esta semana)</button>
               <button type="button" class="chip" data-value="1 a 2 meses">1 a 2 meses</button>
               <button type="button" class="chip" data-value="3 a 6 meses">3 a 6 meses</button>
               <button type="button" class="chip" data-value="Explorando">Explorando</button>
@@ -268,7 +268,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     e.preventDefault();
 
     // Validación mínima cliente
-    const required = ['nombre', 'empresa', 'email', 'tipo_proyecto', 'descripcion'];
+    const required = ['nombre', 'empresa', 'email', 'tipo_proyecto', 'timing', 'descripcion'];
     const missing = required.filter(name => {
       const el = form.elements.namedItem(name) as HTMLInputElement | null;
       return !el?.value?.trim();
