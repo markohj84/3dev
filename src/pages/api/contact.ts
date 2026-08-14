@@ -59,7 +59,7 @@ export const POST: APIRoute = async ({ request }) => {
   `;
 
   const { error } = await resend.emails.send({
-    from: 'Formulario 3dev <onboarding@resend.dev>',
+    from: 'Formulario 3dev <noreply@3dev.mx>',
     to:   ['contacto@3dev.mx'],
     replyTo: email,
     subject: `Nuevo lead — ${nombre} · ${empresa}`,
