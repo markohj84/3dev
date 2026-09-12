@@ -1,0 +1,40 @@
+---
+import NeuralCore from './NeuralCore.astro';
+import Button from '../Button.astro';
+---
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="hero-composition">
+      <div class="hero-message">
+        <p class="eyebrow">Estudio de diseño y tecnología</p>
+        <h1 id="hero-heading"><span class="headline-line">De una gran idea</span><span class="headline-line">a un producto</span><span class="headline-line headline-accent">inteligente.</span></h1>
+        <p class="hero-description">Unimos estrategia, diseño e inteligencia artificial para hacer crecer tu negocio.</p>
+        <div class="hero-actions">
+          <Button href="/contacto">Hablemos de tu idea <span class="arrow" aria-hidden="true">↗</span></Button>
+          <a class="work-link" href="#proyectos">Ver proyectos <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <NeuralCore />
+    </div>
+  </div>
+</section>
+<style>
+  .hero { background: var(--surface-bg); color: var(--text-primary); overflow: clip; }
+  .hero-composition { display: grid; grid-template-columns: 1.08fr 1fr; gap: var(--s-6); align-items: center; padding-block: clamp(48px,6vw,88px); }
+  .hero-message { min-width: 0; position: relative; z-index: 1; }
+  .eyebrow { font: 11px/1.5 var(--font-mono); color: var(--accent-default); margin-bottom: var(--s-5); }
+  h1 { font-size: clamp(48px,5.25vw,74px); line-height: 1.06; letter-spacing: -.06em; font-weight: 500; }
+  .headline-line { display: block; } .headline-accent { color: var(--accent-default); }
+  .hero-description { max-width: 41ch; color: var(--text-secondary); font-size: 17px; line-height: 1.6; margin-top: var(--s-6); }
+  .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-6); margin-top: var(--s-6); }
+  .work-link { display: inline-flex; gap: var(--s-3); align-items: center; min-height: 48px; font: 11px/1.5 var(--font-mono); text-underline-offset: 6px; transition: color var(--m-fast) var(--ease-out); }
+  .work-link:hover { color: var(--accent-default); text-decoration: underline; }
+  @media (max-width: 63.99rem) { h1 { font-size: clamp(40px,5.1vw,60px); } .hero-description { font-size: 16px; } .hero-actions { gap: var(--s-4); } }
+  @media (max-width: 47.99rem) {
+    .hero-composition { grid-template-columns: 1fr; gap: var(--s-6); padding-block: var(--s-10); }
+    .eyebrow { font-size: 10px; margin-bottom: var(--s-4); }
+    h1 { font-size: clamp(35px,10.7vw,70px); }
+    .hero-description { max-width: 38ch; margin-top: var(--s-5); }
+    .hero-actions { gap: var(--s-4); margin-top: var(--s-5); }
+  }
+</style>

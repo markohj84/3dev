@@ -1,0 +1,19 @@
+.editorial-page { background: var(--surface-bg); color: var(--text-primary); }
+.page-intro { padding-block: clamp(64px,8vw,112px); }
+.page-label { font: 11px/1.6 var(--font-mono); color: var(--accent-default); margin-bottom: var(--s-8); }
+.page-intro h1 { max-width: 15ch; font-size: clamp(44px,7vw,96px); font-weight: 500; line-height: 1.04; letter-spacing: -0.06em; }
+.page-intro .lead { max-width: 48ch; margin-top: var(--s-8); font-size: clamp(17px,1.8vw,22px); line-height: 1.6; color: var(--text-secondary); }
+.paper-section { background: var(--surface-bg); color: var(--text-primary); padding-block: var(--section-space); }
+.editorial-link { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--s-8); font: 12px/1.6 var(--font-mono); min-height: 48px; border-bottom: 1px solid currentColor; transition: color var(--m-fast) var(--ease-out); }
+.editorial-link span { transition: transform var(--m-fast) var(--ease-out); }
+.editorial-link:hover { color: var(--accent-default); }
+.editorial-link:hover span { transform: translate(3px,-3px); }
+.editorial-page h2 { font-size: clamp(30px,4vw,54px); font-weight: 500; line-height: 1.08; letter-spacing: -0.045em; }
+.editorial-page h3 { font-size: clamp(24px,3vw,38px); font-weight: 500; line-height: 1.15; letter-spacing: -0.035em; }
+.page-cta { padding-block: var(--s-16); border-top: 1px solid var(--border-default); }
+.page-cta .container { display: flex; align-items: center; justify-content: space-between; gap: var(--s-8); }
+.page-cta h2 { max-width: 20ch; }
+.case-screen { display: block; width: 100%; overflow: hidden; border-radius: var(--r-sm); background: var(--surface-elev); }
+.case-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.case-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); margin-top: var(--s-4); font: 11px/1.6 var(--font-mono); color: var(--text-secondary); }
+@media (max-width:47.99rem) { .page-cta .container { flex-direction: column; align-items: start; } .page-intro { padding-block: var(--s-12); } }

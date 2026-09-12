@@ -8,12 +8,14 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  editorial?: boolean;
 }
 
 const {
   title,
   description = '3dev — Brand · Product · AI. Estudio mexicano de diseño y tecnología.',
-  ogImage = '/og-default.png',
+  ogImage,
+  editorial = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://3dev.mx');
@@ -34,7 +36,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://3dev.mx'
   <!-- Open Graph -->
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:image" content={ogImage} />
+  {ogImage && <meta property="og:image" content={new URL(ogImage, canonicalURL)} />}
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="es_MX" />
 
@@ -42,7 +44,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://3dev.mx'
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={ogImage} />
+  {ogImage && <meta name="twitter:image" content={new URL(ogImage, canonicalURL)} />}
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -63,34 +65,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://3dev.mx'
   </noscript>
 </head>
 <body>
-  <Nav />
-  <main>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <Nav editorial={editorial} />
+  <main id="main-content" tabindex="-1">
     <slot />
   </main>
   <Footer />
-
-  <!-- IntersectionObserver global para .reveal y .reveal-stagger -->
-  <script>
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('in');
-            // stagger: los hijos con delay variable
-            const staggerItems = e.target.querySelectorAll('.reveal-stagger');
-            staggerItems.forEach((item, i) => {
-              (item as HTMLElement).style.transitionDelay = `${i * 80}ms`;
-              item.classList.add('in');
-            });
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
-    );
-
-    document.querySelectorAll('.reveal, .reveal-stagger').forEach((el) => io.observe(el));
-  </script>
 
   <script src="https://quetzal.3dev.mx/embed.js" defer></script>
 </body>

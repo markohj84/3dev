@@ -3,18 +3,22 @@ import { glob } from 'astro/loaders';
 
 const casos = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/casos' }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title:        z.string(),
     client:       z.string(),
     industry:     z.string(),
     year:         z.number(),
-    duration:     z.string(),
-    stack:        z.array(z.string()),
-    ai:           z.array(z.string()),
-    team:         z.number(),
+    duration:     z.string().optional(),
+    stack:        z.array(z.string()).default([]),
+    ai:           z.array(z.string()).default([]),
+    team:         z.number().optional(),
     siteUrl:      z.string().optional(),
     tags:         z.array(z.enum(['brand', 'product', 'ai'])),
     featured:     z.boolean().default(false),
+    cover: image().optional(),
+    coverAlt: z.string().optional(),
+    resultsVerified: z.boolean().default(false),
+    testimonialApproved: z.boolean().default(false),
     description:  z.string().optional(),
 
     metrics: z.array(z.object({

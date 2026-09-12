@@ -1,81 +1,26 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
-
+import { validateContact } from '../../lib/contact';
 export const prerender = false;
-
 export const POST: APIRoute = async ({ request }) => {
-  const data = await request.formData();
-
-  const nombre      = data.get('nombre')?.toString().trim() ?? '';
-  const empresa     = data.get('empresa')?.toString().trim() ?? '';
-  const email       = data.get('email')?.toString().trim() ?? '';
-  const linkedin    = data.get('linkedin')?.toString().trim() ?? '';
-  const tipo        = data.get('tipo_proyecto')?.toString().trim() ?? '';
-  const presupuesto = data.get('presupuesto')?.toString().trim() ?? '';
-  const timing      = data.get('timing')?.toString().trim() ?? '';
-  const descripcion = data.get('descripcion')?.toString().trim() ?? '';
-
-  if (!nombre || !empresa || !email || !tipo || !timing || !descripcion) {
-    return new Response(JSON.stringify({ error: 'Campos requeridos faltantes.' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
+  const respond = (status:number, error?:string, errors?:Record<string,string>) => {
+    if(request.headers.get('accept')?.includes('application/json')) return Response.json(error?{error,errors}:{ok:true},{status});
+    const message=error?'No pudimos enviar tu mensaje. Revisa los campos o escríbenos a contacto@3dev.mx.':'Mensaje enviado. Gracias por contarnos tu proyecto.';
+    return new Response(`<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Contacto — 3dev</title><body style="font-family:system-ui;background:#111310;color:#f4f3ee;padding:8vw;line-height:1.6"><main><h1>${message}</h1><p><a style="color:#5dc4a4" href="/contacto">Volver a contacto</a></p><a style="color:#5dc4a4" href="mailto:contacto@3dev.mx">contacto@3dev.mx</a></main></body></html>`,{status,headers:{'Content-Type':'text/html; charset=utf-8'}});
+  };
+  let form:FormData;
+  try { form=await request.formData(); } catch { return respond(400,'No pudimos leer el formulario. Inténtalo de nuevo.'); }
+  const {values,errors}=validateContact(form);
+  if(Object.keys(errors).length) return respond(400,'Revisa los campos señalados.',errors);
+  const apiKey=import.meta.env.RESEND_API_KEY;
+  if(!apiKey) return respond(503,'El formulario no está disponible ahora. Escríbenos a contacto@3dev.mx.');
+  try {
+    const {error}=await new Resend(apiKey).emails.send({
+      from:'Formulario 3dev <noreply@3dev.mx>',to:['contacto@3dev.mx'],replyTo:values.email,
+      subject:`Nuevo proyecto · ${values.empresa.replace(/[\r\n]/g,' ')}`,
+      text:`Nombre: ${values.nombre}\nEmpresa: ${values.empresa}\nEmail: ${values.email}\nProyecto: ${values.tipo_proyecto}\nPresupuesto: ${values.presupuesto || 'Sin definir'}\nInicio: ${values.timing}\n\n${values.descripcion}`,
     });
-  }
-
-  const apiKey = import.meta.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return new Response(JSON.stringify({ error: 'Configuración de correo no disponible.' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  const resend = new Resend(apiKey);
-
-  const html = `
-    <div style="font-family: monospace; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
-      <h2 style="border-bottom: 2px solid #5dc4a4; padding-bottom: 12px; color: #085041;">
-        Nuevo contacto — 3dev.mx
-      </h2>
-
-      <table style="width: 100%; border-collapse: collapse; margin: 24px 0;">
-        <tr><td style="padding: 10px 0; color: #555; width: 160px;">Nombre</td><td style="padding: 10px 0; font-weight: 600;">${nombre}</td></tr>
-        <tr><td style="padding: 10px 0; color: #555;">Empresa</td><td style="padding: 10px 0; font-weight: 600;">${empresa}</td></tr>
-        <tr><td style="padding: 10px 0; color: #555;">Email</td><td style="padding: 10px 0;"><a href="mailto:${email}" style="color: #1d9e75;">${email}</a></td></tr>
-        ${linkedin ? `<tr><td style="padding: 10px 0; color: #555;">LinkedIn</td><td style="padding: 10px 0;"><a href="${linkedin}" style="color: #1d9e75;">${linkedin}</a></td></tr>` : ''}
-        <tr><td style="padding: 10px 0; color: #555;">Tipo</td><td style="padding: 10px 0;">${tipo}</td></tr>
-        <tr><td style="padding: 10px 0; color: #555;">Presupuesto</td><td style="padding: 10px 0;">${presupuesto || '—'}</td></tr>
-        <tr><td style="padding: 10px 0; color: #555;">Timing</td><td style="padding: 10px 0;">${timing}</td></tr>
-      </table>
-
-      <div style="background: #f4f9f7; border-left: 3px solid #5dc4a4; padding: 20px 24px; border-radius: 4px; margin: 24px 0;">
-        <p style="margin: 0; font-size: 15px; line-height: 1.6; white-space: pre-wrap;">${descripcion}</p>
-      </div>
-
-      <p style="color: #999; font-size: 12px; margin-top: 32px;">
-        Enviado desde 3dev.mx · ${new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' })}
-      </p>
-    </div>
-  `;
-
-  const { error } = await resend.emails.send({
-    from: 'Formulario 3dev <noreply@3dev.mx>',
-    to:   ['contacto@3dev.mx'],
-    replyTo: email,
-    subject: `Nuevo lead — ${nombre} · ${empresa}`,
-    html,
-  });
-
-  if (error) {
-    console.error('Resend error FULL:', JSON.stringify(error, null, 2));
-    return new Response(JSON.stringify({ error: 'No se pudo enviar el correo.' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+    if(error) return respond(502,'No pudimos enviar el mensaje. Inténtalo de nuevo o escríbenos a contacto@3dev.mx.');
+    return respond(200);
+  } catch { return respond(502,'No pudimos enviar el mensaje. Inténtalo de nuevo o escríbenos a contacto@3dev.mx.'); }
 };

@@ -1,1304 +1,160 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import HeroGrid from '../components/HeroGrid.astro';
+import Hero from '../components/home/Hero.astro';
+import { Image } from 'astro:assets';
+import projectScreen from '../assets/las-cholulas-negocios.png';
+const capabilities = [
+  { number:'01', name:'Brand', line:'La identidad que sostiene todo.', text:'Estrategia, identidad y sistema de marca que aguantan crecimiento. Pensamos cómo se ve, cómo habla y cómo se comporta tu producto.', outputs:['Posicionamiento','Identidad visual','Sistema de diseño'] },
+  { number:'02', name:'Product', line:'De una buena idea a algo que se usa.', text:'Diseño UX/UI y desarrollo en la misma conversación. Convertimos necesidades reales en experiencias claras, funcionales y listas para evolucionar.', outputs:['Experiencia de usuario','Diseño de interfaces','Desarrollo web'] },
+  { number:'03', name:'AI', line:'Inteligencia donde cambia las cosas.', text:'Asistentes, automatizaciones e integración de modelos en el flujo del producto. Primero entendemos el problema. Después decidimos si necesita IA.', outputs:['Asistentes integrados','Automatización','Evaluación de modelos'] },
+];
+const steps = [
+  { number:'01', name:'Entendemos.', label:'discovery', text:'Negocio, audiencia y restricciones reales. Acordamos qué vale la pena construir y cómo sabremos si funciona.' },
+  { number:'02', name:'Diseñamos.', label:'design', text:'Marca y producto al mismo tiempo. Hacemos tangible la idea, probamos el recorrido y resolvemos los detalles.' },
+  { number:'03', name:'Construimos.', label:'build', text:'Diseño y desarrollo trabajan juntos. Entregas visibles, conversaciones directas y decisiones compartidas.' },
+  { number:'04', name:'Lanzamos.', label:'ship', text:'Ponemos el producto en manos de las personas. Observamos, medimos e iteramos con lo que aprendemos.' },
+];
 ---
-
-<BaseLayout
-  title="3dev — Brand · Product · AI"
-  description="Estudio mexicano de Brand, Product y AI. Construimos productos inteligentes para empresas que ya decidieron construir el futuro."
->
-
-  <!-- ================================================================
-       HERO · GRID INFINITO 
-       ================================================================ -->
-  <section class="hero">
-    <HeroGrid />
-    <div class="container">
-      <div class="hero-content">
-
-        <!-- Badge -->
-        <div class="badge">
-          <span class="badge-dot"></span>
-          <span>brand · product · ai</span>
-          <span class="badge-divider"></span>
-          <span class="badge-accent">currently building</span>
-        </div>
-
-        <!-- H1 -->
-        <h1>
-          La mayoría construye sitios.<br>
-          <span class="accent">Nosotros construimos<br>productos inteligentes<span class="cursor"></span></span>
-        </h1>
-
-        <!-- Subtítulo -->
-        <p class="hero-sub">
-          Estudio mexicano de Brand, Product e IA integrada.
-          Para empresas que ya decidieron no esperar el futuro, sino construirlo.
-        </p>
-
-        <!-- CTAs -->
-        <div class="hero-cta">
-          <a href="/casos" class="btn-primary">
-            <span>Ver proyectos</span>
-            <span>→</span>
-          </a>
-          <a href="/contacto" class="btn-secondary">
-            <span>Agendar conversación</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Scroll hint -->
-    <div class="scroll-hint" aria-hidden="true">
-      <span>SCROLL</span>
-      <span class="scroll-hint-line"></span>
+<BaseLayout title="3dev — Brand · Product · AI" description="Estudio mexicano de diseño y tecnología. Integramos marca, producto e inteligencia para construir productos digitales con criterio.">
+  <Hero />
+  <section class="clients container" aria-label="Empresas con las que hemos trabajado">
+    <p>hemos construido<br />con equipos de</p>
+    <div class="client-logos">
+      <img src="/images/logos/1_tv-azteca-04.svg" alt="TV Azteca" width="120" height="36" />
+      <img src="/images/logos/3_Audi.svg" alt="Audi" width="100" height="36" />
+      <img src="/images/logos/2_logo-banorte.svg" alt="Banorte" width="120" height="36" />
+      <img src="/images/logos/4_seat.svg" alt="SEAT" width="100" height="36" />
+      <img src="/images/logos/5_vw_logo.svg" alt="Volkswagen" width="44" height="44" />
     </div>
   </section>
 
-  <!-- ================================================================
-       MARQUEE — Prueba social
-       ================================================================ -->
-  <div class="proof">
+  <section class="work" id="proyectos" data-surface="paper" aria-labelledby="work-title">
     <div class="container">
-      <p class="proof-label">Empresas que han confiado en nosotros</p>
-    </div>
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        <img class="proof-logo" src="/images/logos/1_tv-azteca-04.svg" alt="TV Azteca" />
-        <img class="proof-logo" src="/images/logos/3_Audi.svg" alt="Audi" />
-        <img class="proof-logo" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
-        <img class="proof-logo" src="/images/logos/4_seat.svg" alt="SEAT" />
-        <img class="proof-logo" src="/images/logos/5_vw_logo.svg" alt="Volkswagen" />
-        <!-- Duplicar para loop continuo -->
-        <img class="proof-logo" src="/images/logos/1_tv-azteca-04.svg" alt="TV Azteca" />
-        <img class="proof-logo" src="/images/logos/3_Audi.svg" alt="Audi" />
-        <img class="proof-logo" src="/images/logos/2_logo-banorte.svg" alt="Banorte" />
-        <img class="proof-logo" src="/images/logos/4_seat.svg" alt="SEAT" />
-        <img class="proof-logo" src="/images/logos/5_vw_logo.svg" alt="Volkswagen" />
-      </div>
-    </div>
-  </div>
-
-  <!-- ================================================================
-       BENTO — Capacidades
-       ================================================================ -->
-  <section class="section reveal" id="capacidades">
-    <div class="container">
-      <div class="section-eyebrow">capacidades</div>
-      <h2 class="section-title">Tres capas. <span class="accent">Una integración.</span></h2>
-      <p class="section-sub">
-        No vendemos servicios sueltos. Pensamos marca, producto e inteligencia como
-        un solo sistema desde el primer día. Por eso el resultado se siente coherente, no ensamblado.
-      </p>
-
-      <div class="bento reveal-stagger">
-        <!-- AI — card destacada -->
-        <div class="bento-card featured">
-          <span class="bento-tag">ai/</span>
-          <h3 class="bento-title">AI integrada al producto.<br>No al pitch.</h3>
-          <p class="bento-desc">
-            Asistentes IA embebidos, automatización de procesos clave, integración con OpenAI y Anthropic.
-            La diferencia no es la IA — es saber dónde sirve y dónde no.
-          </p>
-          <ul class="bento-bullets">
-            <li>Asistentes IA embebidos en producto</li>
-            <li>Automatización de flujos operativos</li>
-            <li>Integración OpenAI · Anthropic · APIs</li>
-            <li>Evaluación honesta de cuándo IA aporta</li>
-          </ul>
-          <div class="bento-visual">
-            <div class="bento-visual-orb"></div>
-            <svg class="bento-visual-rings" viewBox="0 0 200 200" aria-hidden="true">
-              <circle cx="100" cy="100" r="50"/>
-              <circle cx="100" cy="100" r="50"/>
-              <circle cx="100" cy="100" r="50"/>
-            </svg>
-          </div>
-        </div>
-
-        <!-- Brand -->
-        <div class="bento-card">
-          <span class="bento-tag">brand/</span>
-          <h3 class="bento-title">Brand</h3>
-          <p class="bento-desc">
-            Estrategia, identidad y sistema de marca que aguantan crecimiento.
-            Un sistema, no un PDF.
-          </p>
-          <ul class="bento-bullets">
-            <li>Posicionamiento + propuesta de valor</li>
-            <li>Identidad: logo, paleta, tipografía</li>
-            <li>Sistema de diseño con tokens</li>
-          </ul>
-        </div>
-
-        <!-- Product -->
-        <div class="bento-card">
-          <span class="bento-tag">product/</span>
-          <h3 class="bento-title">Product</h3>
-          <p class="bento-desc">
-            Diseño UI/UX y desarrollo con stack moderno.
-            Construimos productos digitales en ciclos cortos.
-          </p>
-          <ul class="bento-bullets">
-            <li>UI/UX en alta fidelidad</li>
-            <li>Desarrollo Astro · Next.js</li>
-            <li>Apps móviles cuando aplica</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================================
-       CASO DESTACADO — Las Cholulas
-       ================================================================ -->
-  <section class="section reveal" id="proyectos">
-    <div class="container">
-      <div class="section-eyebrow">caso destacado</div>
-      <h2 class="section-title">Un sistema de producto digital,<br>con IA <span class="accent">donde importa.</span></h2>
-      <p class="section-sub">
-        Cómo reposicionamos una marca con tradición y le construimos una operación
-        digital que opera 24/7.
-      </p>
-
-      <article class="project-card">
-        <!-- Info lado izquierdo -->
-        <div>
-          <div class="project-meta">
-            <span class="tag">brand/</span>
-            <span class="tag">product/</span>
-            <span class="tag">ai/</span>
-          </div>
-          <h3 class="project-title">Las Cholulas — sistema de producto digital con IA</h3>
-          <p class="project-desc">
-            Reposicionamos la marca conservando su equity. Construimos un producto donde la IA procesa
-            reservaciones por WhatsApp, genera contenido de redes y reporta métricas en lenguaje natural.
-          </p>
-
-          <div class="project-metrics">
-            <div>
-              <div class="metric-label">Conversión</div>
-              <div class="metric-value accent" data-count="184" data-prefix="+" data-suffix="%">+184%</div>
-            </div>
-            <div>
-              <div class="metric-label">Duración</div>
-              <div class="metric-value">12 sem</div>
-            </div>
-            <div>
-              <div class="metric-label">ROI 1er año</div>
-              <div class="metric-value">8x</div>
-            </div>
-          </div>
-
-          <a href="/casos/las-cholulas" class="case-link">Ver caso completo <span>→</span></a>
-        </div>
-
-        <!-- Device mockup lado derecho -->
-        <div class="device-mockup" aria-hidden="true">
-          <div class="laptop">
-            <div class="laptop-screen">
-              <div class="laptop-content">
-                <div class="mock-nav">
-                  <span class="mock-dot"></span>
-                  <span class="mock-dot"></span>
-                  <span class="mock-dot"></span>
-                  <span class="mock-url">lascholulas.com/admin</span>
-                </div>
-                <div class="mock-content">
-                  <div class="mock-eyebrow">PANEL · HOY</div>
-                  <div class="mock-headline">Buenas tardes,<br>Carlos</div>
-                  <div class="mock-grid">
-                    <div class="mock-stat">
-                      <div class="mock-stat-label">RESERVAS HOY</div>
-                      <div class="mock-stat-value">47</div>
-                      <div class="mock-stat-trend">↑ 12% vs ayer</div>
-                    </div>
-                    <div class="mock-stat">
-                      <div class="mock-stat-label">AI ATENDIÓ</div>
-                      <div class="mock-stat-value green">38</div>
-                      <div class="mock-stat-trend">81% auto</div>
-                    </div>
-                  </div>
-                  <div class="mock-chat">
-                    <div class="mock-chat-label">CHAT IA · ÚLTIMO MENSAJE</div>
-                    <div class="mock-chat-msg">"Reservé mesa de 4 para María González, viernes 8pm. Confirmado por WhatsApp."</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Phone -->
-          <div class="phone">
-            <div class="phone-content">
-              <div class="phone-notch"></div>
-              <div class="phone-eyebrow">RESERVAS</div>
-              <div class="phone-title">Hoy<br>Las Cholulas</div>
-              <div class="phone-card">
-                <div class="phone-card-label">CONFIRMADAS</div>
-                <div class="phone-card-val">47</div>
-              </div>
-              <div class="phone-card">
-                <div class="phone-card-label">EN COLA</div>
-                <div class="phone-card-val" style="color: var(--text-primary);">8</div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="section-meta"><span>01 / trabajo seleccionado</span><a href="/casos">todos los proyectos <span aria-hidden="true">↗</span></a></div>
+      <div class="work-heading"><h2 id="work-title">Lo que hacemos.<br /><span>En el mundo real.</span></h2><p>El diseño se demuestra en el producto.<br />Y el producto, en cómo se usa.</p></div>
+      <article class="project">
+        <div class="project-title"><h3>Las Cholulas<span aria-hidden="true">↗</span></h3><div><span>ecosistema digital</span><span>producto / web</span></div></div>
+        <a class="work-screen" href="/casos/las-cholulas" aria-label="Ver el caso de Las Cholulas">
+          <div class="screen-caption"><span>lascholulas.com / para negocios</span><span>sitio web <span aria-hidden="true">↗</span></span></div>
+          <div class="screen-crop"><Image src={projectScreen} alt="Página de Las Cholulas para negocios, con su propuesta de directorio, menú digital y lealtad." widths={[640,960,1280,1600]} sizes="(max-width: 767px) 90vw, 85vw" width={1600} format="webp" quality={85} loading="lazy" /></div>
+        </a>
+        <div class="project-description"><p>Un punto de encuentro entre los negocios de Cholula y las personas que quieren descubrirlos.</p><div><p>Directorio, menú digital y herramientas para conectar la presencia online con la experiencia local.</p><a href="/casos/las-cholulas" class="plain-link">Explorar el caso <span aria-hidden="true">↗</span></a></div></div>
       </article>
     </div>
   </section>
 
-  <!-- ================================================================
-       STATS — Números con counter animation
-       ================================================================ -->
-  <section class="stats reveal-stagger">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-block">
-          <div class="stat-number" data-count="8" data-prefix="" data-suffix="">8</div>
-          <div class="stat-label">años construyendo<br>productos digitales</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-number" data-count="40" data-prefix="" data-suffix="+">40+</div>
-          <div class="stat-label">proyectos<br>entregados</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-number" data-count="100" data-prefix="" data-suffix="%">100%</div>
-          <div class="stat-label">proyectos con<br>IA integrada en 2026</div>
-        </div>
-        <div class="stat-block">
-          <div class="stat-number" data-count="24" data-prefix="" data-suffix="h">24h</div>
-          <div class="stat-label">respuesta a leads<br>calificados</div>
-        </div>
-      </div>
+  <section class="capabilities container" id="capacidades" aria-labelledby="capabilities-title">
+    <div class="section-meta"><span>02 / capacidades</span><span>partes de un mismo sistema</span></div>
+    <div class="cap-intro"><h2 id="capabilities-title">Pensamos en tres capas.<br /><span>Construimos como uno.</span></h2><p>La marca define. El producto conecta.<br />La inteligencia amplifica.</p></div>
+    <div class="cap-list">
+      {capabilities.map((cap,i) => <details name="capabilities" open={i===0}>
+        <summary><span class="cap-number">{cap.number}</span><h3>{cap.name}<span>/</span></h3><span class="cap-line">{cap.line}</span><span class="cap-toggle" aria-hidden="true">+</span></summary>
+        <div class="cap-detail"><p>{cap.text}</p><ul>{cap.outputs.map(output => <li>{output}</li>)}</ul></div>
+      </details>)}
+    </div>
+    <a class="plain-link capabilities-link" href="/capacidades">Conoce nuestro enfoque <span aria-hidden="true">↗</span></a>
+  </section>
+
+  <section class="process" id="proceso" data-surface="paper" aria-labelledby="process-title">
+    <div class="container process-grid">
+      <div class="process-intro"><span class="label">03 / el proceso</span><h2 id="process-title">Del problema<br />al producto.</h2><p>Sin cajas negras.<br />Sabes qué estamos haciendo,<br />por qué y qué sigue.</p><div class="process-sign" aria-hidden="true">↘</div></div>
+      <ol class="process-steps">{steps.map(step => <li><div class="step-meta"><span>{step.number}</span><span>{step.label}</span></div><h3>{step.name}</h3><p>{step.text}</p></li>)}</ol>
     </div>
   </section>
 
-  <!-- ================================================================
-       PROCESO
-       ================================================================ -->
-  <section class="section reveal" id="proceso">
-    <div class="container">
-      <div class="section-eyebrow">proceso</div>
-      <h2 class="section-title">Cómo trabajamos.</h2>
-      <p class="section-sub">Ciclos cortos, equipos pequeños, transparencia radical. Cuatro etapas, 8 a 16 semanas.</p>
-
-      <div class="process-timeline">
-        <div class="process-line" aria-hidden="true"></div>
-        <div class="process-grid reveal-stagger">
-          <div class="process-step">
-            <div class="process-node"></div>
-            <div class="process-num">01 / discovery</div>
-            <h3 class="process-title">Entendemos</h3>
-            <p class="process-desc">Negocio, audiencia, restricciones reales. Sin briefs genéricos. Una semana de inmersión real.</p>
-          </div>
-          <div class="process-step">
-            <div class="process-node"></div>
-            <div class="process-num">02 / design</div>
-            <h3 class="process-title">Diseñamos</h3>
-            <p class="process-desc">Marca y producto al mismo tiempo. Un equipo, una cadencia, sin entregas en cascada.</p>
-          </div>
-          <div class="process-step">
-            <div class="process-node"></div>
-            <div class="process-num">03 / build</div>
-            <h3 class="process-title">Construimos</h3>
-            <p class="process-desc">Stack moderno, deploys continuos, demos cada dos semanas. IA viva desde el día uno.</p>
-          </div>
-          <div class="process-step">
-            <div class="process-node"></div>
-            <div class="process-num">04 / ship</div>
-            <h3 class="process-title">Lanzamos</h3>
-            <p class="process-desc">Producción, iteración, monitoreo. Soporte hasta que el producto vuela solo.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <section class="manifesto container" id="por-que" aria-labelledby="manifesto-title">
+    <div class="section-meta"><span>04 / el estudio</span><span>Puebla, México · trabajando sin fronteras</span></div>
+    <h2 id="manifesto-title">No somos una<br />agencia <span>más.</span></h2>
+    <div class="manifesto-bottom"><p class="manifesto-lead">Nos importa tanto<br />cómo se siente,<br />como <em>cómo funciona.</em></p><div class="principles"><p><span>01</span> Un equipo. Una conversación.</p><p><span>02</span> IA con criterio, no por moda.</p><p><span>03</span> Progreso que puedes ver.</p><p><span>04</span> Honestidad desde el primer día.</p><p><span>05</span> Diseño que llega a producción.</p><p><span>06</span> Talento mexicano. Estándar global.</p></div></div>
   </section>
 
-  <!-- ================================================================
-       BENEFICIOS — Por qué 3dev
-       ================================================================ -->
-  <section class="section reveal" id="por-que">
-    <div class="container">
-      <div class="section-eyebrow">por qué 3dev</div>
-      <h2 class="section-title">No somos una<br>agencia más.</h2>
-      <p class="section-sub">
-        Seis razones técnicas por las que founders, CTOs y directores de innovación
-        nos contratan en lugar de la opción obvia.
-      </p>
-
-      <div class="benefits-grid">
-        <div class="benefit">
-          <div class="benefit-icon">01</div>
-          <h3 class="benefit-title">Equipo dedicado</h3>
-          <p class="benefit-desc">4 a 7 personas asignadas a tu proyecto. Nunca pool de freelancers con coordinador.</p>
-        </div>
-        <div class="benefit">
-          <div class="benefit-icon">02</div>
-          <h3 class="benefit-title">Stack del 2026</h3>
-          <p class="benefit-desc">Astro, Next.js, Sanity, Anthropic API. No WordPress, no plantillas, no Webflow no-code.</p>
-        </div>
-        <div class="benefit">
-          <div class="benefit-icon">03</div>
-          <h3 class="benefit-title">IA-first, no IA-pegada</h3>
-          <p class="benefit-desc">Integramos modelos al flujo del producto desde el discovery. No al final como decoración.</p>
-        </div>
-        <div class="benefit">
-          <div class="benefit-icon">04</div>
-          <h3 class="benefit-title">Demos cada 2 semanas</h3>
-          <p class="benefit-desc">Verás progreso real cada quince días. Sin "estamos avanzando" sin entregable.</p>
-        </div>
-        <div class="benefit">
-          <div class="benefit-icon">05</div>
-          <h3 class="benefit-title">Honestidad radical</h3>
-          <p class="benefit-desc">Si tu proyecto no encaja con nosotros, te lo decimos en 24 horas. No te perseguimos.</p>
-        </div>
-        <div class="benefit">
-          <div class="benefit-icon">06</div>
-          <h3 class="benefit-title">Talento mexicano. Estándar global.</h3>
-          <p class="benefit-desc">Construimos productos digitales de clase mundial y cobramos por el valor que generamos.</p>
-        </div>
-      </div>
-    </div>
+  <section class="closing" id="contacto-home" aria-labelledby="closing-title">
+    <div class="container"><div class="closing-top"><span>el siguiente proyecto puede ser el tuyo</span><span>brand · product · ai</span></div><a href="/contacto" class="closing-link"><h2 id="closing-title">¿Algo que valga<br />la pena construir?</h2><span aria-hidden="true">↗</span></a><div class="closing-bottom"><span>Hagámoslo realidad.</span><a href="/contacto">Cuéntanos tu proyecto <span aria-hidden="true">↗</span></a></div></div>
   </section>
-
-  <!-- ================================================================
-       TESTIMONIAL (oculto temporalmente, ver PR/commit para reactivar)
-       ================================================================ -->
-  <!--
-  <section class="section testimonial-section reveal">
-    <div class="container">
-      <div class="testimonial-card">
-        <div class="quote-mark" aria-hidden="true">"</div>
-        <blockquote class="testimonial-quote">
-          Pensábamos contratar una agencia para el sitio y otra para automatizar la operación.
-          3dev nos resolvió ambas con un solo equipo, en menos tiempo y con resultados que no esperábamos.
-          La diferencia se nota desde el primer entregable.
-        </blockquote>
-        <div class="testimonial-author">
-          <div class="author-avatar">CR</div>
-          <div class="author-info">
-            <span class="author-name">Carlos Ramírez <span class="placeholder-tag">[CONFIRMAR]</span></span>
-            <span class="author-role">Director · Las Cholulas Group</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  -->
-
-  <!-- ================================================================
-       FINAL CTA
-       ================================================================ -->
-  <section class="final-cta" id="contacto-home">
-    <div class="final-cta-bg" aria-hidden="true"></div>
-    <div class="container">
-      <div class="final-cta-content reveal">
-        <h2 class="cta-title">¿Listo para construir<br>algo <span class="text-gradient">que importe?</span></h2>
-        <p class="cta-sub">
-          Cuéntanos qué quieres construir. Respondemos en menos de 24 horas hábiles.
-          Si tu proyecto no encaja con lo que hacemos, te lo decimos honestamente.
-        </p>
-        <div class="cta-actions">
-          <a href="/contacto" class="btn-primary">
-            <span>Agendar conversación</span>
-            <span>→</span>
-          </a>
-          <span class="cta-mail">o escríbenos a <a href="mailto:contacto@3dev.mx">contacto@3dev.mx</a></span>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </BaseLayout>
-
-<!-- ================================================================
-     ESTILOS DE PÁGINA — home only
-     ================================================================ -->
 <style>
-  /* ---- HERO ---- */
-  .hero {
-    min-height: 100vh;
-    padding: 180px 0 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 920px;
-  }
-
-  /* Stagger de entrada en hero */
-  .hero-content > * {
-    opacity: 0;
-    animation: heroFadeIn 1000ms cubic-bezier(.22,1,.36,1) forwards;
-  }
-  .hero-content > *:nth-child(1) { animation-delay: 200ms; }
-  .hero-content > *:nth-child(2) { animation-delay: 320ms; }
-  .hero-content > *:nth-child(3) { animation-delay: 460ms; }
-  .hero-content > *:nth-child(4) { animation-delay: 600ms; }
-
-  /* Badge */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 14px 7px 10px;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border-accent);
-    border-radius: var(--r-full);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.3px;
-    color: var(--text-primary);
-    margin-bottom: 36px;
-  }
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--accent-default);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-default);
-    animation: pulse 2s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-  .badge-divider { width: 1px; height: 12px; background: var(--border-default); }
-  .badge-accent { color: var(--accent-default); }
-
-  /* H1 */
-  .hero h1 {
-    font-size: clamp(46px, 7vw, 92px);
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: -3.5px;
-    margin-bottom: 28px;
-    color: var(--text-primary);
-  }
-  .hero h1 .accent { color: var(--accent-default); }
-
-  /* Cursor parpadeante */
-  .cursor {
-    display: inline-block;
-    width: 0.45em;
-    height: 0.85em;
-    background: var(--accent-default);
-    margin-left: 0.08em;
-    vertical-align: -0.05em;
-    animation: blink 1.2s step-end infinite;
-    border-radius: 1px;
-  }
-
-  .hero-sub {
-    font-size: clamp(16px, 1.4vw, 19px);
-    line-height: 1.55;
-    color: var(--text-secondary);
-    max-width: 560px;
-    margin-bottom: 44px;
-  }
-
-  .hero-cta { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-
-  /* Botones hero — más grandes que los del componente Button */
-  .btn-primary {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 500;
-    background: var(--grad-accent);
-    color: var(--text-on-accent);
-    padding: 15px 26px;
-    border-radius: 7px;
-    position: relative;
-    overflow: hidden;
-    transition: transform var(--m-fast), box-shadow var(--m-base);
-    box-shadow: 0 4px 20px rgba(93,196,164,0.25), inset 0 1px 0 rgba(255,255,255,0.15);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
-    transition: left 700ms var(--ease-out);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(93,196,164,0.45), inset 0 1px 0 rgba(255,255,255,0.2); }
-  .btn-primary:hover::before { left: 100%; }
-  .btn-primary:active { transform: translateY(0); }
-
-  .btn-secondary {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    background: var(--glass-bg);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    color: var(--text-primary);
-    padding: 15px 22px;
-    border-radius: 7px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: border-color var(--m-base), transform var(--m-fast), background var(--m-base);
-  }
-  .btn-secondary:hover {
-    border-color: var(--glass-border-accent);
-    background: var(--glass-bg-strong);
-    transform: translateY(-2px);
-  }
-
-  /* Scroll hint */
-  .scroll-hint {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-tertiary);
-    letter-spacing: 1.5px;
-    z-index: 3;
-    animation: fadeIn 1s cubic-bezier(.22,1,.36,1) 1.8s both;
-  }
-  .scroll-hint-line {
-    width: 1px;
-    height: 32px;
-    background: linear-gradient(180deg, transparent, var(--accent-default));
-    animation: scrollLine 2s ease-in-out infinite;
-  }
-  @keyframes scrollLine {
-    0%, 100% { transform: scaleY(1); transform-origin: top; opacity: 0.5; }
-    50%       { transform: scaleY(0.5); transform-origin: top; opacity: 1; }
-  }
-
-  /* ---- SECTIONS GENERIC ---- */
-  .section { padding: 140px 0; position: relative; }
-
-  .section-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 1.8px;
-    color: var(--accent-default);
-    text-transform: lowercase;
-    margin-bottom: 20px;
-    padding: 5px 12px;
-    background: rgba(93,196,164,0.08);
-    border: 1px solid var(--glass-border-accent);
-    border-radius: var(--r-full);
-  }
-
-  .section-title {
-    font-size: clamp(32px, 4.5vw, 52px);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -1.8px;
-    margin-bottom: 22px;
-    max-width: 720px;
-    color: var(--text-primary);
-  }
-  .section-title .accent { color: var(--accent-default); }
-
-  .section-sub {
-    font-size: 17px;
-    line-height: 1.55;
-    color: var(--text-secondary);
-    max-width: 560px;
-    margin-bottom: 64px;
-  }
-
-  /* ---- MARQUEE ---- */
-  .proof {
-    padding: 60px 0;
-    border-top: 1px solid var(--border-sub);
-    border-bottom: 1px solid var(--border-sub);
-    position: relative;
-    overflow: hidden;
-    background: var(--surface-bg);
-  }
-  .proof-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 1.8px;
-    color: var(--text-tertiary);
-    text-transform: lowercase;
-    margin-bottom: 24px;
-    text-align: center;
-  }
-  .marquee {
-    display: flex;
-    overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-  }
-  .marquee-track {
-    display: flex;
-    gap: 80px;
-    align-items: center;
-    animation: marquee 30s linear infinite;
-    flex-shrink: 0;
-    padding-right: 80px;
-  }
-  .proof-logo {
-    height: 36px;
-    width: auto;
-    flex-shrink: 0;
-    opacity: 0.45;
-    transition: opacity var(--m-base);
-    display: block;
-  }
-  .proof-logo:hover { opacity: 0.85; }
-
-  /* ---- BENTO ---- */
-  .bento {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 16px;
-  }
-  .bento-card {
-    background: var(--glass-bg-subtle);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 40px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color var(--m-base), transform var(--m-base);
-  }
-  .bento-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    padding: 1px;
-    background: var(--grad-card-border);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity var(--m-base);
-    pointer-events: none;
-  }
-  .bento-card:hover { transform: translateY(-2px); }
-  .bento-card:hover::before { opacity: 1; }
-  .bento-card.featured {
-    grid-row: span 2;
-    background: var(--glass-bg);
-    padding: 48px;
-    display: flex;
-    flex-direction: column;
-  }
-  .bento-tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent-default);
-    letter-spacing: 0.5px;
-    margin-bottom: 24px;
-    display: inline-block;
-    padding: 4px 10px;
-    background: rgba(93,196,164,0.1);
-    border-radius: 4px;
-  }
-  .bento-title {
-    font-size: clamp(24px, 2.6vw, 32px);
-    font-weight: 600;
-    letter-spacing: -1px;
-    margin-bottom: 14px;
-    line-height: 1.1;
-    color: var(--text-primary);
-  }
-  .bento-desc {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: 28px;
-  }
-  .bento-bullets {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    list-style: none;
-    margin-top: auto;
-  }
-  .bento-bullets li {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-secondary);
-    padding-left: 18px;
-    position: relative;
-    line-height: 1.5;
-    letter-spacing: 0.2px;
-  }
-  .bento-bullets li::before {
-    content: '↳';
-    position: absolute;
-    left: 0;
-    color: var(--accent-default);
-    opacity: 0.7;
-  }
-  .bento-visual {
-    margin-top: auto;
-    padding-top: 32px;
-    position: relative;
-    height: 200px;
-  }
-  .bento-visual-orb {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    right: -60px;
-    bottom: -60px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(93,196,164,0.4), rgba(29,158,117,0.2) 40%, transparent 70%);
-    filter: blur(20px);
-    animation: float 6s ease-in-out infinite;
-  }
-  .bento-visual-rings {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    width: 200px;
-    height: 200px;
-    pointer-events: none;
-  }
-  .bento-visual-rings circle {
-    fill: none;
-    stroke: var(--accent-default);
-    stroke-width: 1;
-    opacity: 0.3;
-    transform-origin: center;
-  }
-  .bento-visual-rings circle:nth-child(1) { animation: ringScale 4s ease-out infinite; }
-  .bento-visual-rings circle:nth-child(2) { animation: ringScale 4s ease-out 1.3s infinite; }
-  .bento-visual-rings circle:nth-child(3) { animation: ringScale 4s ease-out 2.6s infinite; }
-
-  /* ---- PROYECTO DESTACADO ---- */
-  .project-card {
-    background: var(--glass-bg-subtle);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 56px;
-    display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    gap: 64px;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .project-card::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: 24px;
-    background: var(--grad-card-border);
-    z-index: -1;
-    opacity: 0.5;
-  }
-  .project-meta { display: flex; gap: 6px; margin-bottom: 24px; }
-  .tag {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--accent-default);
-    background: rgba(93,196,164,0.1);
-    padding: 5px 10px;
-    border-radius: 4px;
-    letter-spacing: 0.5px;
-    border: 1px solid rgba(93,196,164,0.2);
-  }
-  .project-title {
-    font-size: clamp(28px, 3vw, 40px);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -1.2px;
-    margin-bottom: 18px;
-    color: var(--text-primary);
-  }
-  .project-desc {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: 36px;
-  }
-  .project-metrics {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding: 24px 0;
-    border-top: 1px solid var(--border-default);
-    border-bottom: 1px solid var(--border-default);
-    margin-bottom: 32px;
-  }
-  .metric-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.8px;
-    color: var(--text-tertiary);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-  }
-  .metric-value {
-    font-size: 28px;
-    font-weight: 600;
-    letter-spacing: -1px;
-    font-feature-settings: 'tnum';
-    color: var(--text-primary);
-  }
-  .metric-value.accent {
-    background: var(--grad-accent);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .case-link {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--accent-default);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: gap var(--m-base);
-  }
-  .case-link:hover { gap: 14px; }
-
-  /* Device mockup */
-  .device-mockup {
-    position: relative;
-    perspective: 1500px;
-    height: 480px;
-  }
-  .laptop {
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%) rotateY(-8deg) rotateX(2deg);
-    transform-style: preserve-3d;
-    transition: transform var(--m-slow);
-  }
-  .project-card:hover .laptop { transform: translateY(-50%) rotateY(-4deg) rotateX(1deg); }
-  .laptop-screen {
-    background: #050b09;
-    border-radius: 12px 12px 4px 4px;
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 8px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 60px rgba(93,196,164,0.1), inset 0 0 0 1px rgba(255,255,255,0.04);
-    position: relative;
-    overflow: hidden;
-  }
-  .laptop-screen::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 60px; height: 4px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 0 0 4px 4px;
-  }
-  .laptop-content {
-    background: var(--surface-bg);
-    border-radius: 7px;
-    aspect-ratio: 16/10;
-    overflow: hidden;
-    position: relative;
-  }
-  .mock-nav {
-    height: 36px;
-    background: rgba(5,11,9,0.6);
-    border-bottom: 1px solid var(--border-sub);
-    display: flex;
-    align-items: center;
-    padding: 0 14px;
-    gap: 8px;
-  }
-  .mock-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-600); }
-  .mock-url {
-    flex: 1;
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 9px;
-    color: var(--text-tertiary);
-    letter-spacing: 0.5px;
-  }
-  .mock-content { padding: 24px 28px; }
-  .mock-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 8px;
-    color: var(--accent-default);
-    letter-spacing: 1.5px;
-    margin-bottom: 12px;
-  }
-  .mock-headline {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
-    margin-bottom: 18px;
-    line-height: 1.15;
-  }
-  .mock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .mock-stat {
-    background: var(--glass-bg);
-    border: 1px solid var(--border-sub);
-    border-radius: 6px;
-    padding: 12px 14px;
-  }
-  .mock-stat-label { font-family: var(--font-mono); font-size: 7px; color: var(--text-tertiary); letter-spacing: 0.8px; margin-bottom: 6px; }
-  .mock-stat-value { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; color: var(--text-primary); }
-  .mock-stat-value.green { color: var(--accent-default); }
-  .mock-stat-trend { font-family: var(--font-mono); font-size: 7px; color: var(--accent-default); margin-top: 4px; }
-  .mock-chat {
-    margin-top: 10px;
-    background: var(--glass-bg);
-    border: 1px solid var(--border-sub);
-    border-radius: 6px;
-    padding: 10px 12px;
-  }
-  .mock-chat-label { font-family: var(--font-mono); font-size: 7px; color: var(--accent-default); letter-spacing: 0.8px; margin-bottom: 6px; }
-  .mock-chat-msg { font-size: 9px; color: var(--text-primary); line-height: 1.4; }
-
-  /* Phone */
-  .phone {
-    position: absolute;
-    right: -20px;
-    bottom: -10px;
-    width: 130px;
-    height: 270px;
-    background: #050b09;
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 6px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px rgba(93,196,164,0.15), inset 0 0 0 1px rgba(255,255,255,0.04);
-    transform: rotate(6deg);
-    transition: transform var(--m-slow);
-    z-index: 2;
-  }
-  .project-card:hover .phone { transform: rotate(3deg) translateY(-4px); }
-  .phone-content {
-    background: var(--surface-bg);
-    border-radius: 12px;
-    height: 100%;
-    padding: 14px 12px;
-    position: relative;
-    overflow: hidden;
-  }
-  .phone-notch {
-    position: absolute;
-    top: 4px; left: 50%;
-    transform: translateX(-50%);
-    width: 50px; height: 14px;
-    background: #050b09;
-    border-radius: 0 0 8px 8px;
-  }
-  .phone-eyebrow { font-family: var(--font-mono); font-size: 7px; color: var(--accent-default); letter-spacing: 1px; margin-top: 24px; margin-bottom: 8px; }
-  .phone-title { font-size: 13px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.15; margin-bottom: 12px; color: var(--text-primary); }
-  .phone-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--border-sub);
-    border-radius: 6px;
-    padding: 8px;
-    margin-bottom: 6px;
-  }
-  .phone-card-label { font-family: var(--font-mono); font-size: 6px; color: var(--text-tertiary); margin-bottom: 4px; }
-  .phone-card-val { font-size: 13px; font-weight: 600; color: var(--accent-default); }
-
-  /* ---- STATS ---- */
-  .stats {
-    padding: 120px 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .stats::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--grad-mesh);
-    opacity: 0.6;
-    pointer-events: none;
-  }
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    position: relative;
-  }
-  .stat-block {
-    text-align: left;
-    padding: 24px 0;
-    border-top: 1px solid var(--border-default);
-    position: relative;
-  }
-  .stat-block::before {
-    content: '';
-    position: absolute;
-    top: -1px; left: 0;
-    width: 40px; height: 1px;
-    background: var(--accent-default);
-  }
-  .stat-number {
-    font-size: clamp(48px, 6vw, 76px);
-    font-weight: 600;
-    letter-spacing: -3px;
-    line-height: 1;
-    margin-bottom: 12px;
-    font-feature-settings: 'tnum';
-    background: var(--grad-text-shine);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .stat-label {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-tertiary);
-    letter-spacing: 0.5px;
-    line-height: 1.5;
-    max-width: 180px;
-  }
-
-  /* ---- PROCESO ---- */
-  .process-timeline { position: relative; margin-top: 56px; }
-  .process-line {
-    position: absolute;
-    top: 32px; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(93,196,164,0.3) 5%, rgba(93,196,164,0.3) 95%, transparent 100%);
-  }
-  .process-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    position: relative;
-  }
-  .process-step { position: relative; }
-  .process-node {
-    width: 12px; height: 12px;
-    background: var(--accent-default);
-    border-radius: 50%;
-    margin-bottom: 32px;
-    position: relative;
-    box-shadow: 0 0 0 4px var(--surface-bg), 0 0 20px var(--accent-default);
-  }
-  .process-node::after {
-    content: '';
-    position: absolute;
-    inset: -6px;
-    border-radius: 50%;
-    border: 1px solid var(--accent-default);
-    opacity: 0.3;
-    animation: nodePulse 3s ease-out infinite;
-  }
-  .process-step:nth-child(2) .process-node::after { animation-delay: 0.5s; }
-  .process-step:nth-child(3) .process-node::after { animation-delay: 1s; }
-  .process-step:nth-child(4) .process-node::after { animation-delay: 1.5s; }
-  .process-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent-default); letter-spacing: 1px; margin-bottom: 14px; }
-  .process-title { font-size: 22px; font-weight: 600; letter-spacing: -0.6px; margin-bottom: 12px; color: var(--text-primary); }
-  .process-desc { font-size: 13px; line-height: 1.65; color: var(--text-secondary); }
-
-  /* ---- BENEFICIOS ---- */
-  .benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--border-sub);
-    border: 1px solid var(--border-sub);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  .benefit {
-    background: var(--surface-bg);
-    padding: 36px 32px;
-    transition: background var(--m-base);
-    position: relative;
-  }
-  .benefit:hover { background: rgba(26,51,41,0.4); }
-  .benefit-icon {
-    width: 40px; height: 40px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, rgba(93,196,164,0.15), rgba(29,158,117,0.05));
-    border: 1px solid rgba(93,196,164,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 22px;
-    font-family: var(--font-mono);
-    color: var(--accent-default);
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .benefit-title { font-size: 18px; font-weight: 600; letter-spacing: -0.4px; margin-bottom: 10px; color: var(--text-primary); }
-  .benefit-desc { font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
-
-  /* ---- TESTIMONIAL ---- */
-  .testimonial-section { padding: 140px 0; position: relative; }
-  .testimonial-card {
-    background: var(--glass-bg-strong);
-    backdrop-filter: var(--glass-blur-strong);
-    -webkit-backdrop-filter: var(--glass-blur-strong);
-    border: 1px solid var(--glass-border-accent);
-    border-radius: 24px;
-    padding: 64px 56px;
-    max-width: 920px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-  }
-  .testimonial-card::before {
-    content: '';
-    position: absolute;
-    top: -200px; right: -200px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(93,196,164,0.15), transparent 60%);
-    pointer-events: none;
-  }
-  .quote-mark {
-    font-size: 96px;
-    font-weight: 600;
-    color: var(--accent-default);
-    line-height: 0.5;
-    margin-bottom: 24px;
-    opacity: 0.4;
-  }
-  .testimonial-quote {
-    font-size: clamp(20px, 2.3vw, 28px);
-    line-height: 1.45;
-    font-weight: 400;
-    letter-spacing: -0.6px;
-    margin-bottom: 32px;
-    color: var(--text-primary);
-  }
-  .testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding-top: 28px;
-    border-top: 1px solid var(--border-default);
-  }
-  .author-avatar {
-    width: 48px; height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--jade-600), var(--jade-900));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-mono);
-    font-weight: 600;
-    color: var(--ink-900);
-    font-size: 16px;
-    border: 1px solid var(--glass-border-accent);
-    flex-shrink: 0;
-  }
-  .author-info { display: flex; flex-direction: column; gap: 2px; }
-  .author-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-  .author-role { font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary); }
-  .placeholder-tag {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--status-warning);
-    opacity: 0.6;
-    font-weight: 400;
-  }
-
-  /* ---- FINAL CTA ---- */
-  .final-cta {
-    padding: 160px 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .final-cta-bg {
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 800px 400px at 50% 100%, rgba(93,196,164,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 600px 300px at 20% 50%, rgba(29,158,117,0.08) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .final-cta-content { position: relative; max-width: 800px; }
-  .cta-title {
-    font-size: clamp(40px, 6.5vw, 84px);
-    font-weight: 600;
-    line-height: 1.02;
-    letter-spacing: -3px;
-    margin-bottom: 28px;
-    color: var(--text-primary);
-  }
-  .cta-sub { font-size: 18px; color: var(--text-secondary); margin-bottom: 44px; max-width: 540px; line-height: 1.5; }
-  .cta-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-  .cta-mail { font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); }
-  .cta-mail a { color: var(--accent-default); }
-
-  /* ---- RESPONSIVE ---- */
-  @media (max-width: 1024px) {
-    .bento { grid-template-columns: 1fr; }
-    .bento-card.featured { grid-row: auto; }
-    .project-card { grid-template-columns: 1fr; padding: 40px; gap: 48px; }
-    .device-mockup { height: 360px; }
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .process-grid { grid-template-columns: repeat(2, 1fr); gap: 56px; }
-    .process-line { display: none; }
-    .benefits-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 720px) {
-    .section { padding: 80px 0; }
-    .hero { padding: 140px 0 80px; min-height: auto; }
-    .stats-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
-    .process-grid { grid-template-columns: 1fr; }
-    .benefits-grid { grid-template-columns: 1fr; }
-    .testimonial-card { padding: 40px 28px; }
-    .cta-actions { flex-direction: column; align-items: stretch; }
-    .device-mockup { display: none; }
-  }
+  h2 { font-size: clamp(32px,4.1vw,60px); font-weight: 500; line-height: 1.07; letter-spacing: -0.055em; }
+  .section-meta { display: flex; justify-content: space-between; align-items: center; gap: var(--s-5); font: 11px/1.5 var(--font-mono); color: var(--text-secondary); margin-bottom: var(--s-12); }
+  .section-meta a { display: inline-flex; gap: var(--s-6); align-items: center; min-height: 44px; color: var(--text-primary); transition: color var(--m-fast) var(--ease-out); }
+  .section-meta a:hover { color: var(--accent-default); }
+  .clients { display: flex; align-items: center; gap: var(--s-12); padding-block: var(--s-10) var(--s-16); }
+  .clients p { flex-shrink: 0; font: 11px/1.6 var(--font-mono); color: var(--text-secondary); }
+  .client-logos { flex: 1; display: flex; justify-content: space-between; align-items: center; gap: var(--s-8); }
+  .client-logos img { object-fit: contain; max-width: 120px; filter: brightness(0) invert(1); opacity: 0.7; }
+  .work { padding-block: var(--section-space); background: var(--surface-bg); color: var(--text-primary); }
+  .work-heading { display: flex; justify-content: space-between; align-items: end; gap: var(--s-8); margin-bottom: var(--s-16); }
+  .work-heading h2 span { color: var(--text-secondary); }
+  .work-heading p { font-size: 15px; line-height: 1.6; color: var(--text-secondary); }
+  .project-title { display: flex; align-items: end; justify-content: space-between; gap: var(--s-8); padding-top: var(--s-8); border-top: 1px solid var(--border-default); margin-bottom: var(--s-8); }
+  .project-title h3 { display: flex; align-items: baseline; gap: var(--s-6); font-size: clamp(40px,6.7vw,96px); font-weight: 500; line-height: 1; letter-spacing: -0.065em; }
+  .project-title h3 span { font-size: 0.5em; font-weight: 400; }
+  .project-title div { display: grid; gap: var(--s-1); font: 11px/1.5 var(--font-mono); }
+  .work-screen { display: block; border: 1px solid var(--border-default); background: var(--surface-elev); border-radius: var(--r-sm); overflow: hidden; transition: border-color var(--m-fast) var(--ease-out); }
+  .work-screen:hover { border-color: var(--accent-default); }
+  .screen-caption { display: flex; justify-content: space-between; gap: var(--s-4); padding: var(--s-3) var(--s-5); font: 10px/1.5 var(--font-mono); background: var(--surface-elev); }
+  .screen-crop { aspect-ratio: 1.9; overflow: hidden; }
+  .screen-crop img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform var(--m-slow) var(--ease-out); }
+  .work-screen:hover img { transform: scale(1.015); }
+  .project-description { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-16); margin-top: var(--s-8); }
+  .project-description > p { font-size: clamp(20px,2.4vw,30px); line-height: 1.35; letter-spacing: -0.035em; max-width: 30ch; }
+  .project-description > div { max-width: 45ch; font-size: 15px; line-height: 1.65; color: var(--text-secondary); }
+  .plain-link { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--s-10); min-height: 48px; border-bottom: 1px solid currentColor; font: 12px/1.5 var(--font-mono); color: var(--text-primary); transition: color var(--m-fast) var(--ease-out); }
+  .plain-link span { transition: transform var(--m-fast) var(--ease-out); }
+  .plain-link:hover { color: var(--accent-default); }
+  .plain-link:hover span { transform: translate(3px,-3px); }
+  .project-description .plain-link { margin-top: var(--s-5); }
+  .capabilities { padding-block: var(--section-space); }
+  .cap-intro { display: flex; justify-content: space-between; align-items: end; gap: var(--s-8); margin-bottom: var(--s-16); }
+  .cap-intro h2 span { color: var(--accent-default); }
+  .cap-intro p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+  .cap-list details { border-top: 1px solid var(--border-default); }
+  .cap-list details:last-child { border-bottom: 1px solid var(--border-default); }
+  summary { list-style: none; display: grid; grid-template-columns: 52px 1fr 1fr 32px; align-items: center; gap: var(--s-6); cursor: pointer; padding-block: var(--s-8); }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover h3 { color: var(--accent-default); }
+  .cap-number { font: 11px var(--font-mono); color: var(--text-secondary); }
+  summary h3 { font-size: clamp(42px,6.1vw,80px); line-height: 1; font-weight: 400; letter-spacing: -0.06em; }
+  summary h3 span { color: var(--accent-default); }
+  .cap-line { font-size: 15px; color: var(--text-secondary); }
+  .cap-toggle { font: 300 30px var(--font-sans); color: var(--accent-default); transition: transform var(--m-fast); }
+  details[open] .cap-toggle { transform: rotate(45deg); }
+  details[open] h3 { color: var(--accent-default); }
+  .cap-detail { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-12); padding: 0 var(--s-16) var(--s-10) 76px; }
+  .cap-detail p { max-width: 48ch; color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+  .cap-detail ul { list-style: none; display: grid; gap: var(--s-2); font: 11px/1.6 var(--font-mono); }
+  .cap-detail li::before { content: '↳ '; color: var(--accent-default); margin-right: var(--s-2); }
+  .capabilities-link { margin-top: var(--s-8); }
+  .process { padding-block: var(--section-space); background: var(--surface-bg); color: var(--text-primary); }
+  .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-16); }
+  .process-intro { position: sticky; top: 128px; align-self: start; }
+  .label { font: 11px/1.5 var(--font-mono); color: var(--text-secondary); }
+  .process-intro h2 { margin-top: var(--s-10); }
+  .process-intro p { margin-top: var(--s-6); font-size: 16px; line-height: 1.7; color: var(--text-secondary); }
+  .process-sign { font: 300 120px/1 var(--font-sans); color: var(--accent-default); margin-top: var(--s-10); }
+  .process-steps { list-style: none; }
+  .process-steps li { padding-block: var(--s-10); border-top: 1px solid var(--border-default); }
+  .process-steps li:first-child { padding-top: 0; border-top: 0; }
+  .step-meta { display: flex; justify-content: space-between; align-items: center; font: 11px/1.5 var(--font-mono); color: var(--text-secondary); }
+  .step-meta span:first-child { font-size: 28px; color: var(--accent-default); }
+  .process-steps h3 { font-size: clamp(28px,3vw,40px); font-weight: 500; letter-spacing: -0.04em; margin-block: var(--s-5) var(--s-3); }
+  .process-steps p { font-size: 16px; line-height: 1.7; color: var(--text-secondary); max-width: 45ch; }
+  .manifesto { padding-block: var(--section-space); }
+  .manifesto h2 { font-size: clamp(52px,9.3vw,128px); line-height: 1; }
+  .manifesto h2 span { color: var(--accent-default); }
+  .manifesto-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-16); margin-top: var(--s-16); }
+  .manifesto-lead { font-size: clamp(24px,3vw,38px); line-height: 1.35; letter-spacing: -0.035em; }
+  .manifesto-lead em { font-style: normal; color: var(--text-secondary); }
+  .principles p { padding-block: var(--s-4); border-top: 1px solid var(--border-default); display: flex; align-items: baseline; gap: var(--s-6); font-size: 15px; }
+  .principles span { color: var(--accent-default); font: 10px var(--font-mono); }
+  .closing { background: var(--surface-brand); color: var(--text-on-brand); padding-block: var(--s-10) var(--s-12); }
+  .closing-top, .closing-bottom { display: flex; justify-content: space-between; gap: var(--s-8); font: 11px/1.5 var(--font-mono); }
+  .closing-link { display: flex; justify-content: space-between; align-items: center; gap: var(--s-10); padding-block: var(--s-16); }
+  .closing-link h2 { font-size: clamp(38px,6.8vw,96px); }
+  .closing-link > span { font: 300 clamp(60px,10vw,150px)/1 var(--font-sans); transition: transform var(--m-base) var(--ease-out); }
+  .closing-link:hover > span { transform: translate(6px,-6px); }
+  .closing-bottom { border-top: 1px solid currentColor; padding-top: var(--s-5); align-items: center; }
+  .closing-bottom > span { font-size: 18px; font-family: var(--font-sans); }
+  .closing-bottom a { display: flex; align-items: center; gap: var(--s-8); min-height: 44px; }
+  @media (max-width: 63.99rem) { .clients { gap: var(--s-8); } .client-logos { gap: var(--s-6); } .client-logos img { max-width: 90px; } .work-heading,.cap-intro { align-items: start; flex-direction: column; } .project-title { align-items: start; } .project-description,.manifesto-bottom,.process-grid { gap: var(--s-8); } summary { grid-template-columns: 32px 1fr 1fr 24px; gap: var(--s-4); } .cap-detail { padding-left: 48px; padding-right: 0; } }
+  @media (max-width: 47.99rem) { .section-meta { margin-bottom: var(--s-8); font-size: 10px; } .section-meta > span:last-child:not(:first-child) { display: none; } .clients { display: block; padding-block: var(--s-6) var(--s-12); } .clients p br { display: none; } .client-logos { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--s-6); margin-top: var(--s-6); align-items: center; } .client-logos img { max-width: 85px; max-height: 28px; } .client-logos img:last-child { max-width: 32px; max-height: 32px; } .work-heading,.cap-intro { margin-bottom: var(--s-10); gap: var(--s-5); } .project-title { flex-direction: column; gap: var(--s-4); margin-bottom: var(--s-5); } .project-title div { display: flex; gap: var(--s-5); font-size: 10px; } .screen-caption { font-size: 8px; padding: var(--s-3); } .screen-caption > span:last-child { display: none; } .screen-crop { aspect-ratio: 1.1; } .project-description,.manifesto-bottom,.process-grid { grid-template-columns: 1fr; gap: var(--s-6); } .project-description > p { max-width: 28ch; } .cap-line { display: none; } summary { grid-template-columns: 24px 1fr 24px; padding-block: var(--s-6); } .cap-detail { grid-template-columns: 1fr; gap: var(--s-5); padding: 0 0 var(--s-6) 40px; } .cap-detail p { font-size: 14px; } .process-intro { position: static; } .process-intro h2 { margin-top: var(--s-6); } .process-sign { display: none; } .process-steps { margin-top: var(--s-6); } .process-steps li:first-child { padding-top: var(--s-6); border-top: 1px solid var(--border-default); } .manifesto-bottom { margin-top: var(--s-10); gap: var(--s-10); } .principles p { font-size: 14px; gap: var(--s-4); } .closing-top span:last-child { display: none; } .closing-link { align-items: end; gap: var(--s-3); padding-block: var(--s-12); } .closing-link h2 { font-size: clamp(32px,8.5vw,48px); } .closing-link > span { font-size: 48px; } .closing-bottom { align-items: start; flex-direction: column; gap: var(--s-3); } }
 </style>
-
-<!-- Counter animation + Reveal stagger refinado -->
-<script>
-  // Counter animation para [data-count]
-  (function () {
-    const els = document.querySelectorAll<HTMLElement>('[data-count]');
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          const el = e.target as HTMLElement;
-          const target = parseInt(el.getAttribute('data-count') ?? '0', 10);
-          const prefix = el.getAttribute('data-prefix') ?? '';
-          const suffix = el.getAttribute('data-suffix') ?? '';
-          const original = el.textContent ?? '';
-          const duration = 1600;
-          const startTime = performance.now();
-
-          function step(now: number) {
-            const t = Math.min(1, (now - startTime) / duration);
-            const eased = 1 - Math.pow(1 - t, 3);
-            const v = Math.floor(target * eased);
-            el.textContent = prefix + v + suffix;
-            if (t < 1) requestAnimationFrame(step);
-            else el.textContent = original;
-          }
-          requestAnimationFrame(step);
-          io.unobserve(el);
-        });
-      },
-      { threshold: 0.5 }
-    );
-    els.forEach((el) => io.observe(el));
-  })();
-</script>

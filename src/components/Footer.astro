@@ -1,158 +1,34 @@
 ---
-// src/components/Footer.astro — grid 4 cols, status dot pulsante
 const year = new Date().getFullYear();
 ---
-
 <footer class="footer">
   <div class="container">
-    <div class="footer-grid">
-      <!-- Brand col -->
-      <div>
-        <a href="/" class="footer-logo">3<span class="slash">/</span>dev</a>
-        <div class="footer-brand-tag">brand · product · ai</div>
-        <p class="footer-brand-copy">
-          Estudio mexicano de producto digital con IA integrada.
-          Construimos para empresas que ya decidieron no esperar el futuro.
-        </p>
-      </div>
-
-      <!-- Sitio -->
-      <div class="footer-col">
-        <div class="footer-col-label">Sitio</div>
-        <ul>
-          <li><a href="/capacidades">Capacidades</a></li>
-          <li><a href="/casos">Proyectos</a></li>
-          <li><a href="/#proceso">Proceso</a></li>
-        </ul>
-      </div>
-
-      <!-- Estudio -->
-      <div class="footer-col">
-        <div class="footer-col-label">Estudio</div>
-        <ul>
-          <li><a href="#">Manifiesto</a></li>
-          <li><a href="#">Sobre nosotros</a></li>
-          <li><a href="#">Privacidad</a></li>
-        </ul>
-      </div>
-
-      <!-- Contacto -->
-      <div class="footer-col">
-        <div class="footer-col-label">Contacto</div>
-        <ul>
-          <li><a href="https://linkedin.com/company/3dev-studio" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://x.com/3devstudio" target="_blank" rel="noopener">X / Twitter</a></li>
-          <li><a href="mailto:contacto@3dev.mx">contacto@3dev.mx</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <span>© {year} · 3dev studio · made in Puebla, México</span>
-      <span class="footer-status">
-        <span class="status-dot"></span>
-        v2.0 · status: building
-      </span>
-    </div>
+    <div class="footer-top"><a class="footer-logo" href="/" aria-label="3dev, inicio">3<span>/</span>dev</a><p>Un estudio de diseño y tecnología.<br />Puebla, México. Trabajando sin fronteras.</p><a class="footer-email" href="mailto:contacto@3dev.mx">contacto@3dev.mx <span aria-hidden="true">↗</span></a></div>
+    <div class="footer-bottom"><span>© {year} 3dev · brand · product · ai</span><nav aria-label="Pie de página"><a href="/casos">Proyectos</a><a href="/capacidades">Capacidades</a><a href="/#por-que">Estudio</a><a href="/contacto">Contacto</a></nav><span class="status"><i aria-hidden="true"></i> currently building</span><span>puebla / <time id="puebla-time">UTC−6</time></span></div>
   </div>
 </footer>
-
+<script>
+  const clock = document.getElementById('puebla-time');
+  if (clock) {
+    const format = new Intl.DateTimeFormat('es-MX', {timeZone:'America/Mexico_City', hour:'2-digit', minute:'2-digit', hourCycle:'h23'});
+    const update = () => { clock.textContent = format.format(new Date()); };
+    update();
+    window.setInterval(update, 60000);
+  }
+</script>
 <style>
-  .footer {
-    padding: 80px 0 32px;
-    border-top: 1px solid var(--border-sub);
-    background: var(--surface-sunken);
-    position: relative;
-    z-index: 2;
-  }
-
-  .footer-logo {
-    font-family: var(--font-mono);
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--text-primary);
-    letter-spacing: -0.3px;
-  }
-  .footer-logo .slash { color: var(--accent-default); font-weight: 400; }
-
-  .footer-brand-tag {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-tertiary);
-    margin-top: 12px;
-    letter-spacing: 0.4px;
-  }
-
-  .footer-brand-copy {
-    margin-top: 24px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    max-width: 320px;
-    line-height: 1.55;
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
-    padding-bottom: 56px;
-    border-bottom: 1px solid var(--border-sub);
-    margin-bottom: 32px;
-  }
-
-  .footer-col-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-tertiary);
-    letter-spacing: 1.2px;
-    margin-bottom: 18px;
-    text-transform: uppercase;
-  }
-
-  .footer-col ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .footer-col li a {
-    font-size: 13px;
-    color: var(--text-secondary);
-    transition: color var(--m-fast);
-  }
-  .footer-col li a:hover { color: var(--text-primary); }
-
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-tertiary);
-    letter-spacing: 0.3px;
-  }
-
-  .footer-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--accent-default);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-    box-shadow: 0 0 8px var(--accent-default);
-  }
-
-  @media (max-width: 1024px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-  }
-  @media (max-width: 720px) {
-    .footer-grid { grid-template-columns: 1fr; }
-    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-  }
+  .footer { background: var(--surface-bg); color: var(--text-primary); padding-block: var(--s-16) var(--s-6); }
+  .footer-top { display: flex; align-items: center; justify-content: space-between; gap: var(--s-8); padding-bottom: var(--s-12); }
+  .footer-logo { font: 500 clamp(36px,5vw,64px)/1 var(--font-mono); letter-spacing: -0.09em; }
+  .footer-logo span { color: var(--accent-default); }
+  .footer-top p { font-size: 13px; line-height: 1.7; color: var(--text-secondary); }
+  .footer-email { min-height: 44px; display: flex; align-items: center; gap: var(--s-6); font: 12px/1.5 var(--font-mono); }
+  .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s-6); border-top: 1px solid var(--border-default); padding-top: var(--s-5); font: 10px/1.6 var(--font-mono); color: var(--text-secondary); }
+  nav { display: flex; flex-wrap: wrap; gap: var(--s-5); }
+  nav a { display: flex; align-items: center; min-height: 44px; transition: color var(--m-fast) var(--ease-out); }
+  a:hover { color: var(--accent-default); }
+  .status { display: flex; align-items: center; gap: var(--s-2); }
+  .status i { background: var(--accent-default); width: 5px; height: 5px; border-radius: var(--r-full); }
+  @media (max-width: 63.99rem) { .footer-bottom { flex-wrap: wrap; } }
+  @media (max-width: 47.99rem) { .footer-top,.footer-bottom { flex-direction: column; align-items: start; } .footer-top { gap: var(--s-6); padding-bottom: var(--s-8); } .footer-bottom { gap: var(--s-3); } .footer { padding-top: var(--s-12); } }
 </style>

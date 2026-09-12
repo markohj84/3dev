@@ -1,0 +1,369 @@
+---
+const areas = [
+  { key: 'brand', name: 'Brand', description: 'Estrategia e identidad visual' },
+  { key: 'product', name: 'Product', description: 'Experiencias digitales que funcionan' },
+  { key: 'ai', name: 'AI', description: 'Asistentes y automatización' },
+];
+---
+<figure class="neural-core" aria-label="Esfera interactiva de inteligencia artificial">
+  <div class="core-stage">
+  <button type="button" class="core-scene" aria-label="Explorar Brand, Product y AI" aria-controls="core-area-content" disabled>
+    <svg class="core-fallback" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+      <circle cx="300" cy="300" r="189" />
+      {Array.from({length: 13}, (_, i) => <ellipse cx="300" cy="300" rx={33 + i * 13} ry="189" transform={`rotate(${i * 14} 300 300)`} />)}
+      {areas.map((area, index) => <ellipse data-branch={area.key} cx="300" cy="300" rx={235 + index * 18} ry="74" transform={`rotate(${-28 + index * 66} 300 300)`} />)}
+    </svg>
+    <canvas aria-hidden="true"></canvas>
+  </button>
+  </div>
+  <figcaption>
+    <div class="area-selector" role="group" aria-label="Explorar nuestras áreas">
+      {areas.map((area, index) => <button type="button" class="area-choice" data-branch={area.key} data-area-index={index} aria-pressed="false" aria-controls="core-area-content" disabled>{area.name}</button>)}
+    </div>
+    <div class="area-content" id="core-area-content">
+      {areas.map((area, index) => <div class="area-panel" data-branch={area.key} data-panel-index={index} hidden><a href={`/capacidades#${area.key}`}>{area.description}<span aria-hidden="true">↗</span></a></div>)}
+    </div>
+    <noscript><a class="fallback-link" href="/capacidades">Conoce nuestras capacidades ↗</a></noscript>
+    <span class="area-announcement" role="status" aria-atomic="true"></span>
+  </figcaption>
+</figure>
+<style>
+  .neural-core { --core-accent: var(--accent-ai); position: relative; min-width: 0; width: min(100%,520px); justify-self: end; isolation: isolate; }
+  .core-stage { position: relative; }
+  [data-branch="brand"] { --branch-accent: var(--accent-brand); }
+  [data-branch="product"] { --branch-accent: var(--accent-product); }
+  [data-branch="ai"] { --branch-accent: var(--accent-ai); }
+  .neural-core[data-area="brand"] { --core-accent: var(--accent-brand); }
+  .neural-core[data-area="product"] { --core-accent: var(--accent-product); }
+  .core-scene { display: block; position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--r-full); touch-action: pan-y; -webkit-tap-highlight-color: transparent; }
+  .core-scene:disabled { cursor: default; }
+  canvas,.core-fallback { position: absolute; inset: 0; display: block; width: 100%; height: 100%; pointer-events: none; }
+  canvas { opacity: 0; } .neural-core[data-ready] canvas { opacity: 1; } .neural-core[data-ready] .core-fallback { display: none; }
+  .core-fallback { stroke: var(--core-accent); stroke-opacity: .35; }
+  .core-fallback [data-branch] { stroke: var(--branch-accent); stroke-opacity: .6; }
+  figcaption { position: relative; width: min(100%,420px); margin: var(--s-2) auto 0; }
+  .area-selector { display: flex; align-items: center; justify-content: center; gap: var(--s-5); }
+  .area-choice { min-height: 44px; padding: var(--s-2) var(--s-1); font: 12px/1.5 var(--font-mono); color: var(--branch-accent); text-underline-offset: 7px; }
+  .area-choice[aria-pressed="true"],.area-choice:hover:not(:disabled) { text-decoration: underline; }
+  .neural-core[data-mode="ambient"][data-area="brand"] .area-choice[data-branch="brand"],
+  .neural-core[data-mode="ambient"][data-area="product"] .area-choice[data-branch="product"],
+  .neural-core[data-mode="ambient"][data-area="ai"] .area-choice[data-branch="ai"] { text-decoration: underline; }
+  .area-choice:disabled { cursor: default; }
+  .area-content { display: grid; min-height: 44px; text-align: center; }
+  .area-panel { grid-area: 1 / 1; }
+  .area-content > [hidden] { display: block; visibility: hidden; pointer-events: none; }
+  .area-content a,.fallback-link { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-3); min-height: 44px; font: 12px/1.5 var(--font-sans); color: var(--text-secondary); }
+  .area-content a span { color: var(--branch-accent); }
+  .area-content a:hover { color: var(--text-primary); }
+  .area-announcement { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (max-width: 47.99rem) {
+    .neural-core { display: none; }
+  }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('.neural-core').forEach((root) => {
+    const scene = root.querySelector<HTMLButtonElement>('.core-scene')!;
+    const choices = [...root.querySelectorAll<HTMLButtonElement>('.area-choice')];
+    const panels = [...root.querySelectorAll<HTMLElement>('.area-panel')];
+    const announcement = root.querySelector<HTMLElement>('.area-announcement')!;
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+    let selectedArea = -1;
+    let ambientArea = -1;
+    let ambientTimer = 0;
+    let userActive = false;
+    let reactToSelection = (_strength = 1) => {};
+    let refreshAppearance = () => {};
+    let scheduleAmbient = (_delay?: number) => {};
+    let stopAmbient = () => {};
+    function selectArea(index: number, deliberate = false) {
+      selectedArea = index;
+      delete root.dataset.mode;
+      root.dataset.area = choices[index].dataset.branch;
+      choices.forEach((choice, i) => choice.setAttribute('aria-pressed', String(i === index)));
+      panels.forEach((panel, i) => { panel.hidden = i !== index; });
+      const name = choices[index].textContent!.trim();
+      const nextName = choices[(index + 1) % choices.length].textContent!.trim();
+      scene.setAttribute('aria-label', `Explorar ${nextName}`);
+      if (deliberate) announcement.textContent = `${name}. ${panels[index].querySelector('a')!.textContent!.replace('↗','').trim()}`;
+      if (deliberate) reactToSelection();
+      else refreshAppearance();
+    }
+    function showAmbientArea(index: number) {
+      selectedArea = index;
+      root.dataset.mode = 'ambient';
+      root.dataset.area = choices[index].dataset.branch;
+      choices.forEach(choice => choice.setAttribute('aria-pressed','false'));
+      panels.forEach(panel => { panel.hidden = true; });
+      announcement.textContent = '';
+      scene.setAttribute('aria-label','Explorar Brand, Product y AI');
+      reactToSelection(.72);
+    }
+    function clearArea() {
+      selectedArea = -1;
+      delete root.dataset.area;
+      delete root.dataset.mode;
+      choices.forEach(choice => choice.setAttribute('aria-pressed','false'));
+      panels.forEach(panel => { panel.hidden = true; });
+      announcement.textContent = '';
+      scene.setAttribute('aria-label','Explorar Brand, Product y AI');
+      refreshAppearance();
+    }
+    choices.forEach((choice, index) => {
+      choice.disabled = false;
+      choice.addEventListener('pointerenter', (event) => {
+        if (canHover.matches && event.pointerType === 'mouse') { userActive = true; stopAmbient(); selectArea(index); }
+      });
+      choice.addEventListener('focus', () => { userActive = true; stopAmbient(); selectArea(index); });
+      choice.addEventListener('click', () => selectArea(index, true));
+    });
+    root.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') { userActive = true; stopAmbient(); }
+    });
+    root.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'mouse' && !root.contains(document.activeElement)) {
+        userActive = false;
+        clearArea();
+        scheduleAmbient(1800);
+      }
+    });
+    root.addEventListener('focusin', () => { userActive = true; stopAmbient(); });
+    root.addEventListener('focusout', (event) => {
+      if (!root.contains(event.relatedTarget as Node | null)) {
+        userActive = false;
+        clearArea();
+        scheduleAmbient(1800);
+      }
+    });
+    root.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        if (panels.some(panel => panel.contains(document.activeElement))) choices[selectedArea]?.focus();
+        clearArea();
+      }
+    });
+    function dismissOutside(event: PointerEvent) {
+      if (!root.contains(event.target as Node)) { userActive = false; clearArea(); scheduleAmbient(1800); }
+    }
+    document.addEventListener('pointerdown', dismissOutside);
+    scene.disabled = false;
+    scene.addEventListener('pointerenter', (event) => {
+      if (canHover.matches && event.pointerType === 'mouse' && selectedArea < 0) selectArea(0);
+    });
+    scene.addEventListener('click', () => selectArea((selectedArea + 1) % choices.length, true));
+    const canvas = root.querySelector<HTMLCanvasElement>('canvas')!;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+    const colors = getComputedStyle(root);
+    const neutralAccent = colors.getPropertyValue('--accent-ai').trim();
+    const areaColors = choices.map(choice => getComputedStyle(choice).color);
+    const light = colors.getPropertyValue('--text-primary').trim();
+    const background = colors.getPropertyValue('--surface-bg').trim();
+    let size = 0, phase = 0, life = 0, last = 0, frame = 0, visible = false;
+    let pointerX = 0, pointerY = 0, tiltX = 0, tiltY = 0, energy = 0;
+    let pointerPresence = 0, presence = 0;
+    const points = Array.from({length: 2200}, (_, i) => {
+      const y = 1 - (i / 2199) * 2;
+      const radius = Math.sqrt(1 - y * y);
+      const angle = i * Math.PI * (3 - Math.sqrt(5));
+      return {x: Math.cos(angle) * radius, y, z: Math.sin(angle) * radius, seed: angle, sparkle: i % 41 === 0};
+    });
+    function project(x: number, y: number, z: number, rotation = phase) {
+      const a = rotation + tiltX, b = -.22 + tiltY;
+      const px = x * Math.cos(a) + z * Math.sin(a);
+      const pz = -x * Math.sin(a) + z * Math.cos(a);
+      const py = y * Math.cos(b) - pz * Math.sin(b);
+      const depth = y * Math.sin(b) + pz * Math.cos(b);
+      const perspective = 1;
+      return {x: size / 2 + px * perspective, y: size / 2 + py * perspective, z: depth};
+    }
+    function surface(x: number, y: number, z: number) {
+      if (reduced.matches) return 1;
+      const breath = Math.sin(life * 1.05) * .035;
+      const ripple = Math.sin(y * 5 + x * 3 + life * 1.35) * .045
+        + Math.sin(z * 6 - y * 2 - life * .85) * .025;
+      const response = presence * .025 * Math.sin(y * 5 - life * 2.2);
+      return 1 + presence * (breath + ripple + response) + energy * .15 * Math.sin(y * 6 + life * 4);
+    }
+    // Render each orbit in two passes so its near side crosses in front of the sphere.
+    function drawOrbits(radius: number, breath: number, foreground: boolean) {
+      if (!ctx) return;
+      for (let orbit = 0; orbit < 3; orbit++) {
+        const orbitColor = areaColors[orbit];
+        const highlighted = orbit === selectedArea;
+        const angle = -.5 + orbit * 1.15 + Math.sin(life * .25 + orbit) * .075;
+        const rx = radius * (1.38 + orbit * .1), ry = radius * (.45 + breath * .012);
+        const cos = Math.cos(angle), sin = Math.sin(angle);
+        const onSide = (t: number) => (Math.sin(t) >= 0) === foreground;
+        const position = (t: number) => ({
+          x: size/2 + Math.cos(t)*rx*cos - Math.sin(t)*ry*sin,
+          y: size/2 + Math.cos(t)*rx*sin + Math.sin(t)*ry*cos,
+        });
+        ctx.beginPath();
+        // Half-ellipse endpoints coincide, avoiding a gap at the depth boundary.
+        for (let j = 0; j <= 96; j++) {
+          const t = j / 96 * Math.PI + (foreground ? 0 : Math.PI);
+          const p = position(t);
+          j ? ctx.lineTo(p.x,p.y) : ctx.moveTo(p.x,p.y);
+        }
+        ctx.strokeStyle = orbitColor;
+        ctx.globalAlpha = (highlighted ? .85 : selectedArea < 0 ? .46 : .28) * (foreground ? 1 : .5);
+        ctx.lineWidth = highlighted ? 1.4 : .8; ctx.stroke();
+        const t = phase * (1.8 + orbit * .4) + orbit * 2.3;
+        for (let trail = 1; trail <= 18; trail++) {
+          const tail = t - trail * .022;
+          if (!onSide(tail)) continue;
+          const p = position(tail);
+          ctx.globalAlpha = (highlighted ? .65 : .4) * (1-trail/19); ctx.fillStyle = orbitColor;
+          ctx.beginPath();ctx.arc(p.x,p.y,(1.8-trail*.06)*size/650,0,Math.PI*2);ctx.fill();
+        }
+        if (!onSide(t)) continue;
+        const p = position(t);
+        ctx.globalAlpha = 1; ctx.fillStyle = orbitColor; ctx.shadowColor = orbitColor; ctx.shadowBlur = highlighted ? 14 : 10;
+        ctx.beginPath();ctx.arc(p.x,p.y,(highlighted ? 3.2 : 2.5)*size/650,0,Math.PI*2);ctx.fill();ctx.shadowBlur = 0;
+      }
+    }
+    function draw() {
+      if (!ctx || !size) return;
+      ctx.clearRect(0, 0, size, size);
+      const accent = areaColors[selectedArea] ?? neutralAccent;
+      const radius = size * .315;
+      const breath = reduced.matches ? 0 : Math.sin(life * 1.05);
+      const halo = ctx.createRadialGradient(size*(.49+Math.sin(life*.6)*.015),size*.47,radius*.3,size*.5,size*.5,radius*(1.6+breath*.08));
+      halo.addColorStop(0,accent); halo.addColorStop(1,'transparent');
+      ctx.globalAlpha = .2 + breath * .025 + presence * .025 + energy * .08; ctx.fillStyle = halo; ctx.fillRect(0,0,size,size);
+      drawOrbits(radius,breath,false);
+      // A dark centre gives the particle surface depth rather than a flat cloud.
+      const core = ctx.createRadialGradient(size*.45,size*.43,0,size*.5,size*.5,radius);
+      core.addColorStop(0,background);core.addColorStop(.8,background);core.addColorStop(1,'transparent');
+      ctx.globalAlpha = .94; ctx.fillStyle = core; ctx.beginPath();ctx.arc(size/2,size/2,radius,0,Math.PI*2);ctx.fill();
+      const rim = ctx.createRadialGradient(size/2,size/2,radius*.76,size/2,size/2,radius*1.04);
+      rim.addColorStop(0,'transparent');rim.addColorStop(.72,accent);rim.addColorStop(1,'transparent');
+      ctx.globalAlpha = .14 * (1 - Math.min(1,presence+energy)*.7);
+      ctx.fillStyle = rim; ctx.fillRect(0,0,size,size);
+      const lightFall = ctx.createRadialGradient(size*.38,size*.33,0,size*.5,size*.5,radius);
+      lightFall.addColorStop(0,accent);lightFall.addColorStop(1,'transparent');
+      ctx.globalAlpha = .1;ctx.fillStyle = lightFall;ctx.beginPath();ctx.arc(size/2,size/2,radius,0,Math.PI*2);ctx.fill();
+      // Sparse flowing filaments follow the same surface as the particles.
+      for (let strand = 0; strand < 9; strand++) {
+        ctx.beginPath();
+        let connected = false;
+        for (let segment = 0; segment <= 90; segment++) {
+          const latitude = segment / 90 * Math.PI;
+          const longitude = strand * Math.PI / 4.5 + Math.sin(latitude * 2 + life * .35) * .28;
+          const nx = Math.sin(latitude)*Math.cos(longitude), ny = Math.cos(latitude), nz = Math.sin(latitude)*Math.sin(longitude);
+          const p = project(nx,ny,nz), swell = surface(nx,ny,nz);
+          const x = size/2+(p.x-size/2)*radius*swell, y = size/2+(p.y-size/2)*radius*swell;
+          if (p.z < 0) { connected=false; continue; }
+          if (connected) ctx.lineTo(x,y); else ctx.moveTo(x,y);
+          connected=true;
+        }
+        ctx.globalAlpha = .14 + energy*.12; ctx.strokeStyle=accent;ctx.lineWidth=.6;ctx.stroke();
+      }
+      for (const point of points) {
+        const wave = surface(point.x,point.y,point.z);
+        const p = project(point.x, point.y, point.z);
+        const x = size/2 + (p.x-size/2)*radius*wave, y = size/2 + (p.y-size/2)*radius*wave;
+        const front = (p.z + 1) / 2;
+        const signal = Math.pow(Math.max(0, Math.sin(point.y * 3.4 - life * 1.6 + point.z * 1.5)), 8);
+        const shimmer = .88 + .12*Math.sin(point.seed + life * 1.2);
+        ctx.globalAlpha = Math.min(1, (.06 + front * front * .8) * shimmer + signal * .15);
+        ctx.fillStyle = point.sparkle || (signal > .85 && p.z > .4) || (p.x < size/2-.2 && p.y < size/2+.1 && p.z > .62) ? light : accent;
+        const dot = (point.sparkle ? 1.6 : .5 + front * .85 + signal * .25) * size / 650;
+        ctx.beginPath();ctx.arc(x,y,dot,0,Math.PI*2);ctx.fill();
+      }
+      drawOrbits(radius,breath,true);
+      if (energy > .01) {
+        ctx.beginPath(); ctx.arc(size/2,size/2,radius*(1+(1-energy)*.75),0,Math.PI*2);
+        ctx.globalAlpha = energy * .45;ctx.strokeStyle = accent;ctx.lineWidth = 1;ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+    function hasInteraction() { return pointerPresence > 0 || presence > .002 || energy > .002 || Math.abs(tiltX) > .001 || Math.abs(tiltY) > .001; }
+    function shouldRun() { return visible && !document.hidden && !reduced.matches; }
+    function settle() { pointerPresence=0;presence=0;energy=0;pointerX=0;pointerY=0;tiltX=0;tiltY=0; }
+    function tick(now: number) {
+      frame = 0;
+      if (!shouldRun()) return;
+      const elapsed = now - last;
+      if (elapsed >= 32) {
+        const seconds = Math.min(elapsed,64) / 1000;
+        life += seconds;
+        phase += seconds * (.12 + presence * .18 + energy * .28);
+        const follow = 1 - Math.exp(-seconds * 3.2);
+        tiltX += (pointerX-tiltX)*follow; tiltY += (pointerY-tiltY)*follow;
+        presence += (pointerPresence-presence)*follow;
+        energy *= Math.exp(-seconds * 1.5);
+        if (!hasInteraction()) settle();
+        draw(); last = now;
+      }
+      if (shouldRun()) frame = requestAnimationFrame(tick);
+      else { settle(); draw(); root.dataset.motion = 'idle'; }
+    }
+    function sync() {
+      cancelAnimationFrame(frame); frame = 0; last = performance.now();
+      if (shouldRun()) { root.dataset.motion = 'active'; frame = requestAnimationFrame(tick); }
+      else { root.dataset.motion = 'idle'; draw(); }
+    }
+    stopAmbient = () => { window.clearTimeout(ambientTimer); ambientTimer = 0; };
+    scheduleAmbient = (delay = 4800) => {
+      stopAmbient();
+      if (!visible || document.hidden || reduced.matches || userActive) return;
+      ambientTimer = window.setTimeout(() => {
+        if (!visible || document.hidden || reduced.matches || userActive) return;
+        ambientArea = (ambientArea + 1) % choices.length;
+        showAmbientArea(ambientArea);
+        scheduleAmbient();
+      }, delay);
+    };
+    const resize = new ResizeObserver(() => {
+      size = scene.getBoundingClientRect().width;
+      const ratio = Math.min(devicePixelRatio || 1, 1.75);
+      canvas.width = Math.round(size * ratio); canvas.height = Math.round(size * ratio);
+      ctx.setTransform(ratio,0,0,ratio,0,0); draw();
+    });
+    resize.observe(scene);
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (!visible) { settle(); stopAmbient(); }
+      sync();
+      if (visible) scheduleAmbient(2400);
+    }, {threshold: .05});
+    observer.observe(root);
+    scene.addEventListener('pointermove', (event) => {
+      if (!finePointer.matches || event.pointerType !== 'mouse' || reduced.matches) return;
+      const rect = scene.getBoundingClientRect();
+      const x = ((event.clientX-rect.left)/rect.width-.5), y = ((event.clientY-rect.top)/rect.height-.5);
+      pointerPresence = Math.hypot(x,y) < .34 ? 1 : 0;
+      pointerX = pointerPresence ? x*.65 : 0;
+      pointerY = pointerPresence ? y*.5 : 0;
+      if (!frame && shouldRun()) sync();
+    });
+    function leave() { pointerX=0;pointerY=0;pointerPresence=0; if (!frame && shouldRun()) sync(); }
+    scene.addEventListener('pointerleave',leave);
+    scene.addEventListener('pointercancel',leave);
+    scene.addEventListener('blur',leave);
+    refreshAppearance = draw;
+    reactToSelection = (strength = 1) => {
+      if (reduced.matches) { settle(); draw(); }
+      else { energy = strength; sync(); }
+    };
+    const motionChanged = () => {
+      if (reduced.matches) { stopAmbient(); clearArea(); }
+      else scheduleAmbient(1800);
+      settle();sync();
+    };
+    const visibilityChanged = () => {
+      if (document.hidden) { settle(); stopAmbient(); }
+      else scheduleAmbient(1800);
+      sync();
+    };
+    reduced.addEventListener('change', motionChanged);
+    document.addEventListener('visibilitychange',visibilityChanged);
+    root.dataset.ready = '';
+    scene.disabled = false;
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(frame);stopAmbient();observer.disconnect();resize.disconnect();document.removeEventListener('visibilitychange',visibilityChanged);reduced.removeEventListener('change',motionChanged);document.removeEventListener('pointerdown',dismissOutside);
+    }, {once:true});
+  });
+</script>

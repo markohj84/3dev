@@ -13,27 +13,25 @@ button { background: none; border: none; cursor: pointer; color: inherit; font: 
 input, textarea { font-family: inherit; }
 img, video { display: block; max-width: 100%; }
 
-/* Reveal animation — activado por IntersectionObserver en BaseLayout */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity var(--m-slow) var(--ease-out),
-    transform var(--m-slow) var(--ease-out);
-}
-.reveal.in {
-  opacity: 1;
-  transform: translateY(0);
-}
 
-.reveal-stagger {
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity var(--m-slow) var(--ease-out),
-    transform var(--m-slow) var(--ease-out);
+/* Content is readable without scripts; motion is an optional enhancement. */
+.reveal, .reveal-stagger { opacity: 1; transform: none; }
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 5px; }
+[id] { scroll-margin-top: calc(var(--nav-height) + var(--s-6)); }
+.skip-link {
+  position: fixed; top: var(--s-3); left: var(--s-4); z-index: 200;
+  padding: var(--s-3) var(--s-4); background: var(--surface-brand);
+  color: var(--text-on-brand); transform: translateY(-200%);
 }
-.reveal-stagger.in {
-  opacity: 1;
-  transform: translateY(0);
+.skip-link:focus { transform: none; }
+html:has(dialog[open]) { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
