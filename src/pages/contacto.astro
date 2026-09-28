@@ -1,32 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import {projectTypes,timings} from '../lib/contact';
+import {timings} from '../lib/contact';
 import '../styles/editorial.css';
 ---
 <BaseLayout title="Hablemos — 3dev" description="Cuéntanos qué quieres construir. Habla con 3dev, estudio mexicano de diseño y tecnología."><div class="editorial-page">
  <section class="contact-layout container">
   <div class="contact-intro"><p class="page-label">el siguiente paso / hablemos</p><h1>Empieza con<br />una buena<br /><span>conversación.</span></h1><p>No necesitas tener todas las respuestas. Cuéntanos qué quieres lograr y qué te está frenando.</p><a href="mailto:contacto@3dev.mx" class="editorial-link">contacto@3dev.mx <span aria-hidden="true">↗</span></a><div class="contact-location">Puebla, México<br />brand · product · ai</div></div>
   <form class="contact-form" data-surface="paper" id="contact-form" method="post" action="/api/contact">
-   <h2>¿Qué tienes en mente?</h2><p class="form-help">Los campos marcados con * son obligatorios.</p>
-   <div class="form-row">
-    <div class="field"><label for="nombre">Tu nombre *</label><input id="nombre" name="nombre" autocomplete="name" maxlength="254" required aria-describedby="nombre-error" /><p class="field-error" id="nombre-error" hidden></p></div>
-    <div class="field"><label for="empresa">Empresa *</label><input id="empresa" name="empresa" autocomplete="organization" maxlength="254" required aria-describedby="empresa-error" /><p class="field-error" id="empresa-error" hidden></p></div>
+   <div class="form-body" id="form-body">
+    <div class="form-head"><h2>¿Qué tienes en mente?</h2><p class="form-help">Toma dos minutos. <span class="req">*</span> obligatorio.</p></div>
+    <div class="form-row">
+     <div class="field"><label for="nombre">Tu nombre <span class="req">*</span></label><input id="nombre" name="nombre" autocomplete="name" maxlength="254" required aria-describedby="nombre-error" /><p class="field-error" id="nombre-error" hidden></p></div>
+     <div class="field"><label for="empresa">Empresa <span class="req">*</span></label><input id="empresa" name="empresa" autocomplete="organization" maxlength="254" required aria-describedby="empresa-error" /><p class="field-error" id="empresa-error" hidden></p></div>
+    </div>
+    <div class="form-row">
+     <div class="field"><label for="email">Correo electrónico <span class="req">*</span></label><input id="email" type="email" name="email" autocomplete="email" maxlength="254" required aria-describedby="email-error" /><p class="field-error" id="email-error" hidden></p></div>
+     <div class="field"><label for="presupuesto">Presupuesto <span class="opt">(opcional)</span></label><input id="presupuesto" name="presupuesto" maxlength="254" placeholder="Un rango aproximado" aria-describedby="presupuesto-error" /><p class="field-error" id="presupuesto-error" hidden></p></div>
+    </div>
+    <div class="form-row">
+     <div class="field"><label for="tipo_proyecto">¿Qué quieres construir? <span class="req">*</span></label><input id="tipo_proyecto" name="tipo_proyecto" maxlength="254" required placeholder="Una app, un rebrand, un agente de IA…" aria-describedby="tipo_proyecto-error" /><p class="field-error" id="tipo_proyecto-error" hidden></p></div>
+     <div class="field"><label for="timing">¿Cuándo empezarías? <span class="req">*</span></label><select id="timing" name="timing" required aria-describedby="timing-error"><option value="" disabled selected>Selecciona una opción</option>{timings.map(timing=><option>{timing}</option>)}</select><p class="field-error" id="timing-error" hidden></p></div>
+    </div>
+    <div class="field"><label for="descripcion">Cuéntanos sobre el proyecto <span class="req">*</span></label><textarea id="descripcion" name="descripcion" rows="4" maxlength="6000" required placeholder="Qué quieres lograr, para quién y qué necesitas resolver." aria-describedby="descripcion-error"></textarea><p class="field-error" id="descripcion-error" hidden></p></div>
+    <button class="send-button" type="submit"><span data-label>Enviar proyecto</span> <span aria-hidden="true">↗</span></button><p class="form-status" id="form-status" role="status" aria-live="polite"></p>
    </div>
-   <div class="field"><label for="email">Correo electrónico *</label><input id="email" type="email" name="email" autocomplete="email" maxlength="254" required aria-describedby="email-error" /><p class="field-error" id="email-error" hidden></p></div>
-   <div class="field"><label for="tipo_proyecto">¿Qué quieres construir? *</label><select id="tipo_proyecto" name="tipo_proyecto" required aria-describedby="tipo_proyecto-error"><option value="" disabled selected>Selecciona una opción</option>{projectTypes.map(type=><option>{type}</option>)}</select><p class="field-error" id="tipo_proyecto-error" hidden></p></div>
-   <div class="form-row"><div class="field"><label for="timing">¿Cuándo te gustaría empezar? *</label><select id="timing" name="timing" required aria-describedby="timing-error"><option value="" disabled selected>Selecciona una opción</option>{timings.map(timing=><option>{timing}</option>)}</select><p class="field-error" id="timing-error" hidden></p></div><div class="field"><label for="presupuesto">Presupuesto <span>(opcional)</span></label><input id="presupuesto" name="presupuesto" maxlength="254" placeholder="Un rango aproximado" aria-describedby="presupuesto-error" /><p class="field-error" id="presupuesto-error" hidden></p></div></div>
-   <div class="field"><label for="descripcion">Cuéntanos sobre el proyecto *</label><textarea id="descripcion" name="descripcion" rows="5" maxlength="6000" required aria-describedby="descripcion-help descripcion-error"></textarea><p class="field-help" id="descripcion-help">Qué quieres lograr, para quién y qué necesitas resolver.</p><p class="field-error" id="descripcion-error" hidden></p></div>
-   <button class="send-button" type="submit">Enviar proyecto <span aria-hidden="true">↗</span></button><p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+   <div class="form-sent" id="form-sent" tabindex="-1" hidden>
+    <span class="sent-mark" aria-hidden="true">✓</span>
+    <h2>Mensaje enviado.</h2>
+    <p>Gracias por contarnos, <strong id="sent-name">—</strong>. Ya está en la bandeja de 3dev y te respondemos en menos de 24 horas hábiles, con una propuesta de siguiente paso.</p>
+    <p class="sent-note">Si es urgente, escríbenos directo a <a href="mailto:contacto@3dev.mx">contacto@3dev.mx</a>.</p>
+    <button class="sent-again" type="button" id="send-again">Enviar otro proyecto</button>
+   </div>
   </form>
  </section>
 </div></BaseLayout>
 <script>
  import {validateContact} from '../lib/contact';
  const form=document.querySelector<HTMLFormElement>('#contact-form');
+ const body=document.querySelector<HTMLElement>('#form-body');
+ const sent=document.querySelector<HTMLElement>('#form-sent');
+ const sentName=document.querySelector<HTMLElement>('#sent-name');
  const status=document.querySelector<HTMLElement>('#form-status');
  const button=form?.querySelector<HTMLButtonElement>('button[type=submit]');
- if(form && status && button){
+ const label=button?.querySelector<HTMLElement>('[data-label]');
+ if(form && body && sent && sentName && status && button && label){
   form.noValidate=true;
+  const setStatus=(message:string,state:''|'error'|'sending'='')=>{status.textContent=message;status.dataset.state=state;};
   const showErrors=(errors:Record<string,string>)=>{
    form.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input,select,textarea').forEach(field=>{
     const message=errors[field.name];const target=document.getElementById(`${field.name}-error`);
@@ -35,22 +54,73 @@ import '../styles/editorial.css';
    });
    form.querySelector<HTMLElement>('[aria-invalid=true]')?.focus();
   };
+  document.querySelector('#send-again')?.addEventListener('click',()=>{
+   sent.hidden=true;body.hidden=false;setStatus('');
+   form.querySelector<HTMLInputElement>('#nombre')?.focus();
+  });
   form.addEventListener('submit',async event=>{
    event.preventDefault();
    if(button.disabled)return;
-   const data=new FormData(form);const {errors}=validateContact(data);showErrors(errors);
-   if(Object.keys(errors).length){status.textContent='Revisa los campos señalados.';return;}
-   button.disabled=true;form.setAttribute('aria-busy','true');status.textContent='Enviando tu proyecto…';
+   const data=new FormData(form);const {values,errors}=validateContact(data);showErrors(errors);
+   if(Object.keys(errors).length){setStatus('Revisa los campos señalados.','error');return;}
+   button.disabled=true;form.setAttribute('aria-busy','true');label.textContent='Enviando…';setStatus('Enviando tu proyecto…','sending');
    try{
     const response=await fetch('/api/contact',{method:'POST',body:data,headers:{Accept:'application/json'}});
     const result=await response.json();
-    if(!response.ok){showErrors(result.errors||{});status.textContent=result.error||'No pudimos enviarlo. Escríbenos a contacto@3dev.mx.';}
-    else{form.reset();status.textContent='Gracias. Tu mensaje se ha enviado y lo revisaremos para responderte.';}
-   }catch{status.textContent='No hay conexión. Tu mensaje sigue aquí; puedes intentarlo de nuevo.';}
-   finally{button.disabled=false;form.removeAttribute('aria-busy');}
+    if(!response.ok){showErrors(result.errors||{});setStatus(result.error||'No pudimos enviarlo. Escríbenos a contacto@3dev.mx.','error');}
+    else{
+     sentName.textContent=values.nombre.split(' ')[0]||values.nombre;
+     form.reset();showErrors({});setStatus('');
+     body.hidden=true;sent.hidden=false;sent.focus();
+    }
+   }catch{setStatus('No hay conexión. Tu mensaje sigue aquí; puedes intentarlo de nuevo.','error');}
+   finally{button.disabled=false;form.removeAttribute('aria-busy');label.textContent='Enviar proyecto';}
   });
  }
 </script>
 <style>
- .contact-layout {display:grid;grid-template-columns:1fr 1fr;gap:var(--s-16);padding-block:var(--section-space);}.contact-intro {position:sticky;top:128px;align-self:start;}.contact-intro h1 {font-size:clamp(40px,5.3vw,72px);line-height:1.05;font-weight:500;letter-spacing:-0.055em;}.contact-intro h1 span {color:var(--accent-default);}.contact-intro>p:not(.page-label) {font-size:17px;line-height:1.7;color:var(--text-secondary);max-width:34ch;margin-block:var(--s-8);}.contact-location {font:11px/1.7 var(--font-mono);color:var(--text-secondary);margin-top:var(--s-12);}.contact-form {background:var(--surface-bg);color:var(--text-primary);padding:clamp(24px,3vw,44px);border-radius:var(--r-sm);}.contact-form h2 {font-size:30px;}.form-help {font-size:12px;color:var(--text-secondary);margin-block:var(--s-3) var(--s-8);}.form-row {display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);}.field {margin-bottom:var(--s-6);min-width:0;}label {display:block;font-size:12px;font-weight:500;margin-bottom:var(--s-2);}label span {font-weight:400;color:var(--text-secondary);}input,select,textarea {width:100%;min-height:48px;padding:var(--s-3);border:1px solid var(--border-strong);background:transparent;color:var(--text-primary);border-radius:var(--r-xs);font:16px/1.4 var(--font-sans);}select {background:var(--surface-bg);}textarea {resize:vertical;}input::placeholder {color:var(--text-secondary);font-size:13px;}.field-help,.field-error {font-size:12px;line-height:1.5;margin-top:var(--s-2);}.field-help {color:var(--text-secondary);}.field-error {font-weight:500;}[aria-invalid=true] {border-width:2px;}.send-button {width:100%;background:var(--text-primary);color:var(--text-inverse);display:flex;justify-content:space-between;align-items:center;min-height:52px;padding:var(--s-4);font:12px var(--font-mono);border-radius:var(--r-xs);transition:background var(--m-fast),color var(--m-fast);}.send-button:hover:not(:disabled) {background:var(--accent-default);color:var(--text-on-brand);}.send-button:disabled {opacity:.6;cursor:wait;}.send-button:focus-visible {outline-color:var(--focus-ring);}.form-status {font-size:13px;line-height:1.6;}.form-status:not(:empty) {margin-top:var(--s-5);}@media(max-width:63.99rem){.contact-layout {gap:var(--s-8);}.form-row {grid-template-columns:1fr;gap:0;}}@media(max-width:47.99rem){.contact-layout {grid-template-columns:1fr;padding-block:var(--s-12);gap:var(--s-10);}.contact-intro {position:static;}.contact-intro h1 {font-size:clamp(40px,10vw,60px);}.contact-location {margin-top:var(--s-8);}.contact-form {padding:var(--s-6);}.contact-form h2 {font-size:26px;}}
+ .contact-layout {display:grid;grid-template-columns:1fr 1fr;gap:var(--s-16);padding-block:var(--section-space);align-items:start;}
+ .contact-intro {position:sticky;top:128px;align-self:start;}
+ .contact-intro h1 {font-size:clamp(40px,5.3vw,72px);line-height:1.05;font-weight:500;letter-spacing:-0.055em;}
+ .contact-intro h1 span {color:var(--accent-default);}
+ .contact-intro>p:not(.page-label) {font-size:17px;line-height:1.7;color:var(--text-secondary);max-width:34ch;margin-block:var(--s-8);}
+ .contact-location {font:11px/1.7 var(--font-mono);color:var(--text-secondary);margin-top:var(--s-12);}
+ .contact-form {background:var(--surface-bg);color:var(--text-primary);padding:clamp(20px,2.4vw,32px);border-radius:var(--r-sm);}
+ .form-head {display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:var(--s-2);border-bottom:1px solid var(--border-sub);padding-bottom:var(--s-3);margin-bottom:var(--s-5);}
+ .contact-form h2 {font-size:24px;letter-spacing:-0.03em;line-height:1.1;}
+ .form-help {font:10px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary);}
+ .form-row {display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);}
+ .field {margin-bottom:var(--s-4);min-width:0;}
+ label {display:block;font:11px/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-primary);margin-bottom:var(--s-2);}
+ .req {color:var(--accent-default);}
+ .opt {text-transform:none;letter-spacing:0;color:var(--text-secondary);}
+ input,select,textarea {width:100%;min-height:46px;padding:0 var(--s-3);border:1px solid color-mix(in srgb,var(--text-primary) 55%,transparent);background:transparent;color:var(--text-primary);border-radius:var(--r-sm);font:15px/1.5 var(--font-sans);transition:border-color var(--m-fast),box-shadow var(--m-fast);}
+ input:hover,select:hover,textarea:hover {border-color:var(--text-primary);}
+ input:focus,select:focus,textarea:focus {outline:none;border-color:var(--accent-default);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent-default) 16%,transparent);}
+ select {appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentcolor 50%),linear-gradient(135deg,currentcolor 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:var(--s-8);}
+ textarea {resize:vertical;padding:var(--s-3);min-height:104px;}
+ ::placeholder {color:var(--text-secondary);opacity:1;}
+ .field-error {font:11px/1.5 var(--font-mono);color:var(--accent-brand);margin-top:var(--s-2);}
+ [aria-invalid=true] {border-color:var(--accent-brand);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent-brand) 14%,transparent);}
+ .send-button {width:100%;margin-top:var(--s-2);background:var(--text-primary);color:var(--text-inverse);display:flex;justify-content:space-between;align-items:center;min-height:50px;padding:0 var(--s-4);font:11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;border-radius:var(--r-xs);transition:background var(--m-fast),color var(--m-fast);}
+ .send-button:hover:not(:disabled) {background:var(--accent-default);color:var(--text-on-brand);}
+ .send-button:disabled {opacity:.6;cursor:wait;}
+ .send-button:focus-visible {outline-color:var(--focus-ring);}
+ .form-status {font:12px/1.5 var(--font-mono);}
+ .form-status:not(:empty) {margin-top:var(--s-4);padding-left:var(--s-3);border-left:2px solid var(--border-strong);}
+ .form-status[data-state=error] {color:var(--accent-brand);border-left-color:var(--accent-brand);}
+ .form-sent {padding-block:var(--s-4) var(--s-2);}
+ .form-sent:focus {outline:none;}
+ .sent-mark {display:grid;place-items:center;width:40px;height:40px;border-radius:var(--r-full);background:var(--accent-default);color:var(--text-on-brand);font-size:18px;margin-bottom:var(--s-5);}
+ .form-sent h2 {margin-bottom:var(--s-3);}
+ .form-sent p {font-size:15px;line-height:1.65;color:var(--text-secondary);max-width:44ch;}
+ .form-sent strong {color:var(--text-primary);font-weight:500;}
+ .sent-note {font:11px/1.7 var(--font-mono);margin-top:var(--s-4);}
+ .sent-note a {color:var(--accent-default);text-decoration:underline;text-underline-offset:3px;}
+ .sent-again {margin-top:var(--s-6);font:11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;min-height:44px;padding:0 var(--s-5);border:1px solid var(--border-strong);border-radius:var(--r-xs);transition:border-color var(--m-fast),color var(--m-fast);}
+ .sent-again:hover {border-color:var(--accent-default);color:var(--accent-default);}
+ @media(prefers-reduced-motion:no-preference){.form-sent:not([hidden]) {animation:sent-in var(--m-base) var(--ease-out) both;}}
+ @keyframes sent-in {from {opacity:0;transform:translateY(8px);} to {opacity:1;transform:none;}}
+ @media(max-width:63.99rem){.contact-layout {gap:var(--s-8);}.form-row {grid-template-columns:1fr;gap:0;}}
+ @media(max-width:47.99rem){.contact-layout {grid-template-columns:1fr;padding-block:var(--s-12);gap:var(--s-10);}.contact-intro {position:static;}.contact-intro h1 {font-size:clamp(40px,10vw,60px);}.contact-location {margin-top:var(--s-8);}.contact-form {padding:var(--s-5);}.contact-form h2 {font-size:22px;}}
 </style>
