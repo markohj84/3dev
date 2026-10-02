@@ -1,43 +1,15 @@
-# Astro Starter Kit: Minimal
+# 3dev · Brand · Product · AI
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Sitio de 3dev.mx. Para arquitectura, comandos disponibles, diseño e integraciones actuales, lee el [contexto del proyecto](docs/architecture/project-context.md). Las dependencias y scripts ejecutables se definen en [package.json](package.json).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Trabajar con agentes
 
-## 🚀 Project Structure
+[AGENTS.md](AGENTS.md) es la entrada para Codex y [CLAUDE.md](CLAUDE.md) para Claude Code. Ambos llevan al **[3DEV AI Development Harness v1.0](.3dev/HARNESS.md)**, metodología compartida y reutilizable.
 
-Inside of your Astro project, you'll see the following folders and files:
+- [Discovery de esta adopción](docs/product/harness-v1-discovery.md)
+- [Decisión de arquitectura](docs/decisions/0001-adopt-ai-development-harness.md)
+- [Plan de implementación](docs/superpowers/plans/2026-10-01-harness-v1.md)
+- [Informe de entrega y validaciones](docs/product/harness-v1-delivery.md)
+- [Plantillas](.3dev/templates/discovery.md) para futuras iniciativas; el índice del Harness enlaza todas.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Los archivos históricos de diseño y planificación se conservan como antecedentes; el contexto identifica sus diferencias respecto de la versión actual.
