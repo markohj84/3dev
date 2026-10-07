@@ -26,7 +26,13 @@ Plantilla de [HARNESS](../HARNESS.md). Copiar a `docs/product/[iniciativa]-disco
 - Design system y requisitos responsive, accesibilidad, SEO y rendimiento:
 - Roles de HARNESS pertinentes y responsable de revisión:
 
-## Integration, Automation & AI Agent Layer
+## Solution Design y AI Opportunity Map
+
+- Opciones de solución, incluida la mejora de código/proceso actual, y criterio para elegir:
+- Procesos con oportunidad de IA, automatización o ninguna; enlace al [AI Opportunity Map](ai-opportunity-map.md) inicial:
+- Qué se necesita demostrar antes de seleccionar una tecnología:
+
+## Automation Discovery e integración
 
 Aplicar [INTEGRATIONS](../INTEGRATIONS.md): inventariar externos, internos, APIs, Google Workspace/Cloud, CRM/ERP/ecommerce/DB, eventos y tools necesarias. Una ausencia de oportunidad también debe quedar explicada.
 
@@ -38,9 +44,16 @@ Aplicar [INTEGRATIONS](../INTEGRATIONS.md): inventariar externos, internos, APIs
 | --- | --- | --- | --- | --- | --- |
 | [pasos y frecuencia] | [fricción] | [medición o estimación] | [sistemas] | [opción simple] | [métrica] |
 
-- Enlace al [AI Opportunity Map](ai-opportunity-map.md) completado cuando haya oportunidades:
+- Cambios al mapa tras observar tareas manuales, volumen, fallos y responsables:
 - Decisión API / Webhook / Workflow / MCP / AI Agent y alternativa más simple:
 - Si se propone IA: respuestas a [AI-AGENTS](../AI-AGENTS.md), aprobaciones y límites de [SECURITY](../SECURITY.md):
+
+## Technology Fit, arquitectura y gobierno
+
+- Resultado código/workflow/LLM/agente y Build vs Buy según [TECHNOLOGY-FIT](../TECHNOLOGY-FIT.md), con alternativa descartada y evidencia:
+- Cinco capas afectadas, datos, contratos y [ADR](architecture-decision.md) pertinente:
+- Permisos, secretos, aislamiento, riesgos y aprobación conforme a [SECURITY](../SECURITY.md):
+- Observabilidad: eventos, correlación, coste, dueño, alerta y recuperación según [QUALITY](../QUALITY.md):
 
 ## Plan y aceptación
 

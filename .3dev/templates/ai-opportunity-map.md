@@ -39,11 +39,13 @@ En cada celda registra `Sí — función`, `No — motivo` o `Pendiente — evid
 ## Decisión y validación
 
 - **Opción elegida y razón:**
+- **Resultado de Technology Fit / Build vs Buy:** [decisión conforme a TECHNOLOGY-FIT](../TECHNOLOGY-FIT.md), o pendiente con evidencia necesaria.
 - **Alternativa más simple evaluada:** mejora manual / capacidad existente / API / workflow; motivo para aceptarla o descartarla.
 - **Beneficio esperado:** línea base, objetivo, coste operativo y cómo se medirá.
 - **Preguntas previas de agentes y contratos de tools:** [enlace al análisis y contratos, según AI-AGENTS](../AI-AGENTS.md); `N/A` con motivo si no hay agente.
 - **Controles, aprobaciones y riesgos:** [enlace al análisis conforme a SECURITY](../SECURITY.md).
 - **Fallos, recuperación y responsable operativo:**
+- **Observabilidad:** señal de éxito/fallo, correlación, coste y revisión humana sin exponer datos sensibles.
 - **Pruebas y criterios de aceptación:** [enlace conforme a QUALITY](../QUALITY.md).
 - **Decisión de arquitectura:** [enlace en `docs/decisions/`, si corresponde].
 - **Recomendación:** implementar | validar primero | posponer | descartar, con justificación.

@@ -1,6 +1,6 @@
 # 3DEV AI Development Harness
 
-Versión **1.0.0** · Metodología compartida por agentes y personas.
+Versión **1.1.0** · Metodología compartida por agentes y personas.
 
 Crear mejores productos digitales con menos complejidad. No generar más código por generar. La dirección estratégica es **Web Development → Digital Products + Cloud + Automation + AI Agents**; cada capacidad se incorpora cuando resuelve una necesidad comprobable.
 
@@ -22,6 +22,7 @@ Cada regla tiene un documento propietario; los otros documentos enlazan a él. L
 | Datos, autenticación, acciones externas, tools, permisos o publicación | [SECURITY.md](SECURITY.md): seguridad y aprobación humana |
 | Discovery/arquitectura de trabajo importante; sistemas externos o procesos manuales | [INTEGRATIONS.md](INTEGRATIONS.md): Integration, Automation & AI Agent Layer |
 | Evaluar, construir o modificar IA, RAG, MCP o herramientas para agentes | [AI-AGENTS.md](AI-AGENTS.md): decisión de IA y contratos de tools |
+| Seleccionar stack, modelo, framework o proveedor; Build vs Buy | [TECHNOLOGY-FIT.md](TECHNOLOGY-FIT.md): 3DEV AI Stack y puerta de adopción |
 
 El código y la configuración acreditan el comportamiento actual; el contexto y los ADR explican su intención. Una discrepancia no autoriza una migración. Aplica las instrucciones vigentes del usuario y los límites del entorno; ante conflicto material que no pueda resolverse con evidencia, pide la decisión necesaria y continúa el trabajo independiente.
 
@@ -40,6 +41,20 @@ El código y la configuración acreditan el comportamiento actual; el contexto y
 | DELIVER | Aplicar Definition of Done y [delivery report](templates/delivery-report.md). Diferenciar implementado, validado, pendiente y publicado. Termina con entrega revisable y límites explícitos. |
 
 Las fases permiten volver atrás si aparece evidencia nueva. Un fallo de validación no se resuelve rebajando el criterio de aceptación.
+
+### Secuencia de diseño para trabajo importante
+
+**Discovery → Solution Design → AI Opportunity Map → Automation Discovery → Technology Fit → Architecture → Security & Governance → Observability → Delivery.** Esta secuencia aporta decisiones al workflow anterior: Discovery, mapa y automatización se trabajan en **DISCOVER**; Technology Fit, arquitectura, seguridad y observabilidad se cierran en **PLAN**; Delivery coincide con **DELIVER** después de **BUILD → TEST → REVIEW → IMPROVE**. Itera el mapa si Automation Discovery descubre nuevos procesos. Para trabajo sin IA, sistemas externos o nuevo stack, registra «no aplica» con motivo en vez de crear documentos vacíos.
+
+| Paso de diseño | Salida necesaria |
+| --- | --- |
+| Discovery y Solution Design | Problema, usuarios, línea base, opciones y criterio de aceptación en [discovery](templates/discovery.md) |
+| AI Opportunity Map y Automation Discovery | Oportunidades, tareas manuales y alternativas determinísticas en el [mapa](templates/ai-opportunity-map.md) y [INTEGRATIONS](INTEGRATIONS.md) |
+| Technology Fit | Decisión código/workflow/LLM/agente y Build vs Buy conforme a [TECHNOLOGY-FIT](TECHNOLOGY-FIT.md) |
+| Architecture | Límites, cinco capas pertinentes, contratos y ADR conforme a [ARCHITECTURE](ARCHITECTURE.md) |
+| Security & Governance | Datos, permisos, aprobaciones y responsables conforme a [SECURITY](SECURITY.md) |
+| Observability | Señales, correlación, fallos, coste, responsable y recuperación; comprobar en [QUALITY](QUALITY.md) |
+| Delivery | Evidencia de construcción, pruebas y revisión; resultado, riesgos y próximos pasos |
 
 ## Roles y responsabilidad
 

@@ -45,6 +45,8 @@ La fuente activa es [src/styles/tokens.css](../../src/styles/tokens.css), import
 
 Las [cinco capas del Harness](../../.3dev/ARCHITECTURE.md) y Google Ecosystem orientan futuras evaluaciones; no cambian el proveedor actual ni exigen implementar capas faltantes.
 
+La actualización [3DEV AI Stack / Technology Fit](../../.3dev/TECHNOLOGY-FIT.md) es una política de selección, no una dependencia del sitio. [3DEV Sales OS v0.1](../product/3dev-sales-os-v0.1.md) es un piloto interno propuesto en documentación separada; su flujo y proveedores no forman parte del runtime de 3dev.mx en este snapshot.
+
 ## Ejecución y validación local
 
 Instala con el lockfile y usa una versión compatible con `engines` de package.json (mínimo declarado Node 22.12). La validación de esta entrega usa Node 24.14.1/npm 11.11.0; el script de tests ejecuta TypeScript directamente en Node, por lo que no basta asumir soporte sólo por el mínimo declarado.

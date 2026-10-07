@@ -1,6 +1,6 @@
 # AI Agents y contratos de tools
 
-Lee este documento al proponer o modificar un agente, RAG, acceso del modelo a datos externos o tools. Sigue [HARNESS](HARNESS.md); decide primero si hace falta IA con [INTEGRATIONS](INTEGRATIONS.md). Este documento define el diseño del agente y el contrato de tools; [SECURITY](SECURITY.md) es la autoridad de permisos, aprobación y controles de seguridad.
+Lee este documento al proponer o modificar un agente, RAG, acceso del modelo a datos externos o tools. Sigue [HARNESS](HARNESS.md); decide primero si hace falta IA y si un framework aporta valor mediante [TECHNOLOGY-FIT](TECHNOLOGY-FIT.md). [INTEGRATIONS](INTEGRATIONS.md) define la conexión. Este documento define el diseño del agente y el contrato de tools; [SECURITY](SECURITY.md) es la autoridad de permisos, aprobación y controles de seguridad.
 
 ## Justificación antes de implementar
 

@@ -16,6 +16,7 @@ Parte de [HARNESS.md](HARNESS.md). Ajusta las comprobaciones al riesgo y alcance
 | Documentación/instrucciones | Rutas y enlaces válidos, reglas sin conflicto, cobertura de requisitos y diff dentro de alcance |
 | Lógica/backend | Caso válido, entradas inválidas, límites y errores; autorización y aislamiento si aplica; regresión reproducible para defectos |
 | Integraciones/automatización | Contratos, timeout, indisponibilidad, duplicados/reintentos, permisos denegados y recuperación; sandbox o mocks sin efectos reales |
+| Observabilidad | Identificadores de correlación, eventos de éxito/fallo, duración, coste, trazas con datos mínimos, responsable de alertas y prueba de recuperación pertinentes al flujo |
 | IA/tools | Evaluaciones y casos adversariales definidos por [AI-AGENTS.md](AI-AGENTS.md); controles de [SECURITY.md](SECURITY.md) |
 | Interfaz | Recorrido principal, estados afectados, revisión visual, consola y responsive; evidencia manual además de automatización pertinente |
 | Accesibilidad | Objetivo [WCAG 2.2](https://www.w3.org/TR/WCAG22/) AA salvo requisito más exigente: semántica, nombres/labels, teclado, foco visible/orden, contraste, errores asociados, zoom/reflow, reduced motion y lector de pantalla cuando afecte interacción; un escáner solo no prueba conformidad |
@@ -50,6 +51,7 @@ La accesibilidad y performance se validan en las superficies cambiadas; no se ex
 - [ ] Tests/build/lint/checks disponibles ejecutados según alcance; fallos corregidos o límites identificados. Un bloqueo obligatorio pendiente impide declarar validación completa.
 - [ ] Diff y archivos nuevos revisados; sin secretos ni cambios accidentales.
 - [ ] Documentación, contexto y decisiones pertinentes actualizados en su fuente única.
+- [ ] Si se añadió tecnología, Technology Fit / Build vs Buy documentado según [TECHNOLOGY-FIT](TECHNOLOGY-FIT.md); si hay operación nueva, señales y recuperación verificadas.
 - [ ] Hallazgos importantes resueltos o claramente pendientes con responsable; no se declara terminado lo que depende de ellos.
 - [ ] [Delivery report](templates/delivery-report.md) con cambios, decisiones, validaciones, riesgos y próximos pasos; indicar si sólo existe localmente.
 

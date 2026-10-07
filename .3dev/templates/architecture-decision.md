@@ -13,10 +13,12 @@ Plantilla de [ARCHITECTURE](../ARCHITECTURE.md). Copiar a `docs/decisions/[núme
 | --- | --- | --- | --- | --- |
 | Mantener/extender lo actual | [beneficio] | [coste] | [riesgo] | [motivo] |
 | Alternativa más simple | [beneficio] | [coste] | [riesgo] | [motivo] |
+| Construir / comprar / componer, según aplique | [beneficio] | [coste total] | [riesgo de operación/salida] | [motivo] |
 
 ## Decisión
 
 - Opción elegida y por qué satisface el problema con menor complejidad:
+- Resultado de [Technology Fit / Build vs Buy](../TECHNOLOGY-FIT.md), fuente/fecha de capacidades y criterio de abandono:
 - Cinco capas: responsabilidades afectadas y no aplicables:
 - Contratos, datos, propiedad, integraciones y dependencias:
 - Camino determinístico/agéntico y necesidad real de IA/MCP si aplica:
@@ -27,5 +29,5 @@ Plantilla de [ARCHITECTURE](../ARCHITECTURE.md). Copiar a `docs/decisions/[núme
 - Qué mejora, qué coste añade y qué no resuelve:
 - Estrategia de implementación/migración, reversibilidad y recuperación:
 - Evidencia de validación necesaria y resultados/enlaces cuando exista:
-- Operación: observabilidad, fallos, responsable y coste esperado:
+- Operación: señales, correlación, alertas, recuperación, responsable y coste esperado:
 - Condiciones para reconsiderar la decisión:

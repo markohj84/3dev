@@ -13,6 +13,7 @@ Plantilla de [QUALITY](../QUALITY.md). Copiar a `docs/product/[iniciativa]-deliv
 | [ruta] | [resultado] | [criterio] |
 
 - Reutilización, complejidad evitada y decisiones/ADR:
+- Technology Fit / Build vs Buy cuando se añadió una tecnología; enlace a decisión y supuestos:
 - Funcionalidad preservada y cambios de comportamiento autorizados:
 
 ## Validaciones
@@ -23,6 +24,7 @@ Plantilla de [QUALITY](../QUALITY.md). Copiar a `docs/product/[iniciativa]-deliv
 
 - Tests/build/lint/checks no disponibles o no ejecutados y motivo:
 - UX, responsive, accesibilidad, SEO, performance y seguridad: evidencia o no aplica justificado:
+- Observabilidad y recuperación: señales, correlación, fallo ensayado y responsable, o no aplica justificado:
 - Revisión del diff y archivos nuevos; hallazgos/correcciones y nueva verificación:
 - Definition of Done: criterios cumplidos y excepciones/bloqueos:
 

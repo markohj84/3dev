@@ -1,6 +1,6 @@
 # 3DEV — Integration, Automation & AI Agent Layer
 
-Lee este documento en DISCOVER y PLAN cuando el producto consulte sistemas externos, mueva datos, automatice procesos o necesite tools para agentes. Usa [HARNESS](HARNESS.md) para el workflow y [ARCHITECTURE](ARCHITECTURE.md) para ubicar cada componente en las cinco capas.
+Lee este documento en DISCOVER y PLAN cuando el producto consulte sistemas externos, mueva datos, automatice procesos o necesite tools para agentes. Usa [HARNESS](HARNESS.md) para el workflow, [TECHNOLOGY-FIT](TECHNOLOGY-FIT.md) para decidir si la tecnología aporta valor y [ARCHITECTURE](ARCHITECTURE.md) para ubicarla en las cinco capas.
 
 **Deterministic when possible. Agentic when valuable. Human approval when necessary.**
 
@@ -9,16 +9,16 @@ Esta capa aporta criterios de diseño; la existencia de este documento no implic
 ## Discovery de sistemas y procesos
 
 1. Identifica con evidencia del repositorio, documentación y responsables: APIs, Google Workspace/Google Cloud, CRM, ERP, ecommerce, bases de datos, servicios internos y sistemas del cliente. Registra propietario, consumidores, restricciones y fuente; marca como pendiente lo que falta confirmar.
-2. Busca tareas descritas como **copiar, descargar, subir, mandar, revisar, actualizar, capturar, buscar, generar reporte y dar seguimiento**. Observa el proceso antes de recomendar tecnología.
-3. Documenta cada oportunidad mediante **Proceso actual → Problema → Tiempo utilizado → Sistemas involucrados → Posible automatización → Impacto esperado**. Incluye frecuencia, volumen, errores, coste operativo y responsable. Distingue medición de estimación; explicita supuestos.
+2. Abre un [AI Opportunity Map](templates/ai-opportunity-map.md) con los procesos y oportunidades observados, incluyendo la opción sin IA. Todavía no selecciones stack.
+3. Profundiza Automation Discovery en tareas descritas como **copiar, descargar, subir, mandar, revisar, actualizar, capturar, buscar, generar reporte y dar seguimiento**. Observa el proceso antes de recomendar tecnología. Documenta cada oportunidad mediante **Proceso actual → Problema → Tiempo utilizado → Sistemas involucrados → Posible automatización → Impacto esperado**. Incluye frecuencia, volumen, errores, coste operativo y responsable; distingue medición de estimación.
 4. Para cada conexión propuesta registra **Sistema → integración → datos → permisos → acción → resultado esperado**. Añade dirección del flujo, identidad ejecutora, lectura/escritura, clasificación de datos, límites, dependencias y criterio verificable de éxito.
-5. Completa el [AI Opportunity Map](templates/ai-opportunity-map.md). Cierra Discovery cuando cada oportunidad tenga evidencia, responsable, beneficio esperado, riesgos y decisión; usa `N/A` con motivo en lo que no aplica. Una incógnita es pendiente, no `N/A`.
+5. Actualiza el mapa con lo descubierto y cierra Discovery cuando cada oportunidad tenga evidencia, responsable, beneficio esperado, riesgos y decisión; usa `N/A` con motivo en lo que no aplica. Una incógnita es pendiente, no `N/A`.
 
 Guarda los resultados del cliente/proyecto en `docs/product/`; documenta contratos y flujos concretos en `docs/architecture/`. Registra decisiones de arquitectura significativas siguiendo [ARCHITECTURE](ARCHITECTURE.md). Mantén aquí la metodología común.
 
 ## Elegir la arquitectura más simple
 
-Compara primero la mejora del proceso y las capacidades ya disponibles. Selecciona sólo los componentes que aporten un resultado comprobable; se pueden combinar cuando cumplen funciones distintas.
+Compara primero la mejora del proceso y las capacidades ya disponibles. [Technology Fit](TECHNOLOGY-FIT.md) decide entre código, workflow, LLM y agente; esta tabla ayuda a escoger **el mecanismo de integración** cuando ya existe esa necesidad. Combina componentes sólo si cumplen funciones distintas.
 
 | Opción | Elegir cuando | Evidencia exigida para decidir |
 | --- | --- | --- |

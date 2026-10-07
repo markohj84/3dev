@@ -4,7 +4,11 @@ Sitio de 3dev.mx. Para arquitectura, comandos disponibles, diseño e integracion
 
 ## Trabajar con agentes
 
-[AGENTS.md](AGENTS.md) es la entrada para Codex y [CLAUDE.md](CLAUDE.md) para Claude Code. Ambos llevan al **[3DEV AI Development Harness v1.0](.3dev/HARNESS.md)**, metodología compartida y reutilizable.
+[AGENTS.md](AGENTS.md) es la entrada para Codex y [CLAUDE.md](CLAUDE.md) para Claude Code. Ambos llevan al **[3DEV AI Development Harness v1.1.0](.3dev/HARNESS.md)**, metodología compartida y reutilizable.
+
+El [3DEV AI Stack y Technology Fit](.3dev/TECHNOLOGY-FIT.md) guía la selección por proyecto. [3DEV Sales OS v0.1](docs/product/3dev-sales-os-v0.1.md) es el primer piloto interno propuesto; [ADR-0002](docs/decisions/0002-adopt-ai-stack-technology-fit.md) registra la decisión de arquitectura.
+
+[Informe de la actualización v1.1.0](docs/product/harness-v1.1-delivery.md).
 
 - [Discovery de esta adopción](docs/product/harness-v1-discovery.md)
 - [Decisión de arquitectura](docs/decisions/0001-adopt-ai-development-harness.md)
