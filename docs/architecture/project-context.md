@@ -6,6 +6,8 @@ Contexto específico del sitio 3dev.mx; no trasladar sus decisiones a otros clie
 
 Estudio mexicano Brand · Product · AI. El sitio presenta capacidades y casos, y recibe consultas de proyectos mediante contacto. La adopción del Harness es documental: no autoriza modificar UI, rutas, contenido público, formulario o infraestructura.
 
+**Estrategia vigente:** [Estrategia de marca v2.0](../strategy/estrategia-marca-v2.md) ([ADR-0003](../decisions/0003-estrategia-v2-escalera-pyme-y-web.md)). Nombres y precios de la oferta sólo en [oferta.json](../strategy/oferta.json); cualquier cambio sigue el [protocolo de propagación](../strategy/propagacion.md), que alcanza también al repositorio `3dev-quetzal`. Valida con `npm run check:strategy`. El copy público actual (hero, capacidades, contacto) aún no refleja la línea 3dev Web; cambiarlo requiere su propio Discovery.
+
 **Límite de esta entrega:** no realizar commit, push, deploy ni cambios remotos sin autorización explícita de Marco. La edición y validación local del Harness sí están autorizadas. La publicación de 3DEV 3.0 es contexto proporcionado por el usuario; esta inspección no verifica producción.
 
 ## Fuentes de implementación
@@ -55,6 +57,7 @@ Instala con el lockfile y usa una versión compatible con `engines` de package.j
 | --- | --- |
 | `npm run dev` | Servidor local Astro |
 | `npm test` | Tests locales de `validateContact`; no cubren entrega real de email |
+| `npm run check:strategy` | Catálogo `docs/strategy/oferta.json` contra la estrategia v2; no valida Quetzal (ese check vive en su repo) |
 | `npm run build` | Build Astro y salida del adapter Vercel; no despliega |
 | `npm run preview` | Preview según soporte del adapter; comprobar disponibilidad antes de depender de él |
 | `npm run astro -- --help` | Comandos instalados de Astro |

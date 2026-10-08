@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --test tests/*.test.ts"
+    "test": "node --test tests/*.test.ts",
+    "check:strategy": "node scripts/check-strategy.mjs"
   },
   "dependencies": {
     "@astrojs/vercel": "^10.0.8",

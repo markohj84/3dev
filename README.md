@@ -1,5 +1,7 @@
 # 3dev · Brand · Product · AI
 
+**Estrategia vigente:** [Estrategia de marca v2.0](docs/strategy/estrategia-marca-v2.md) · oferta y precios en [oferta.json](docs/strategy/oferta.json) · [cómo propagar cambios](docs/strategy/propagacion.md) al sitio, a Quetzal y al Project.
+
 Sitio de 3dev.mx. Para arquitectura, comandos disponibles, diseño e integraciones actuales, lee el [contexto del proyecto](docs/architecture/project-context.md). Las dependencias y scripts ejecutables se definen en [package.json](package.json).
 
 ## Trabajar con agentes
