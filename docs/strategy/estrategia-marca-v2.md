@@ -94,7 +94,7 @@ Fuera de paquete (se cotiza en diagnóstico): blogs, sitios de descarga, revista
 | --- | --- | --- | --- |
 | **Oferta 0 — El primer flujo** | $3,900 | $990 | Un proceso manual puntual, automatizado, sin chatbot. Entrega en días. |
 | **Oferta 1 — Quetzal / Asistente** | $7,900 | $2,490 | Preguntas repetidas: asistente con la voz del negocio en web y WhatsApp. 2 a 3 semanas. |
-| **Oferta 2 — Quetzal / Flujos** | $19,900 | $4,990 | El asistente también actúa: propone citas con horarios reales, registra y avisa de cada prospecto, y suma 2 o 3 automatizaciones a la medida. Consulta en vivo de sistemas y seguimiento automático, todavía no. 2 a 3 semanas. |
+| **Oferta 2 — Quetzal / Flujos** | $19,900 | $4,990 | El asistente también actúa: agenda la cita dentro del chat, registra y avisa de cada prospecto, le escribe una vez por WhatsApp a quien dejó teléfono y no agendó, y suma 2 o 3 automatizaciones a la medida (conectar sistemas del negocio entra aquí). 2 a 3 semanas. |
 
 WhatsApp tiene costo de Meta por mensaje, aparte de 3dev; se define en el diagnóstico. Volumen incluido y excedentes se fijan por negocio, nunca "IA ilimitada".
 
