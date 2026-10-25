@@ -1,6 +1,6 @@
 # 3DEV AI Development Harness
 
-Versión **1.1.0** · Metodología compartida por agentes y personas.
+Versión **1.2.0** · Metodología compartida por agentes y personas.
 
 Crear mejores productos digitales con menos complejidad. No generar más código por generar. La dirección estratégica es **Web Development → Digital Products + Cloud + Automation + AI Agents**; cada capacidad se incorpora cuando resuelve una necesidad comprobable.
 
@@ -19,6 +19,7 @@ Cada regla tiene un documento propietario; los otros documentos enlazan a él. L
 | --- | --- |
 | Trabajo importante, límites entre componentes, datos o decisiones de stack | [ARCHITECTURE.md](ARCHITECTURE.md): cinco capas y decisiones |
 | Cada cambio: validación proporcional y cierre | [QUALITY.md](QUALITY.md): UX/UI, calidad, autocorrección y Definition of Done |
+| Diseñar, implementar o revisar experiencia visual, sistema de diseño o interfaz | [DESIGN-SKILLS.md](DESIGN-SKILLS.md): selección de skills disponibles por tarea |
 | Datos, autenticación, acciones externas, tools, permisos o publicación | [SECURITY.md](SECURITY.md): seguridad y aprobación humana |
 | Discovery/arquitectura de trabajo importante; sistemas externos o procesos manuales | [INTEGRATIONS.md](INTEGRATIONS.md): Integration, Automation & AI Agent Layer |
 | Evaluar, construir o modificar IA, RAG, MCP o herramientas para agentes | [AI-AGENTS.md](AI-AGENTS.md): decisión de IA y contratos de tools |
