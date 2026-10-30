@@ -93,10 +93,13 @@ Fuera de paquete (se cotiza en diagnóstico): blogs, sitios de descarga, revista
 | Oferta | Implementación | Mensualidad | Qué resuelve |
 | --- | --- | --- | --- |
 | **Oferta 0 — El primer flujo** | $3,900 | $990 | Un proceso manual puntual, automatizado, sin chatbot. Entrega en días. |
-| **Oferta 1 — Quetzal / Asistente** | $7,900 | $2,490 | Preguntas repetidas: asistente con la voz del negocio en web y WhatsApp. 2 a 3 semanas. |
+| **Oferta 1 — Quetzal / Local** | $5,900 | $490 | Preguntas repetidas en un negocio local: landing de una página (plantilla de 3dev) más asistente web que responde y agenda en el chat. 300 conversaciones al mes; excedente $99 por cada 300 más. 1 a 2 semanas. |
+| **Oferta 1 — Quetzal / Local + WhatsApp** | $7,900 | $790 | Todo lo de Local, más el asistente en el WhatsApp del negocio: memoria de 90 días, aviso por WhatsApp, un mensaje de seguimiento y tomar la conversación desde el panel. Costo de Meta aparte, a costo. 2 a 3 semanas. |
 | **Oferta 2 — Quetzal / Flujos** | $19,900 | $4,990 | El asistente también actúa: agenda la cita dentro del chat, registra y avisa de cada prospecto, le escribe una vez por WhatsApp a quien dejó teléfono y no agendó, y suma 2 o 3 automatizaciones a la medida (conectar sistemas del negocio entra aquí). 2 a 3 semanas. |
 
-WhatsApp tiene costo de Meta por mensaje, aparte de 3dev; se define en el diagnóstico. Volumen incluido y excedentes se fijan por negocio, nunca "IA ilimitada".
+WhatsApp tiene costo de Meta por mensaje (desde el 1 de octubre de 2026, también cada respuesta del asistente), aparte de 3dev; se cobra a costo. Oferta 1 trae volumen y excedente fijos (300 conversaciones; $99 por cada 300 más; un cambio de información al mes, $150 cada cambio extra). En Oferta 2 volumen y excedentes se fijan por negocio. Nunca "IA ilimitada".
+
+**Lanzamiento de Oferta 1 (lo comunica el equipo, nunca Quetzal; ver regla 3):** para los primeros 5 negocios y hasta el 31 de diciembre de 2026, Local a $4,900 y Local + WhatsApp a $6,900 de implementación, sin mensualidad de 3dev los primeros 6 meses y, desde el mes 7, $299 y $599 al mes respectivamente, congelados. Meta se cobra aparte también durante el lanzamiento. Ver [ADR-0005](../decisions/0005-oferta-1-quetzal-local.md).
 
 ### Línea 3 · Estudio integrado (reactiva)
 
@@ -105,7 +108,7 @@ Proyecto integrado Brand · Product · AI desde **USD 50,000**, 8 a 16 semanas. 
 ### Reglas de la escalera
 
 1. **Una sola recomendación.** Se recomienda el peldaño que resuelve el dolor que el cliente nombró, no un menú.
-2. **Web y AI se combinan, no se mezclan.** Un sitio con Quetzal es la combinación natural (Web Completa + Oferta 1), pero se cotizan como dos productos; el precio es la suma.
+2. **Web y AI se combinan, no se mezclan, salvo Oferta 1.** Quetzal / Local ya incluye una landing de una página hecha con la plantilla de 3dev: es la casa del asistente, no un paquete web. Un sitio de varias secciones (Web Completa o Tienda) con Quetzal se cotiza como dos productos; el precio es la suma.
 3. **Si hay que ceder, se cede en implementación, no en mensualidad.** Ningún descuento lo comunica Quetzal; lo decide una persona.
 4. **Nada ilimitado en IA.** Cada propuesta fija volumen, canales, integraciones y excedentes.
 5. **Pago:** web 50% de anticipo y 50% al entregar contra factura; AI 50% de implementación para iniciar y mensualidad al activar producción.
@@ -114,7 +117,7 @@ Proyecto integrado Brand · Product · AI desde **USD 50,000**, 8 a 16 semanas. 
 ### Recorrido esperado del cliente
 
 ```
-Web Esencial / Completa / Tienda  ──►  Oferta 0 o 1 (atender y registrar)  ──►  Oferta 2 (que actúe)  ──►  Estudio integrado
+Web Esencial / Completa / Tienda  ──►  Oferta 0 o 1 (Local: atender y agendar)  ──►  Oferta 2 (que actúe)  ──►  Estudio integrado
             (presencia)                         (atención)                          (operación)              (producto propio)
 ```
 
@@ -199,7 +202,7 @@ Se mantiene fuera: marketing digital, community management, soporte de productos
 
 **Ingresos:** implementación (web y AI) + recurrente (mensualidad AI + renovación anual web). El recurrente es la base; la implementación paga la adquisición.
 
-**Metas de arranque (90 días, del Proyecto Maestro):** 3 clientes pagadores; costo de IA por cliente medido desde el día uno; setup de Oferta 1 ≤ 5 horas una vez estabilizado el onboarding; handoff correcto 100% cuando falta información.
+**Metas de arranque (90 días, del Proyecto Maestro):** 3 clientes pagadores; costo de IA por cliente medido desde el día uno; setup de Oferta 1 (Quetzal / Local) ≤ 5 horas una vez estabilizado el onboarding, landing incluida; handoff correcto 100% cuando falta información.
 
 **Criterios para tomar un proyecto fuera de paquete:** que el alcance pueda cerrarse por escrito, que el margen sea sostenible, que no exija soporte de algo que 3dev no construyó, y que pueda convertirse en caso publicado (con autorización).
 
