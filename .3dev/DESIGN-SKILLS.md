@@ -1,6 +1,12 @@
 # Skills de diseño · selección por tarea
 
-Parte de [HARNESS.md](HARNESS.md). Esta guía decide **cuándo consultar** una skill de diseño disponible en Codex o Claude Code; no instala skills ni copia sus instrucciones. [QUALITY.md](QUALITY.md) conserva los criterios de calidad y el contexto de cada proyecto conserva sus decisiones de producto, stack, tokens y componentes.
+Parte de [HARNESS.md](HARNESS.md). Esta guía decide **cuándo consultar** una skill de diseño disponible en Codex o Claude Code; no instala skills externas ni copia sus instrucciones. La skill propia `3dev-design-director` vive en este repositorio. [QUALITY.md](QUALITY.md) conserva los criterios de calidad y el contexto de cada proyecto conserva sus decisiones de producto, stack, tokens y componentes.
+
+## Activación del director
+
+Para UX/UI, frontend con efecto visual o de interacción, dirección de arte, investigación de referencias, tipografía, sistemas de diseño o QA visual, lee y aplica [3dev-design-director](skills/3dev-design-director/SKILL.md) antes de elegir especialistas. Coordina la dirección y sus puertas humanas dentro del workflow existente; la tabla siguiente conserva la selección de la skill especialista principal. Backend o documentación sin decisiones visuales no activan al director.
+
+La fuente única está en `.3dev/skills/3dev-design-director/`. Los enlaces de directorio `.agents/skills/3dev-design-director` (Codex) y `.claude/skills/3dev-design-director` (Claude Code) permiten su descubrimiento local sin duplicar reglas. Si el agente no descubre enlaces, esta ruta explícita desde el Harness sigue siendo la entrada obligatoria; no presupongas que está instalada globalmente. Al reutilizar el Harness, conserva `.3dev/skills/` y estos enlaces si quieres descubrimiento nativo.
 
 ## Antes de usar una skill
 
