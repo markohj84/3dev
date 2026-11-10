@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   editorial?: boolean;
+  assistant?: boolean;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   description = '3dev — Brand · Product · AI. Estudio mexicano de diseño y tecnología.',
   ogImage,
   editorial = false,
+  assistant = true,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://3dev.mx');
@@ -72,6 +74,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://3dev.mx'
   </main>
   <Footer />
 
-  <script src="https://quetzal.3dev.mx/embed.js" defer></script>
+  {assistant && <script src="https://quetzal.3dev.mx/embed.js" defer></script>}
 </body>
 </html>

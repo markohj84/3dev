@@ -2,6 +2,8 @@
 
 Contexto específico del sitio 3dev.mx; no trasladar sus decisiones a otros clientes como reglas globales. La metodología está en [HARNESS](../../.3dev/HARNESS.md). Snapshot inspeccionado el **2026-10-01** en `bc68aa3`; vuelve a comprobar las fuentes antes de cambiar el producto.
 
+**Actualización 2026-11-09:** la nueva ruta `/web` presenta la oferta Web con los precios de `docs/strategy/oferta.json`, vistas de ejemplo, comparación y CTA persistente a WhatsApp. Nav y footer enlazan la ruta. Quetzal se desactiva sólo en `/web` para evitar dos asistentes flotantes. El resto de este documento describe el snapshot histórico y debe leerse con esta actualización.
+
 ## Producto y alcance vigente
 
 Estudio mexicano Brand · Product · AI. El sitio presenta capacidades y casos, y recibe consultas de proyectos mediante contacto. La adopción del Harness es documental: no autoriza modificar UI, rutas, contenido público, formulario o infraestructura.

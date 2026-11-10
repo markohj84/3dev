@@ -2,6 +2,7 @@
 interface Props { editorial?: boolean; }
 const { editorial = false } = Astro.props;
 const links = [
+  { href: '/web', label: 'Web' },
   { href: '/casos', label: 'Proyectos' },
   { href: '/capacidades', label: 'Capacidades' },
   { href: '/#proceso', label: 'Proceso' },
@@ -21,7 +22,7 @@ const links = [
     <div class="menu-top"><span id="menu-title">3/dev · navegación</span><form method="dialog"><button class="menu-close" aria-label="Cerrar menú" autofocus>Cerrar <span aria-hidden="true">×</span></button></form></div>
     <nav aria-label="Navegación móvil" class="mobile-links">
       {links.map((link, index) => <a href={link.href}><span class="index" aria-hidden="true">0{index + 1}</span>{link.label}<span class="menu-arrow" aria-hidden="true">↗</span></a>)}
-      <a href="/contacto"><span class="index" aria-hidden="true">05</span>Hablemos<span class="menu-arrow" aria-hidden="true">↗</span></a>
+      <a href="/contacto"><span class="index" aria-hidden="true">06</span>Hablemos<span class="menu-arrow" aria-hidden="true">↗</span></a>
     </nav>
     <div class="menu-bottom"><span>Puebla, México</span><span>brand · product · ai</span></div>
   </dialog>
