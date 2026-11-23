@@ -17,16 +17,16 @@ const brief = {
 
 const examples = [
   {
-    headline: '¿Me mandas una cotización?',
-    body: 'Una página web para que tus clientes te digan qué necesitan desde el primer mensaje. Cotiza por WhatsApp.',
-    creative: 'Taller de rotulación recreado en blanco y negro. Luz de ventana, titular condensado y firma 3DEV.',
-    greeting: '¿Qué ofrece tu negocio y cómo te piden cotizaciones hoy?',
+    headline: 'Página web para recibir cotizaciones por WhatsApp',
+    body: 'Creamos una página para mostrar tus servicios y facilitar que tus clientes te escriban con los datos de su solicitud. Piloto de 3DEV por $5,900 MXN. Escríbenos para revisar el alcance.',
+    creative: 'Arte editorial claro sobre fondo papel. Titular de la oferta, breve explicación, precio y llamada a escribir. Colores y tipografía de 3DEV.',
+    greeting: 'Hola, me interesa una página web para recibir solicitudes de cotización. Mi negocio es:',
   },
   {
-    headline: 'Tu negocio ya cotiza. Dale una página.',
-    body: 'Diseño web para recibir solicitudes por WhatsApp. $5,900 MXN. Hablemos por WhatsApp.',
-    creative: 'Hoja de cotización tipográfica en papel hueso. Precio de $5,900 MXN legible, filetes finos y acento verde pino.',
-    greeting: '¿Qué producto o servicio te gustaría presentar en tu página?',
+    headline: '¿Tus clientes te piden cotización por WhatsApp?',
+    body: 'En 3DEV creamos una página web para mostrar tus servicios y recibir solicitudes de cotización por WhatsApp. Piloto de $5,900 MXN. Cuéntanos qué ofrece tu negocio.',
+    creative: 'Arte editorial de fondo oscuro. Pregunta inicial, solución, precio y llamada a conversar. Colores y tipografía de 3DEV.',
+    greeting: 'Hola, quiero saber cómo funcionaría una página de cotizaciones para mi negocio:',
   },
 ];
 
