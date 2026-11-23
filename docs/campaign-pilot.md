@@ -4,12 +4,14 @@
 
 La oferta piloto es una página móvil de cotización por WhatsApp por $5,900 MXN, con 50% de anticipo. El primer público propuesto son negocios de distintos giros que ya cotizan en Puebla y Cholula. El tope sugerido es $1,000 MXN para siete días. La oferta de esta campaña está pendiente de aprobación comercial. El catálogo vigente distingue Web Esencial y Quetzal Local; confirma el alcance del piloto, el WhatsApp y la pauta antes de publicar.
 
-| Variante | Texto principal | Pieza |
+| Variante | Texto principal | Dirección visual |
 |---|---|---|
-| ¿Me mandas una cotización? | Una página web para que tus clientes te digan qué necesitan desde el primer mensaje. Cotiza por WhatsApp. | Taller de rotulación recreado en blanco y negro. Luz de ventana, titular condensado y firma 3DEV. |
-| Tu negocio ya cotiza. Dale una página. | Diseño web para recibir solicitudes por WhatsApp. $5,900 MXN. Hablemos por WhatsApp. | Hoja de cotización tipográfica en papel hueso. Precio de $5,900 MXN legible, filetes finos y acento verde pino. |
+| Página web para recibir cotizaciones por WhatsApp | Creamos una página para mostrar tus servicios y facilitar que tus clientes te escriban con los datos de su solicitud. Piloto de 3DEV por $5,900 MXN. Escríbenos para revisar el alcance. | Arte editorial sobre fondo papel con oferta, explicación, precio y llamada a escribir. |
+| ¿Tus clientes te piden cotización por WhatsApp? | En 3DEV creamos una página web para mostrar tus servicios y recibir solicitudes de cotización por WhatsApp. Piloto de $5,900 MXN. Cuéntanos qué ofrece tu negocio. | Arte editorial oscuro con pregunta, solución, precio y llamada a conversar. |
 
-Primera respuesta sugerida: “Hola, soy Marco de 3DEV. ¿Qué vendes u ofreces y cómo te piden cotización hoy?”
+Primera respuesta sugerida: “Hola, soy Marco de 3DEV. La página piloto muestra tus servicios y ayuda a recibir solicitudes por WhatsApp. ¿Qué tipo de negocio tienes y qué datos necesitas para dar una cotización?”
+
+El anticipo propuesto es de $2,950 MXN. El alcance final del piloto se confirma con cada cliente antes de enviar la propuesta. Los artes visuales quedan para revisión antes de publicar.
 
 ## Operar el piloto
 
