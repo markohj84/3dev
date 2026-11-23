@@ -2,12 +2,12 @@
 
 ## Campaña para revisar
 
-La oferta piloto es una página móvil de cotización por WhatsApp por $5,900 MXN, con 50% de anticipo. El primer público propuesto son negocios de distintos giros que ya cotizan en Puebla y Cholula. El tope sugerido es $1,000 MXN para siete días. El destino de WhatsApp y el presupuesto necesitan confirmación antes de publicar.
+La oferta piloto es una página móvil de cotización por WhatsApp por $5,900 MXN, con 50% de anticipo. El primer público propuesto son negocios de distintos giros que ya cotizan en Puebla y Cholula. El tope sugerido es $1,000 MXN para siete días. La oferta de esta campaña está pendiente de aprobación comercial. El catálogo vigente distingue Web Esencial y Quetzal Local; confirma el alcance del piloto, el WhatsApp y la pauta antes de publicar.
 
 | Variante | Texto principal | Pieza |
 |---|---|---|
-| Solicitudes completas | ¿Cada cotización empieza con las mismas preguntas? En 3DEV creamos una página donde tus clientes pueden ver tus servicios y enviarte por WhatsApp qué necesitan, en qué zona y para cuándo. | Conversación ilustrada que se identifica como ejemplo. |
-| Precio visible | En 3DEV diseñamos una página móvil para mostrar tus servicios y recibir solicitudes por WhatsApp. Precio piloto de $5,900 MXN. Escríbenos y revisamos en 10 minutos si encaja con tu negocio. | Gráfica con precio y llamada a WhatsApp. |
+| ¿Me mandas una cotización? | Una página web para que tus clientes te digan qué necesitan desde el primer mensaje. Cotiza por WhatsApp. | Taller de rotulación recreado en blanco y negro. Luz de ventana, titular condensado y firma 3DEV. |
+| Tu negocio ya cotiza. Dale una página. | Diseño web para recibir solicitudes por WhatsApp. $5,900 MXN. Hablemos por WhatsApp. | Hoja de cotización tipográfica en papel hueso. Precio de $5,900 MXN legible, filetes finos y acento verde pino. |
 
 Primera respuesta sugerida: “Hola, soy Marco de 3DEV. ¿Qué vendes u ofreces y cómo te piden cotización hoy?”
 
