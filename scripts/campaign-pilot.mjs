@@ -17,15 +17,15 @@ const brief = {
 
 const examples = [
   {
-    headline: 'Recibe solicitudes más completas',
-    body: '¿Cada cotización empieza con las mismas preguntas? En 3DEV creamos una página donde tus clientes pueden ver tus servicios y enviarte por WhatsApp qué necesitan, en qué zona y para cuándo.',
-    creative: 'Conversación ilustrada, marcada como Ejemplo, con servicio, zona y fecha.',
+    headline: '¿Me mandas una cotización?',
+    body: 'Una página web para que tus clientes te digan qué necesitan desde el primer mensaje. Cotiza por WhatsApp.',
+    creative: 'Taller de rotulación recreado en blanco y negro. Luz de ventana, titular condensado y firma 3DEV.',
     greeting: '¿Qué ofrece tu negocio y cómo te piden cotizaciones hoy?',
   },
   {
-    headline: 'Tu página de cotización por $5,900 MXN',
-    body: 'En 3DEV diseñamos una página móvil para mostrar tus servicios y recibir solicitudes por WhatsApp. Escríbenos y revisamos en 10 minutos si encaja con tu negocio.',
-    creative: 'Gráfica 3DEV con el precio piloto, servicios, preguntas frecuentes y cotización.',
+    headline: 'Tu negocio ya cotiza. Dale una página.',
+    body: 'Diseño web para recibir solicitudes por WhatsApp. $5,900 MXN. Hablemos por WhatsApp.',
+    creative: 'Hoja de cotización tipográfica en papel hueso. Precio de $5,900 MXN legible, filetes finos y acento verde pino.',
     greeting: '¿Qué producto o servicio te gustaría presentar en tu página?',
   },
 ];
@@ -61,12 +61,13 @@ async function execute() {
     return;
   }
   if (command === 'draft' || command === 'draft-ai') {
-    if (command === 'draft' && (campaign.clientId !== brief.clientId || campaign.brief.offer !== brief.offer)) {
+    const isPilot = campaign.clientId === brief.clientId && campaign.id === brief.id && campaign.brief.offer === brief.offer;
+    if (command === 'draft' && !isPilot) {
       throw new Error('Los ejemplos corresponden al piloto 3DEV. Usa draft-ai para este brief.');
     }
     const model = process.env.THREEDEV_GEMINI_MODEL;
     const generate = command === 'draft-ai'
-      ? input => generateWithGemini(input, { model, apiKey: process.env.GEMINI_API_KEY })
+      ? input => generateWithGemini(isPilot ? { ...input, rutasEditoriales: examples } : input, { model, apiKey: process.env.GEMINI_API_KEY })
       : async () => examples;
     const next = await draftCampaign(campaign, generate);
     next.versions.at(-1).generator = command === 'draft-ai' ? 'gemini/' + model : 'examples';
