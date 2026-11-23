@@ -28,3 +28,17 @@ test('calcula costo por prospecto y flujo de efectivo dentro del periodo', () =>
   assert.throws(()=>summarizeResults({...row, qualified:11}), /embudo/);
   assert.throws(()=>summarizeResults({}), /entero/);
 });
+
+test('la importación conserva revisiones por cliente, anuncio y día', async () => {
+  const { importDailyResults } = await import('../src/lib/campaign-metrics.mjs');
+  const campaign = { clientId: 'prueba', id: 'piloto', versions: [{ number: 1, approval: { reviewer: 'Prueba' } }] };
+  const row = { clientId: 'prueba', campaignId: 'piloto', version: 1, variant: 'A', date: '2026-11-23', source: 'fixture', spendCents: 100, conversations: 1, qualified: 1, proposals: 0, receivedCents: 0 };
+  const first = importDailyResults(campaign, row, 'Prueba');
+  assert.equal(importDailyResults(first, row, 'Prueba'), first);
+  const revised = importDailyResults(first, { ...row, spendCents: 200 }, 'Prueba');
+  assert.deepEqual(revised.results.map(item => item.revision), [1, 2]);
+  assert.equal(importDailyResults(revised, { ...row, variant: 'B' }, 'Prueba').results.at(-1).revision, 1);
+  assert.throws(() => importDailyResults(first, { ...row, clientId: 'otro' }, 'Prueba'), /cliente/);
+  assert.throws(() => importDailyResults(first, { ...row, version: 2 }, 'Prueba'), /aprobación/);
+  assert.throws(() => importDailyResults(first, { ...row, date: '2026-02-31' }, 'Prueba'), /Fecha/);
+});

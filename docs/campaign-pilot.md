@@ -34,3 +34,8 @@ Registra cada contacto real en el tablero comercial. Cuenta una conversación co
 Para revisar un periodo o una variante, prepara un JSON con los totales de ese mismo grupo. Los campos son spendCents (pauta en centavos), conversations (conversaciones únicas), qualified (conversaciones calificadas), proposals (prospectos calificados que recibieron propuesta) y receivedCents (cobros confirmados en centavos). Ejecuta `node scripts/campaign-pilot.mjs report resultados.json`. Un cero indica que verificaste el dato. Si falta un dato, obténlo antes de calcular el resumen.
 
 El reporte devuelve costo por prospecto calificado y cobros menos pauta, antes de costos de entrega. Con cero prospectos calificados, el costo unitario queda sin calcular. Registra la procedencia del prospecto solo cuando puedas atribuirla.
+## Guardar resultados diarios por anuncio
+
+Después de una publicación manual autorizada, usa `node scripts/campaign-pilot.mjs import-results resultados.json "Nombre del responsable"`. El archivo debe contener los cinco totales del apartado anterior y los campos clientId, campaignId, version (número aprobado), variant (A o B, según el orden de los anuncios), date (AAAA-MM-DD, día local) y source (referencia al corte utilizado). Incluye solo datos atribuibles a esa variante en ese día. El comando guarda el corte en el historial privado de la campaña; puedes consultarlo con show.
+
+Reimportar el mismo corte es idempotente. Si corriges un dato, el historial conserva ambas revisiones. Para comparar anuncios usa la última revisión de cada día y variante. El dato receivedCents requiere confirmación de pago independiente del anuncio.

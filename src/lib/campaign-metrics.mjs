@@ -14,3 +14,32 @@ export function summarizeResults(input) {
     receivedLessSpendCents: input.receivedCents - input.spendCents,
   };
 }
+
+export function importDailyResults(campaign, input, operator, now = new Date()) {
+  if (input?.clientId !== campaign.clientId || input.campaignId !== campaign.id) {
+    throw new Error('El archivo debe corresponder al cliente y la campaña activos');
+  }
+  const version = campaign.versions.find(item => item.number === input.version);
+  if (!version?.approval) throw new Error('La versión indicada requiere aprobación');
+  const { date, variant, source } = input;
+  if (!['A', 'B'].includes(variant)) throw new Error('Indica la variante A o B');
+  const day = new Date(date + 'T12:00:00Z');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(day.getTime()) || day.toISOString().slice(0, 10) !== date) {
+    throw new Error('Fecha de resultados inválida');
+  }
+  if (typeof operator !== 'string' || !operator.trim() || typeof source !== 'string' || !source.trim()) {
+    throw new Error('Indica responsable y referencia del reporte');
+  }
+  const totals = summarizeResults(input);
+  const history = campaign.results ?? [];
+  const previous = history.findLast(row => row.date === date && row.variant === variant && row.version === input.version);
+  if (previous?.source === source.trim() && Object.keys(totals).every(key => previous.totals[key] === totals[key])) {
+    return campaign;
+  }
+  const entry = {
+    version: input.version, variant, date, totals, source: source.trim(),
+    revision: (previous?.revision ?? 0) + 1,
+    operator: operator.trim(), importedAt: now.toISOString(),
+  };
+  return { ...campaign, results: [...history, entry] };
+}

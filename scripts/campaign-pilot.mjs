@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import { generateWithGemini } from '../src/lib/campaign-gemini.mjs';
-import { summarizeResults } from '../src/lib/campaign-metrics.mjs';
+import { importDailyResults, summarizeResults } from '../src/lib/campaign-metrics.mjs';
 import { dirname, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { createCampaign, draftCampaign, approveCampaign } from '../src/lib/campaign-pilot.mjs';
@@ -46,8 +46,8 @@ async function execute() {
     console.log('Brief guardado en ' + statePath);
     return;
   }
-  if (!['draft', 'draft-ai', 'show', 'approve'].includes(command)) {
-    throw new Error('Uso: node scripts/campaign-pilot.mjs draft | draft-ai | show | approve <versión> <revisor> | report <archivo.json>');
+  if (!['draft', 'draft-ai', 'show', 'approve', 'import-results'].includes(command)) {
+    throw new Error('Uso: node scripts/campaign-pilot.mjs draft | draft-ai | show | approve <versión> <revisor> | report <archivo.json> | import-results <archivo.json> <responsable>');
   }
   let campaign;
   try {
@@ -72,6 +72,14 @@ async function execute() {
     const next = await draftCampaign(campaign, generate);
     next.versions.at(-1).generator = command === 'draft-ai' ? 'gemini/' + model : 'examples';
     campaign = next;
+  } else if (command === 'import-results') {
+    const input = JSON.parse(await readFile(version, 'utf8'));
+    const updated = importDailyResults(campaign, input, reviewer);
+    if (updated === campaign) {
+      console.log('Este corte ya está registrado.');
+      return;
+    }
+    campaign = updated;
   } else {
     campaign = approveCampaign(campaign, { version: Number(version), reviewer });
   }
@@ -79,12 +87,16 @@ async function execute() {
   const temporary = statePath + '.' + randomUUID();
   await writeFile(temporary, JSON.stringify(campaign, null, 2) + '\n', { mode: 0o600 });
   await rename(temporary, statePath);
+  if (command === 'import-results') {
+    console.log(JSON.stringify(campaign.results.at(-1), null, 2));
+    return;
+  }
   const current = campaign.versions.at(-1);
   console.log(JSON.stringify({ statePath, version: current.number, generator: current.generator, approval: current.approval }, null, 2));
 }
 
 async function run() {
-  if (!['init', 'draft', 'draft-ai', 'approve'].includes(command)) return execute();
+  if (!['init', 'draft', 'draft-ai', 'approve', 'import-results'].includes(command)) return execute();
   await mkdir(dirname(statePath), { recursive: true });
   const lock = statePath + '.lock';
   try {
