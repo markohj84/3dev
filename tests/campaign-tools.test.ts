@@ -42,3 +42,16 @@ test('la importación conserva revisiones por cliente, anuncio y día', async ()
   assert.throws(() => importDailyResults(first, { ...row, version: 2 }, 'Prueba'), /aprobación/);
   assert.throws(() => importDailyResults(first, { ...row, date: '2026-02-31' }, 'Prueba'), /Fecha/);
 });
+
+test('la revisión utiliza la última corrección y evita decidir con datos escasos', async () => {
+  const { reviewCampaign } = await import('../src/lib/campaign-metrics.mjs');
+  const campaign = { results: [
+    { version: 1, variant: 'A', date: '2026-11-23', totals: { spendCents: 1000, conversations: 1, qualified: 1, proposals: 0, receivedCents: 0 } },
+    { version: 1, variant: 'A', date: '2026-11-23', totals: { spendCents: 2000, conversations: 2, qualified: 1, proposals: 0, receivedCents: 0 } },
+  ] };
+  const review = reviewCampaign(campaign);
+  assert.equal(review.evidence[0].spendCents, 2000);
+  assert.equal(review.evidence[0].conversations, 2);
+  assert.match(review.recommendation, /más conversaciones/);
+  assert.equal(reviewCampaign({}).evidence.length, 0);
+});

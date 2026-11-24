@@ -43,3 +43,34 @@ export function importDailyResults(campaign, input, operator, now = new Date()) 
   };
   return { ...campaign, results: [...history, entry] };
 }
+
+export function reviewCampaign(campaign) {
+  const latest = new Map();
+  for (const row of campaign.results ?? []) {
+    latest.set(`${row.version}:${row.variant}:${row.date}`, row);
+  }
+  const rows = [...latest.values()];
+  if (rows.length === 0) {
+    return { evidence: [], recommendation: 'Espera resultados verificados de anuncios aprobados antes de proponer ajustes.' };
+  }
+  const evidence = ['A', 'B'].map(variant => {
+    const totals = rows.filter(row => row.variant === variant).reduce((sum, row) => ({
+      spendCents: sum.spendCents + row.totals.spendCents,
+      conversations: sum.conversations + row.totals.conversations,
+      qualified: sum.qualified + row.totals.qualified,
+      proposals: sum.proposals + row.totals.proposals,
+      receivedCents: sum.receivedCents + row.totals.receivedCents,
+    }), { spendCents: 0, conversations: 0, qualified: 0, proposals: 0, receivedCents: 0 });
+    return { variant, ...summarizeResults(totals) };
+  });
+  const total = evidence.reduce((sum, row) => sum + row.conversations, 0);
+  let recommendation = 'Conserva ambas variantes mientras reúnes más conversaciones calificadas y revisa manualmente cada consulta.';
+  if (total >= 10 && evidence.every(row => row.qualified >= 3)) {
+    const [a, b] = evidence;
+    const lower = a.costPerQualifiedCents <= b.costPerQualifiedCents ? a : b;
+    recommendation = `Revisa la variante ${lower.variant} para priorizarla por costo por conversación calificada. Confirma calidad y cobros antes de cambiar la pauta.`;
+  } else if (total >= 10 && evidence.every(row => row.qualified === 0)) {
+    recommendation = 'Revisa el texto, el público y las conversaciones para explicar por qué ninguna consulta resultó calificada.';
+  }
+  return { evidence, recommendation };
+}

@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import { generateWithGemini } from '../src/lib/campaign-gemini.mjs';
-import { importDailyResults, summarizeResults } from '../src/lib/campaign-metrics.mjs';
+import { importDailyResults, reviewCampaign, summarizeResults } from '../src/lib/campaign-metrics.mjs';
 import { dirname, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { createCampaign, draftCampaign, approveCampaign } from '../src/lib/campaign-pilot.mjs';
@@ -46,8 +46,8 @@ async function execute() {
     console.log('Brief guardado en ' + statePath);
     return;
   }
-  if (!['draft', 'draft-ai', 'show', 'approve', 'import-results'].includes(command)) {
-    throw new Error('Uso: node scripts/campaign-pilot.mjs draft | draft-ai | show | approve <versión> <revisor> | report <archivo.json> | import-results <archivo.json> <responsable>');
+  if (!['draft', 'draft-ai', 'show', 'review', 'approve', 'import-results'].includes(command)) {
+    throw new Error('Uso: node scripts/campaign-pilot.mjs draft | draft-ai | show | review | approve <versión> <revisor> | report <archivo.json> | import-results <archivo.json> <responsable>');
   }
   let campaign;
   try {
@@ -58,6 +58,10 @@ async function execute() {
   }
   if (command === 'show') {
     console.log(JSON.stringify(campaign, null, 2));
+    return;
+  }
+  if (command === 'review') {
+    console.log(JSON.stringify(reviewCampaign(campaign), null, 2));
     return;
   }
   if (command === 'draft' || command === 'draft-ai') {
