@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import { generateWithGemini } from '../src/lib/campaign-gemini.mjs';
 import { importDailyResults, reviewCampaign, summarizeResults } from '../src/lib/campaign-metrics.mjs';
+import { leadSummary, recordLeadEvent } from '../src/lib/campaign-leads.mjs';
 import { dirname, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { createCampaign, draftCampaign, approveCampaign } from '../src/lib/campaign-pilot.mjs';
@@ -46,8 +47,8 @@ async function execute() {
     console.log('Brief guardado en ' + statePath);
     return;
   }
-  if (!['draft', 'draft-ai', 'show', 'review', 'approve', 'import-results'].includes(command)) {
-    throw new Error('Uso: node scripts/campaign-pilot.mjs draft | draft-ai | show | review | approve <versión> <revisor> | report <archivo.json> | import-results <archivo.json> <responsable>');
+  if (!['draft', 'draft-ai', 'show', 'review', 'approve', 'import-results', 'lead'].includes(command)) {
+    throw new Error('Uso: node scripts/campaign-pilot.mjs draft | draft-ai | show | review | approve <versión> <revisor> | report <archivo.json> | import-results <archivo.json> <responsable> | lead <archivo.json> <responsable>');
   }
   let campaign;
   try {
@@ -61,7 +62,7 @@ async function execute() {
     return;
   }
   if (command === 'review') {
-    console.log(JSON.stringify(reviewCampaign(campaign), null, 2));
+    console.log(JSON.stringify({ campaign: reviewCampaign(campaign), leads: leadSummary(campaign) }, null, 2));
     return;
   }
   if (command === 'draft' || command === 'draft-ai') {
@@ -84,6 +85,14 @@ async function execute() {
       return;
     }
     campaign = updated;
+  } else if (command === 'lead') {
+    const input = JSON.parse(await readFile(version, 'utf8'));
+    const updated = recordLeadEvent(campaign, input, reviewer);
+    if (updated === campaign) {
+      console.log('Esta etapa ya está registrada.');
+      return;
+    }
+    campaign = updated;
   } else {
     campaign = approveCampaign(campaign, { version: Number(version), reviewer });
   }
@@ -91,8 +100,8 @@ async function execute() {
   const temporary = statePath + '.' + randomUUID();
   await writeFile(temporary, JSON.stringify(campaign, null, 2) + '\n', { mode: 0o600 });
   await rename(temporary, statePath);
-  if (command === 'import-results') {
-    console.log(JSON.stringify(campaign.results.at(-1), null, 2));
+  if (command === 'import-results' || command === 'lead') {
+    console.log(JSON.stringify(command === 'lead' ? campaign.leadEvents.at(-1) : campaign.results.at(-1), null, 2));
     return;
   }
   const current = campaign.versions.at(-1);
@@ -100,7 +109,7 @@ async function execute() {
 }
 
 async function run() {
-  if (!['init', 'draft', 'draft-ai', 'approve', 'import-results'].includes(command)) return execute();
+  if (!['init', 'draft', 'draft-ai', 'approve', 'import-results', 'lead'].includes(command)) return execute();
   await mkdir(dirname(statePath), { recursive: true });
   const lock = statePath + '.lock';
   try {

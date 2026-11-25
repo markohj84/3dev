@@ -38,6 +38,16 @@ Para revisar un periodo o una variante, prepara un JSON con los totales de ese m
 El reporte devuelve costo por prospecto calificado y cobros menos pauta, antes de costos de entrega. Con cero prospectos calificados, el costo unitario queda sin calcular. Registra la procedencia del prospecto solo cuando puedas atribuirla.
 
 Ejecuta `node scripts/campaign-pilot.mjs review` para ver la última corrección de cada corte por anuncio y una sugerencia de revisión. El comando solicita más evidencia cuando hay pocas conversaciones. La sugerencia se revisa antes de cambiar cualquier anuncio o presupuesto.
+
+## Seguir prospectos hasta el cobro
+
+Registra cada avance con `node scripts/campaign-pilot.mjs lead prospecto.json "Marco"`. Usa un identificador interno en `leadId` y conserva la ruta del historial en `THREEDEV_CAMPAIGN_STATE`. Ejemplo de primer evento:
+
+```json
+{"clientId":"3dev","campaignId":"cotizaciones-whatsapp","leadId":"prospecto-1","stage":"consulta","source":"WhatsApp, anuncio A","version":1,"variant":"A"}
+```
+
+Las etapas son `consulta`, `calificado`, `propuesta`, `anticipo_confirmado` y `cerrado`. Para un referido sin anuncio, omite `version` y `variant`. Al pasar a `anticipo_confirmado`, añade `amountCents` y una `paymentReference` de una operación ya comprobada. El comando `review` muestra cantidades por etapa y anticipos confirmados. El historial guarda responsable, origen y fecha de cada cambio. Evita incluir números telefónicos y datos personales en los archivos de prospectos.
 ## Guardar resultados diarios por anuncio
 
 Después de una publicación manual autorizada, usa `node scripts/campaign-pilot.mjs import-results resultados.json "Nombre del responsable"`. El archivo debe contener los cinco totales del apartado anterior y los campos clientId, campaignId, version (número aprobado), variant (A o B, según el orden de los anuncios), date (AAAA-MM-DD, día local) y source (referencia al corte utilizado). Incluye solo datos atribuibles a esa variante en ese día. El comando guarda el corte en el historial privado de la campaña; puedes consultarlo con show.
